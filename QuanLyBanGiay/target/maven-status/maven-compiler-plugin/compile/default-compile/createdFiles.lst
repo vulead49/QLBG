@@ -5,6 +5,7 @@ GUI\Storage.class
 GUI\Payroll$1.class
 GUI\main$3.class
 GUI\GoodRecipe.class
+GUI\GoodRecipe$8.class
 GUI\Payroll$4.class
 GUI\Schedule_NV$3.class
 GUI\Staff$2.class
@@ -95,5 +96,6 @@ GUI\NVform$2.class
 GUI\Account$2.class
 GUI\SignUp$1.class
 GUI\Statistical.class
+BUS\Order_BUS.class
 GUI\Payroll_NV$2.class
 GUI\Schedule$1.class

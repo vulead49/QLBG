@@ -49,8 +49,23 @@ public class GoodRecipe extends javax.swing.JFrame {
         for (GoodRecipe_DTO pn : pnList)
         {
            cbFindPN.addItem(pn.getMaPN());
+           cbPN.addItem(pn.getMaPN());
         }
     }
+     
+//     private void cboxIDgiay()
+//    {
+//        Vector<GoodRecipe_DTO> pnList = pnBUS.getALLpn();
+//        for (GoodRecipe_DTO pn : pnList)
+//        {
+//           cbFindPN.addItem(pn.getMaPN());
+//           cbPN.addItem(pn.getMaPN());
+//        }
+//    }
+     
+     
+     
+     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -508,7 +523,29 @@ public class GoodRecipe extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRefCTActionPerformed
 
     private void btnAddCTPNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCTPNActionPerformed
-        
+        try {
+            if (txtGiaNhap.getText().isEmpty() || 
+                    txtHang.getText().isEmpty() ||
+                    txtIDgiay.getText().isEmpty() ||
+                    txtSL.getText().isEmpty() ||
+                    txtSize.getText().isEmpty())
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập đủ thông tin");
+            
+            DetailGoodRecipe_DTO ctpn = new DetailGoodRecipe_DTO();
+            ctpn.setGiaNhap(Float.valueOf(txtGiaNhap.getText()));
+            ctpn.setHang(txtHang.getText());
+            ctpn.setMaSP(txtIDgiay.getText());
+            ctpn.setSl(Integer.parseInt(txtSL.getText()));
+            ctpn.setSize(Integer.parseInt(txtSize.getText()));
+            String idpn = (String) cbPN.getSelectedItem();
+            ctpn.setMaPN(idpn);
+            
+            JOptionPane.showMessageDialog(this, ctpnBUS.addCTPN(ctpn));
+            loadListCTPN();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_btnAddCTPNActionPerformed
 
      private int generateMaPN() {

@@ -2,13 +2,16 @@ D:\QLyBanGiay\QuanLyBanGiay\src\main\java\GUI\Staff.java
 D:\QLyBanGiay\QuanLyBanGiay\src\main\java\GUI\InfoNV.java
 D:\QLyBanGiay\QuanLyBanGiay\src\main\java\BUS\Employee_BUS.java
 D:\QLyBanGiay\QuanLyBanGiay\src\main\java\GUI\Order.java
+D:\QLyBanGiay\QuanLyBanGiay\src\main\java\DAO\DetailGoodRecipe_DAO.java
 D:\QLyBanGiay\QuanLyBanGiay\src\main\java\DAO\GoodRecipe_DAO.java
 D:\QLyBanGiay\QuanLyBanGiay\src\main\java\BUS\GoodRecipe_BUS.java
+D:\QLyBanGiay\QuanLyBanGiay\src\main\java\DTO\DetailGoodRecipe_DTO.java
 D:\QLyBanGiay\QuanLyBanGiay\src\main\java\GUI\Employee.java
 D:\QLyBanGiay\QuanLyBanGiay\src\main\java\GUI\Schedule.java
 D:\QLyBanGiay\QuanLyBanGiay\src\main\java\GUI\Login.java
 D:\QLyBanGiay\QuanLyBanGiay\src\main\java\GUI\Schedule_NV.java
 D:\QLyBanGiay\QuanLyBanGiay\src\main\java\GUI\main.java
+D:\QLyBanGiay\QuanLyBanGiay\src\main\java\BUS\DetailGoodRecipe_BUS.java
 D:\QLyBanGiay\QuanLyBanGiay\src\main\java\GUI\Payroll_NV.java
 D:\QLyBanGiay\QuanLyBanGiay\src\main\java\GUI\DayOFF.java
 D:\QLyBanGiay\QuanLyBanGiay\src\main\java\DAO\Supplier_DAO.java

@@ -4,17 +4,26 @@
  */
 package GUI;
 
+import BUS.Supplier_BUS;
+import DTO.Supplier_DTO;
+import java.util.Vector;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Mai
  */
 public class Supplier extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Supplier
-     */
+    Supplier_BUS nccBUS = new Supplier_BUS();
+//    private int counter = 1;
+    
     public Supplier() {
         initComponents();
+        loadList();
+        populateCB();
     }
 
     /**
@@ -31,17 +40,19 @@ public class Supplier extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtID = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtDC = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        txtSDT = new javax.swing.JTextField();
+        cbFindID = new javax.swing.JComboBox<>();
+        btnADD = new javax.swing.JButton();
+        btnEDIT = new javax.swing.JButton();
+        btnDEL = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
+        btnFIND = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        txtName = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -64,11 +75,18 @@ public class Supplier extends javax.swing.JFrame {
                 "MaNCC", "TenNCC", "DiaChi", "SDT"
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel2.setText("Ten NCC");
+        jLabel2.setText("Ma NCC");
+
+        txtID.setEnabled(false);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(51, 51, 51));
@@ -78,24 +96,64 @@ public class Supplier extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(51, 51, 51));
         jLabel4.setText("SDT");
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel5.setText("Tìm kiếm");
+        cbFindID.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MaNCC" }));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MaNCC" }));
+        btnADD.setText("Them");
+        btnADD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnADDActionPerformed(evt);
+            }
+        });
 
-        jButton1.setText("Them");
+        btnEDIT.setText("Sua");
+        btnEDIT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEDITActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Sua");
-
-        jButton3.setText("Xoa");
+        btnDEL.setText("Xoa");
+        btnDEL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDELActionPerformed(evt);
+            }
+        });
 
         jLabel6.setIcon(new javax.swing.ImageIcon("D:\\QLyBanGiay\\QuanLyBanGiay\\src\\main\\java\\picture\\R.png")); // NOI18N
+
+        btnFIND.setText("Tim kiem");
+        btnFIND.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFINDActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel5.setText("Ten NCC");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(118, 118, 118)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel5))
+                .addGap(26, 26, 26)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(43, 43, 43)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtSDT, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDC, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -104,35 +162,21 @@ public class Supplier extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jButton2)
-                                .addComponent(jButton3))
-                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)))
+                                .addComponent(btnEDIT)
+                                .addComponent(btnDEL))
+                            .addComponent(btnADD, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(118, 118, 118)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel2))
-                                .addGap(26, 26, 26)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(100, 100, 100)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(25, 25, 25)))
-                        .addGap(26, 26, 26)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(116, 116, 116)
+                        .addComponent(jLabel1)))
                 .addContainerGap(57, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnFIND)
+                .addGap(39, 39, 39)
+                .addComponent(cbFindID, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(239, 239, 239))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -140,31 +184,35 @@ public class Supplier extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addGap(10, 10, 10))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(63, Short.MAX_VALUE)
+                        .addContainerGap(55, Short.MAX_VALUE)
                         .addComponent(jLabel1)
-                        .addGap(31, 31, 31)))
-                .addGap(10, 10, 10)
+                        .addGap(36, 36, 36)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtSDT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(17, 17, 17)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtDC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                    .addComponent(cbFindID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnFIND))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(btnADD)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2)
+                        .addComponent(btnEDIT)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton3))
+                        .addComponent(btnDEL))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(17, 17, 17))
         );
@@ -175,9 +223,123 @@ public class Supplier extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
+    private void btnADDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnADDActionPerformed
+        try {
+            if (txtDC.getText().isEmpty() || txtName.getText().isEmpty()
+                    || txtSDT.getText().isEmpty())
+                JOptionPane.showMessageDialog( this, "Vui lòng nhập đủ thông tin");
+            else{
+                Supplier_DTO ncc = new Supplier_DTO();
+                int newMaNCC = generateMaNCC();
+                ncc.setMaNCC(String.valueOf(newMaNCC));
+                ncc.setTenNCC(txtName.getText());
+                ncc.setDiaChi(txtDC.getText());
+                ncc.setSDT(txtSDT.getText());
+                
+                JOptionPane.showMessageDialog(this, nccBUS.addNCC(ncc));
+                loadList();      
+                
+                txtName.setText("");
+                txtDC.setText("");
+                txtSDT.setText("");
+                
+            }
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_btnADDActionPerformed
+
+      private int generateMaNCC() {
+    return nccBUS.generateMaNCC();
+}
+    
+      
+      
+    private void btnDELActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDELActionPerformed
+        int select = jTable1.getSelectedRow();
+        if (select != -1)
+        {
+            String id = jTable1.getValueAt(select , 0).toString();
+            int kq = JOptionPane.showConfirmDialog(this, "Bạn có muốn xóa ?");
+            if (kq == JOptionPane.YES_OPTION)
+            {
+                nccBUS.deleteNCC(id);
+                ((DefaultTableModel) jTable1.getModel()).removeRow(select);
+                populateCB();
+                loadList();
+            }
+        }
+    }//GEN-LAST:event_btnDELActionPerformed
+//---------------------------tim kiem ne --------------
+    private void btnFINDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFINDActionPerformed
+        String selectedMaNCC = (String) cbFindID.getSelectedItem();
+        if(selectedMaNCC != null){
+            searchNCC(selectedMaNCC);
+        }
+        
+    }//GEN-LAST:event_btnFINDActionPerformed
+
+    private void btnEDITActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEDITActionPerformed
+         int selected = jTable1.getSelectedRow();
+        if (selected != -1)
+        {
+//            String id = jTable1.getValueAt(selected, 0).toString();
+            String id = txtID.getText();
+            System.out.println(id);
+            String newName = txtName.getText();
+            String newDC = txtDC.getText();
+            String newSDT = txtSDT.getText();
+            
+            Supplier_DTO sp =new Supplier_DTO(id, newName, newDC, newSDT);
+            JOptionPane.showMessageDialog(this, nccBUS.updateNCC(sp));
+            loadList();
+            
+            txtID.setText("");
+            txtName.setText("");
+            txtDC.setText("");
+            txtSDT.setText("");
+        }
+    }//GEN-LAST:event_btnEDITActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        int selectedRow = jTable1.getSelectedRow();
+         if (selectedRow != -1) {
+        // Lấy dữ liệu từ các cột trong hàng được chọn
+        String id = jTable1.getValueAt(selectedRow, 0).toString(); // Lấy MSSV từ cột thứ 1
+        String ten = jTable1.getValueAt(selectedRow, 1).toString(); // Lấy tên từ cột thứ 2
+        String dc = jTable1.getValueAt(selectedRow, 2).toString(); // Lấy điểm từ cột thứ 3
+        String sdt = jTable1.getValueAt(selectedRow, 3).toString(); // Lấy điểm từ cột thứ 3
+
+        // Hiển thị thông tin vào các JTextField
+        txtID.setText(id);
+        txtName.setText(ten);
+        txtDC.setText(dc);
+        txtSDT.setText(sdt);
+         }
+    }//GEN-LAST:event_jTable1MouseClicked
+    private void searchNCC(String mancc){
+        Supplier_DTO sp = nccBUS.findbyID(mancc);
+        if (sp !=null){
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("MaNCC");
+            model.addColumn("TenNCC");
+            model.addColumn("DiaChi");
+            model.addColumn("SDT");
+            model.addRow(new Object[]{sp.getMaNCC(), sp.getTenNCC(), sp.getDiaChi(), sp.getSDT()});
+            jTable1.setModel(model);
+            
+            txtID.setText(sp.getMaNCC());
+            txtName.setText(sp.getTenNCC());
+            txtDC.setText(sp.getDiaChi());
+            txtSDT.setText(sp.getSDT());
+      } else{
+            JOptionPane.showMessageDialog(this, "khong tim thay nha cung cap");
+        }
+    }
+
+ //------------------------------------sua-----------------------------------------------
+    
+    
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -211,10 +373,11 @@ public class Supplier extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JButton btnADD;
+    private javax.swing.JButton btnDEL;
+    private javax.swing.JButton btnEDIT;
+    private javax.swing.JButton btnFIND;
+    private javax.swing.JComboBox<String> cbFindID;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -224,8 +387,43 @@ public class Supplier extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField txtDC;
+    private javax.swing.JTextField txtID;
+    private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtSDT;
     // End of variables declaration//GEN-END:variables
+
+    private void loadList() {
+        Vector<Supplier_DTO> nccList = new Vector<Supplier_DTO>();
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("MaNCC");
+        model.addColumn("TenNCC");
+        model.addColumn("DiaChi");
+        model.addColumn("SDT");
+        
+        nccList = nccBUS.getALLncc();
+        for (int i = 0; i < nccList.size(); i++)
+        {
+            Supplier_DTO ncc = new Supplier_DTO();
+            ncc = nccList.get(i);
+            String idNCC = ncc.getMaNCC();
+            String tenNCC = ncc.getTenNCC();
+            String dcNCC = ncc.getDiaChi();
+            String sdt = ncc.getSDT();
+            Object[] row = {idNCC, tenNCC, dcNCC, sdt};
+            model.addRow(row);
+        }
+        jTable1.setModel(model);
+                
+    }
+
+    private void populateCB() {
+        Vector<Supplier_DTO> nccList = nccBUS.getALLncc();
+        for (Supplier_DTO ncc : nccList)
+        {
+           cbFindID.addItem(ncc.getMaNCC());
+        }
+    }
+
+
 }

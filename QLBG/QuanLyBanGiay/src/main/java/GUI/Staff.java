@@ -84,10 +84,9 @@ public class Staff extends javax.swing.JFrame {
         });
 
         jLabel5.setFont(new java.awt.Font("Script MT Bold", 1, 48)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Nhan su");
 
-        jLabel6.setIcon(new javax.swing.ImageIcon("D:\\QLyBanGiay\\QuanLyBanGiay\\src\\main\\java\\picture\\R.png")); // NOI18N
+        jLabel6.setIcon(new javax.swing.ImageIcon("D:\\workspace\\Hoc_Ki_2_Nam_3\\HE_THONG_THONG_TIN_DOANH_NGHIEP\\QuanlyGiay\\QLBG\\QuanLyBanGiay\\src\\main\\java\\picture\\R.png")); // NOI18N
 
         jButton1.setText("Thoát");
         jButton1.addActionListener(new java.awt.event.ActionListener() {

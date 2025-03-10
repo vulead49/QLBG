@@ -9,6 +9,9 @@ public class Employee_DTO{
     Boolean GioiTinh;
     String SDT;
     Boolean CapBac;
+    
+    public Employee_DTO()
+    {}
 
     public Employee_DTO(String MaNV, String HoTen, String NgaySinh, Boolean GioiTinh, String SDT, Boolean CapBac) {
         this.MaNV = MaNV;

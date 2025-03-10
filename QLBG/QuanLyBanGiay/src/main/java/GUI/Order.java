@@ -69,10 +69,9 @@ public class Order extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(203, 161, 106));
         jPanel2.setPreferredSize(new java.awt.Dimension(510, 754));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("D:\\QLyBanGiay\\QuanLyBanGiay\\src\\main\\java\\picture\\R.png")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon("D:\\workspace\\Hoc_Ki_2_Nam_3\\HE_THONG_THONG_TIN_DOANH_NGHIEP\\QuanlyGiay\\QLBG\\QuanLyBanGiay\\src\\main\\java\\picture\\R.png")); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Đơn hàng");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -212,10 +211,9 @@ public class Order extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(213, 192, 165));
         jPanel1.setPreferredSize(new java.awt.Dimension(510, 754));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon("D:\\QLyBanGiay\\QuanLyBanGiay\\src\\main\\java\\picture\\R.png")); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon("D:\\workspace\\Hoc_Ki_2_Nam_3\\HE_THONG_THONG_TIN_DOANH_NGHIEP\\QuanlyGiay\\QLBG\\QuanLyBanGiay\\src\\main\\java\\picture\\R.png")); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Chi tiết đơn hàng");
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(

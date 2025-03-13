@@ -48,7 +48,7 @@ public class Storage extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(193, 138, 66));
         jPanel1.setPreferredSize(new java.awt.Dimension(720, 516));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("D:\\QLyBanGiay\\QuanLyBanGiay\\src\\main\\java\\picture\\R.png")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon("D:\\workspace\\Hoc_Ki_2_Nam_3\\HE_THONG_THONG_TIN_DOANH_NGHIEP\\QuanlyGiay\\QLBG\\QuanLyBanGiay\\src\\main\\java\\picture\\R.png")); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));

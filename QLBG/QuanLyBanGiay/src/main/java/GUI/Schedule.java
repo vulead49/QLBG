@@ -53,7 +53,7 @@ public class Schedule extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(228, 179, 113));
         jPanel1.setPreferredSize(new java.awt.Dimension(720, 516));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("D:\\QLyBanGiay\\QuanLyBanGiay\\src\\main\\java\\picture\\R.png")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon("D:\\workspace\\Hoc_Ki_2_Nam_3\\HE_THONG_THONG_TIN_DOANH_NGHIEP\\QuanlyGiay\\QLBG\\QuanLyBanGiay\\src\\main\\java\\picture\\R.png")); // NOI18N
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -84,7 +84,6 @@ public class Schedule extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Lịch Làm");
 
         jButton1.setText("Thêm");
@@ -169,7 +168,6 @@ public class Schedule extends javax.swing.JFrame {
                         .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(27, 27, 27))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jButton6)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

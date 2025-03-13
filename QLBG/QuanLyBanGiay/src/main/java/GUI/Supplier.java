@@ -119,7 +119,7 @@ public class Supplier extends javax.swing.JFrame {
             }
         });
 
-        jLabel6.setIcon(new javax.swing.ImageIcon("D:\\QLyBanGiay\\QuanLyBanGiay\\src\\main\\java\\picture\\R.png")); // NOI18N
+        jLabel6.setIcon(new javax.swing.ImageIcon("D:\\workspace\\Hoc_Ki_2_Nam_3\\HE_THONG_THONG_TIN_DOANH_NGHIEP\\QuanlyGiay\\QLBG\\QuanLyBanGiay\\src\\main\\java\\picture\\R.png")); // NOI18N
 
         btnFIND.setText("Tim kiem");
         btnFIND.addActionListener(new java.awt.event.ActionListener() {
@@ -187,7 +187,7 @@ public class Supplier extends javax.swing.JFrame {
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addGap(10, 10, 10))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(55, Short.MAX_VALUE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel1)
                         .addGap(36, 36, 36)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)

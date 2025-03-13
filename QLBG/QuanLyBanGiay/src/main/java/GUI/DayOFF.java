@@ -99,7 +99,7 @@ public class DayOFF extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setIcon(new javax.swing.ImageIcon("D:\\QLyBanGiay\\QuanLyBanGiay\\src\\main\\java\\picture\\R.png")); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon("D:\\workspace\\Hoc_Ki_2_Nam_3\\HE_THONG_THONG_TIN_DOANH_NGHIEP\\QuanlyGiay\\QLBG\\QuanLyBanGiay\\src\\main\\java\\picture\\R.png")); // NOI18N
 
         jButton5.setText("Xóa");
 

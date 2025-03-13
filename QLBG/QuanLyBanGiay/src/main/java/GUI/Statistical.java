@@ -87,7 +87,6 @@ public class Statistical extends javax.swing.JFrame {
         jLabel2.setText("Tổng giá nhập:");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Thống kê cửa hàng");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N

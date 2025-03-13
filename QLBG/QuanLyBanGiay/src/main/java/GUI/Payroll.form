@@ -148,16 +148,13 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="24" style="1"/>
             </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="0" green="0" red="0" type="rgb"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="B&#x1ea3;ng l&#x1b0;&#x1a1;ng"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="D:\QLyBanGiay\QuanLyBanGiay\src\main\java\picture\R.png"/>
+              <Image iconType="2" name="D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\picture\R.png"/>
             </Property>
           </Properties>
         </Component>
@@ -276,9 +273,6 @@
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
-            </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="0" green="0" red="0" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="N&#x103;m"/>
           </Properties>

@@ -5,12 +5,14 @@ GUI\Storage.class
 GUI\Payroll$1.class
 GUI\main$3.class
 GUI\GoodRecipe.class
+GUI\Employee$6.class
 GUI\GoodRecipe$8.class
 GUI\Payroll$4.class
 GUI\Schedule_NV$3.class
 GUI\Staff$2.class
 GUI\DayOFF$1.class
 GUI\main.class
+GUI\Employee$9.class
 GUI\Payroll_NV$1.class
 GUI\SignUp$3.class
 GUI\Employee$3.class
@@ -23,14 +25,17 @@ GUI\Staff.class
 GUI\Supplier$6.class
 BUS\GoodRecipe_BUS.class
 GUI\GoodRecipe$2.class
+GUI\Employee$11.class
 GUI\Login$1.class
 GUI\Login.class
 DTO\Employee_DTO.class
 GUI\Order.class
 DTO\DetailGoodRecipe_DTO.class
+DAO\Order_DAO.class
 GUI\DayOff_NV$1.class
 GUI\NVform$4.class
 GUI\Schedule_NV.class
+GUI\Employee$7.class
 GUI\Staff$1.class
 GUI\NVform.class
 GUI\Schedule_NV$1.class
@@ -45,6 +50,7 @@ DAO\Supplier_DAO.class
 GUI\Storage$1.class
 GUI\NVform$5.class
 DAO\JDBC.class
+GUI\Employee$8.class
 DTO\Supplier_DTO.class
 GUI\Statistical$1.class
 GUI\DayOFF$3.class
@@ -60,6 +66,7 @@ GUI\Staff$6.class
 GUI\GoodRecipe$4.class
 GUI\Account$1.class
 GUI\GoodRecipe$1.class
+DTO\Order_DTO.class
 GUI\Payroll_NV.class
 GUI\DayOff_NV$3.class
 DAO\GoodRecipe_DAO.class
@@ -86,8 +93,10 @@ BUS\DetailGoodRecipe_BUS.class
 GUI\main$2.class
 GUI\Payroll_NV$3.class
 GUI\Staff$4.class
+GUI\Employee$4.class
 GUI\GoodRecipe$3.class
 GUI\Supplier$5.class
+GUI\Employee$10.class
 GUI\InfoNV$2.class
 GUI\main$1.class
 GUI\Staff$5.class
@@ -99,4 +108,5 @@ GUI\SignUp$1.class
 GUI\Statistical.class
 BUS\Order_BUS.class
 GUI\Payroll_NV$2.class
+GUI\Employee$5.class
 GUI\Schedule$1.class

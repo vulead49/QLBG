@@ -12,18 +12,23 @@ import java.util.Vector;
 public class Employee_BUS {
     Employee_DAO nvDAO = new Employee_DAO();
     
-    public Vector<Employee_DAO> getALLnv()
+    public Vector<Employee_DTO> getALLnv()
     {
         return nvDAO.getALLnv();
     }
     
-    public String addNCC(Employee_DTO nv) {
+    public String addNV(Employee_DTO nv) {
 
         // Gửi xuống DAO để thêm vào DB
-        if (nvDAO.addNV(nv)) {
-            return "Thêm thành công!";
-        }
-        return "Thêm thất bại! SDT phải điền số nguyên";
+         if (!nv.getSDT().matches("\\d{1,20}")) { // Cho phép số tối đa 20 chữ số
+        return "Thêm thất bại! SDT phải là số.";
+    }
+
+    // Gửi xuống DAO để thêm vào DB
+    if (nvDAO.addNV(nv)) {
+        return "Thêm thành công!";
+    }
+    return "Thêm thất bại!";
     }
     
     public int generateMaNV() {
@@ -34,7 +39,7 @@ public class Employee_BUS {
     
     
     
-    public String updateNCC (Employee_DTO nv)
+    public String updateNV (Employee_DTO nv)
     {
         if (nvDAO.editNV(nv) == 1)
         {

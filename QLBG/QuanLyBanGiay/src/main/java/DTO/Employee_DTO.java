@@ -1,25 +1,28 @@
 
 package DTO;
 
+import java.sql.Date;
+
 
 public class Employee_DTO{
     String MaNV;
     String HoTen;
-    String NgaySinh;
-    Boolean GioiTinh;
+    Date NgaySinh;
+    String GioiTinh;
     String SDT;
-    Boolean CapBac;
+    String MaCapBac;
     
     public Employee_DTO()
     {}
 
-    public Employee_DTO(String MaNV, String HoTen, String NgaySinh, Boolean GioiTinh, String SDT, Boolean CapBac) {
+    public Employee_DTO(String MaNV, String MaCapBac, String HoTen, Date  NgaySinh, String GioiTinh, String SDT) {
         this.MaNV = MaNV;
+        this.MaCapBac = MaCapBac;
         this.HoTen = HoTen;
         this.NgaySinh = NgaySinh;
         this.GioiTinh = GioiTinh;
         this.SDT = SDT;
-        this.CapBac = CapBac;
+        
     }
 
     public String getMaNV() {
@@ -38,19 +41,19 @@ public class Employee_DTO{
         this.HoTen = HoTen;
     }
 
-    public String getNgaySinh() {
+    public Date getNgaySinh() {
         return NgaySinh;
     }
 
-    public void setNgaySinh(String NgaySinh) {
+    public void setNgaySinh(Date NgaySinh) {
         this.NgaySinh = NgaySinh;
     }
 
-    public Boolean getGioiTinh() {
+    public String getGioiTinh() {
         return GioiTinh;
     }
 
-    public void setGioiTinh(Boolean GioiTinh) {
+    public void setGioiTinh(String GioiTinh) {
         this.GioiTinh = GioiTinh;
     }
 
@@ -62,13 +65,16 @@ public class Employee_DTO{
         this.SDT = SDT;
     }
 
-    public Boolean getCapBac() {
-        return CapBac;
+    public String getMaCapBac() {
+        return MaCapBac;
     }
 
-    public void setCapBac(Boolean CapBac) {
-        this.CapBac = CapBac;
+    public void setMaCapBac(String MaCapBac) {
+        this.MaCapBac = MaCapBac;
     }
+
+
+
     
     
     

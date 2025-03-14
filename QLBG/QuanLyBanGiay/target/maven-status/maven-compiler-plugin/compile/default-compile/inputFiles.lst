@@ -1,4 +1,5 @@
 D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\GUI\DayOff_NV.java
+D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\DAO\Order_DAO.java
 D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\GUI\Account.java
 D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\GUI\NVform.java
 D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\GUI\Storage.java
@@ -14,6 +15,7 @@ D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\Quan
 D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\DTO\Employee_DTO.java
 D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\BUS\Order_BUS.java
 D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\DAO\Supplier_DAO.java
+D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\DTO\Order_DTO.java
 D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\GUI\DayOFF.java
 D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\GUI\main.java
 D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\GUI\Employee.java

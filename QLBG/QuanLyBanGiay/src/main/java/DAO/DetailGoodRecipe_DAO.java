@@ -32,6 +32,8 @@ public class DetailGoodRecipe_DAO {
                 ctpn.setHang(rs.getString("Hang"));
                 ctpn.setSize(rs.getInt("Size"));
                 ctpn.setGiaNhap(rs.getFloat("GiaNhap"));
+                ctpn.setTenSP(rs.getString("TenSP"));
+                ctpn.setLoai(rs.getString("PhanLoai"));
                 ctpnList.add(ctpn);
             }               
         }
@@ -45,15 +47,18 @@ public class DetailGoodRecipe_DAO {
     public boolean addCTPN (DetailGoodRecipe_DTO ctpn)
     {
         try {
-            String sql = "Insert into CTPhieuNhap (MaPN, MaSP, SoLuong, Hang, Size, GiaNhap) values (?,?,?,?,?,?)";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, ctpn.getMaPN());
-            ps.setString(2, ctpn.getMaSP() );
-            ps.setInt(3, ctpn.getSl());
-            ps.setString(4, ctpn.getHang());
-            ps.setInt(5, ctpn.getSize());
-            ps.setFloat(6, ctpn.getGiaNhap());
-            ps.executeUpdate();
+            String sql = "INSERT INTO CTPhieuNhap (MaPN, MaSP, SoLuong, Hang, Size, GiaNhap, TenSP, PhanLoai) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setString(1, ctpn.getMaPN());
+        ps.setString(2, ctpn.getMaSP());
+        ps.setInt(3, ctpn.getSl());
+        ps.setString(4, ctpn.getHang());
+        ps.setInt(5, ctpn.getSize());
+        ps.setFloat(6, ctpn.getGiaNhap());
+        ps.setString(7, ctpn.getTenSP());
+        ps.setString(8, ctpn.getLoai());
+        ps.executeUpdate();
+
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -85,7 +90,7 @@ public class DetailGoodRecipe_DAO {
     public int editCTPN (DetailGoodRecipe_DTO ctpn)
     {
         try {
-            String sql = "Update CTPhieuNhap set MaSP = ?, SoLuong = ?, Hang = ?, Size = ?, GiaNhap = ? where MaPN= ?";
+            String sql = "Update CTPhieuNhap set SoLuong = ?, Hang = ?, Size = ?, GiaNhap = ?, TenSP =?, PhanLoai =? where MaPN= ? and MaSP = ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, ctpn.getMaPN());
             ps.setString(2, ctpn.getMaSP() );
@@ -93,6 +98,8 @@ public class DetailGoodRecipe_DAO {
             ps.setString(4, ctpn.getHang());
             ps.setInt(5, ctpn.getSize());
             ps.setFloat(6, ctpn.getGiaNhap());
+            ps.setString(7, ctpn.getTenSP());
+            ps.setString(8, ctpn.getLoai());
             int rowUpdate = ps.executeUpdate();
             
             if (rowUpdate > 0) {
@@ -106,7 +113,7 @@ public class DetailGoodRecipe_DAO {
     public int delCTPN (String idSP)
     {
         try {
-            String sql = "Delete from NhaCungCap where MaPN = ?";
+            String sql = "Delete from CTPhieuNhap where MaPN = ? and MaSP = ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(2, idSP);
             int rowDel = ps.executeUpdate();

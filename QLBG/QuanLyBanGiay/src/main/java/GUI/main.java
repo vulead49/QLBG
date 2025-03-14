@@ -131,7 +131,7 @@ public class main extends javax.swing.JFrame {
         jButton8.setText("Log out");
         getContentPane().add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 60, -1, -1));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("D:\\workspace\\Hoc_Ki_2_Nam_3\\HE_THONG_THONG_TIN_DOANH_NGHIEP\\QuanlyGiay\\QLBG\\QuanLyBanGiay\\src\\main\\java\\picture\\11zon_resized (2).png")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon("D:\\QLBG\\QLBG\\QLBG\\QuanLyBanGiay\\src\\main\\java\\picture\\11zon_resized (2).png")); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 720));
 
         pack();

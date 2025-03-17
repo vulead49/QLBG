@@ -23,6 +23,11 @@ public class DetailGoodRecipe_BUS {
         return ctpnDao.getALLCTpn();
     }
     
+    
+    public boolean checkExistGiay(String maGiay) {
+    return ctpnDao.checkExistGiay(maGiay); // Gọi DAO để kiểm tra DB
+}
+    
     public String addCTPN(DetailGoodRecipe_DTO ctpn) {
 
         // Gửi xuống DAO để thêm vào DB
@@ -31,6 +36,8 @@ public class DetailGoodRecipe_BUS {
         }
         return "Thêm thất bại! SDT phải điền số nguyên";
     }
+    
+    
     
     public String updateCTPN (DetailGoodRecipe_DTO ctpn)
     {
@@ -43,14 +50,19 @@ public class DetailGoodRecipe_BUS {
     
     
     
-    public String deleteCTPN (String id)
-    {
-        if (ctpnDao.delCTPN(id) == 1)
-        {
-            return "Xóa thành công";
+    public String deleteCTPN(String maPN, String maSP, String hang, int size, int soLuong, float giaNhap, String tenSP, String phanLoai) {
+        if (maPN.isEmpty() || maSP.isEmpty()) {
+            return "Mã phiếu nhập và mã giày không được để trống!";
         }
-        return "Xóa thất bại";
+
+        boolean isDeleted = ctpnDao.deleteCTPN(maPN, maSP, hang, size, soLuong, giaNhap, tenSP, phanLoai);
+        if (isDeleted) {
+            return "Xóa thành công chi tiết phiếu nhập!";
+        } else {
+            return "Xóa thất bại! Không tìm thấy bản ghi phù hợp.";
+        }
     }
+    
 
     public GoodRecipe_DTO findPN (String id)
     {

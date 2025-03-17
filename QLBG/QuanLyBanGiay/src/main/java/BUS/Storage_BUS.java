@@ -4,10 +4,19 @@
  */
 package BUS;
 
+import DAO.Storage_DAO;
+import DTO.Storage_DTO;
+import java.util.Vector;
+
 /**
  *
  * @author Mai
  */
 public class Storage_BUS {
+    Storage_DAO khodao = new Storage_DAO();
     
+    public Vector<Storage_DTO> getALLkho()
+    {
+        return khodao.getALLkho();
+    }
 }

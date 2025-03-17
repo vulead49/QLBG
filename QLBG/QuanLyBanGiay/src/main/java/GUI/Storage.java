@@ -4,17 +4,22 @@
  */
 package GUI;
 
+import BUS.Storage_BUS;
+import DTO.Storage_DTO;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Mai
  */
 public class Storage extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Storage
-     */
+    Storage_BUS khobus = new Storage_BUS();
+    
     public Storage() {
         initComponents();
+        loadlist();
     }
 
     /**
@@ -48,7 +53,7 @@ public class Storage extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(193, 138, 66));
         jPanel1.setPreferredSize(new java.awt.Dimension(720, 516));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("D:\\workspace\\Hoc_Ki_2_Nam_3\\HE_THONG_THONG_TIN_DOANH_NGHIEP\\QuanlyGiay\\QLBG\\QuanLyBanGiay\\src\\main\\java\\picture\\R.png")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon("D:\\QLBG\\QLBG\\QLBG\\QuanLyBanGiay\\src\\main\\java\\picture\\R.png")); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -62,7 +67,7 @@ public class Storage extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "MaSP", "TenSP", "Hang", "PhanLoai", "Size", "SoLuong", "GiaBan"
+                "MaSP", "SoLuong", "Hang", "Size", "GiaBan", "TenSP", "PhanLoai"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -100,7 +105,7 @@ public class Storage extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel1)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(96, 96, 96)
                         .addComponent(jLabel2))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -132,11 +137,12 @@ public class Storage extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(68, 68, 68)
-                        .addComponent(jLabel2)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(36, 36, 36)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
@@ -245,4 +251,35 @@ public class Storage extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
+
+    private void loadlist() {
+        Vector<Storage_DTO> khoList = new Vector<Storage_DTO>();
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("MaSP");
+        model.addColumn("SoLuong");        
+        model.addColumn("Hang");
+        model.addColumn("Size");
+        model.addColumn("GiaBan");
+        model.addColumn("TenSP");
+        model.addColumn("PhanLoai");
+
+        
+        khoList = khobus.getALLkho();
+        for (int i = 0; i < khoList.size(); i++)
+        {
+            //Storage_DTO kho = new Storage_DTO();
+            Storage_DTO kho = khoList.get(i);
+            String idSP = kho.getMaSP();
+            String sl = kho.getSl();
+            String hang = kho.getHang();
+            String size = kho.getSize();
+            float gia = kho.getGia();
+            String ten = kho.getTenSP();
+            String loai = kho.getLoai();
+            Object[] row = { idSP, sl, hang, size, gia, ten, loai};
+            model.addRow(row);
+        }
+        jTable1.setModel(model);
+    }    
 }
+

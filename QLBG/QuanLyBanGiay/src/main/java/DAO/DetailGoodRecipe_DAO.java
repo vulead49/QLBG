@@ -44,6 +44,21 @@ public class DetailGoodRecipe_DAO {
         return ctpnList;
     }
    
+   public boolean checkExistGiay(String maGiay) {
+    String sql = "SELECT COUNT(*) FROM GIAY WHERE MaSP = ?";
+    try (
+         PreparedStatement ps = con.prepareStatement(sql)) {
+        ps.setString(1, maGiay);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next() && rs.getInt(1) > 0) {
+            return true; // Giày đã tồn tại
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return false; // Giày chưa tồn tại
+}
+   
     public boolean addCTPN (DetailGoodRecipe_DTO ctpn)
     {
         try {
@@ -110,20 +125,25 @@ public class DetailGoodRecipe_DAO {
         return 0;
     }
     
-    public int delCTPN (String idSP)
-    {
+    public boolean deleteCTPN(String maPN, String maSP, String hang, int size, int soLuong, float giaNhap, String tenSP, String loai) {
+        String sql = "DELETE FROM CTPhieuNhap WHERE MaPN = ? AND MaSP = ? AND Hang = ? AND Size = ? AND SoLuong = ? AND GiaNhap = ? AND TenSP = ? AND PhanLoai = ?";
         try {
-            String sql = "Delete from CTPhieuNhap where MaPN = ? and MaSP = ?";
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(2, idSP);
-            int rowDel = ps.executeUpdate();
-            if (rowDel > 0) {
-                return 1;
-            }
-            
-        } catch (Exception e) {
+            ps.setString(1, maPN);
+            ps.setString(2, maSP);
+            ps.setString(3, hang);
+            ps.setInt(4, size);
+            ps.setInt(5, soLuong);
+            ps.setFloat(6, giaNhap);
+            ps.setString(7, tenSP);
+            ps.setString(8, loai);
+
+            int rows = ps.executeUpdate();
+            return rows > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
-        return 0;
     }
     
     public GoodRecipe_DTO findPN(String id)

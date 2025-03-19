@@ -94,7 +94,7 @@ public class Schedule_DAO {
         return schedules;
     }   
 
-        public String getTenNV(int maNV) {
+    public String getTenNV(int maNV) {
         String tenNV = "";
         String sql = "SELECT HoTen FROM NHANVIEN WHERE MaNV = ?";
         try (PreparedStatement pstmt = con.prepareStatement(sql)) {
@@ -128,35 +128,58 @@ public class Schedule_DAO {
             pstmt.setInt(1, maCaLam);
             return pstmt.executeUpdate() > 0;
         }
-    }
-    
-
+    }   
     
     public int generateID() {
-    int newID = 1;
-    String sql = "SELECT MAX(STT) FROM LICHLAM";
-    try (PreparedStatement stmt = con.prepareStatement(sql);
-         ResultSet rs = stmt.executeQuery()) {
-        if (rs.next()) {
-            newID = rs.getInt(1) + 1;  // Lấy mã lớn nhất + 1
+        int newID = 1;
+        String sql = "SELECT MAX(STT) FROM LICHLAM";
+        try (PreparedStatement stmt = con.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                newID = rs.getInt(1) + 1;  // Lấy mã lớn nhất + 1
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-    return newID;
+        return newID;
     }
     public boolean isKeyExists(int maCaLam) throws SQLException {
-    // Thực hiện truy vấn để kiểm tra xem khóa chính đã tồn tại chưa
-    String query = "SELECT COUNT(*) FROM LichLam WHERE STT = ?";
-    try (PreparedStatement pstmt = con.prepareStatement(query)) {
-        pstmt.setInt(1, maCaLam);
-        ResultSet rs = pstmt.executeQuery();
-        if (rs.next()) {
-            return rs.getInt(1) > 0; // Nếu có bản ghi tồn tại
+        // Thực hiện truy vấn để kiểm tra xem khóa chính đã tồn tại chưa
+        String query = "SELECT COUNT(*) FROM LichLam WHERE STT = ?";
+        try (PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setInt(1, maCaLam);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0; // Nếu có bản ghi tồn tại
+            }
         }
+        return false; // Không có bản ghi nào tồn tại
     }
-    return false; // Không có bản ghi nào tồn tại
-}
+    public List<Schedule_DTO> fetchScheduleForEmployee(int employeeId, int month, int year) throws SQLException {
+        List<Schedule_DTO> scheduleList = new ArrayList<>();
+        String query = "SELECT * FROM LichLam WHERE MaNV = ? AND MONTH(Ngay) = ? AND YEAR(Ngay) = ? AND DuyetCong = ?";
+        
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setInt(1, employeeId);
+            stmt.setInt(2, month);
+            stmt.setInt(3, year);
+            stmt.setBoolean(4, true);
+            ResultSet rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                int maCaLam = rs.getInt("STT");
+                int maNV = rs.getInt("MaNV");
+                Date ngayLamViec = rs.getDate("Ngay");
+                Time gioBatDau = rs.getTime("GioBatDau");
+                Time gioKetThuc = rs.getTime("GioKetThuc");
+                boolean duyet = rs.getBoolean("DuyetCong");
+
+                Schedule_DTO schedule = new Schedule_DTO(maCaLam, maNV, ngayLamViec, gioBatDau, gioKetThuc, duyet);
+                scheduleList.add(schedule);
+            }
+        }
+        return scheduleList;
+    }
 
 }
 

@@ -303,6 +303,18 @@ public class Schedule_BUS {
     } catch (NumberFormatException e) {
         return null; // Không hợp lệ
     }
-}
+    }
+    
+    public List<Schedule_DTO> fetchScheduleForEmployee(int employeeId, int month, int year) throws SQLException{
+        if (month<1 || month>12) {
+                new MyDialog("Tháng không hợp lệ!", MyDialog.ERROR_DIALOG);
+                return null;
+            }
+        if (year<2000 || year>2050) {
+                new MyDialog("Năm không hợp lệ!", MyDialog.ERROR_DIALOG);
+                return null;
+            }
+        return scheduleDAO.fetchScheduleForEmployee(employeeId, month, year);
+    }
 
 }

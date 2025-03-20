@@ -6,6 +6,7 @@ package GUI;
 
 import BUS.DetailGoodRecipe_BUS;
 import BUS.GoodRecipe_BUS;
+import BUS.Storage_BUS;
 import BUS.Supplier_BUS;
 import DTO.DetailGoodRecipe_DTO;
 import DTO.GoodRecipe_DTO;
@@ -25,6 +26,7 @@ public class GoodRecipe extends javax.swing.JFrame {
         Supplier_BUS nccBUS = new Supplier_BUS();
         GoodRecipe_BUS pnBUS = new GoodRecipe_BUS();
         DetailGoodRecipe_BUS ctpnBUS = new DetailGoodRecipe_BUS();
+        Storage_BUS khoBUS = new Storage_BUS();
 
     public GoodRecipe() {
         initComponents();
@@ -120,7 +122,6 @@ public class GoodRecipe extends javax.swing.JFrame {
         cbHang = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1020, 754));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(203, 161, 106));
@@ -295,7 +296,7 @@ public class GoodRecipe extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "MaPN", "MaSP", "Hang", "Size", "SoLuong", "GiaNhap", "TenSP", "PhanLoai"
+                "MaPN", "MaSP", "SoLuong", "Hang", "Size", "GiaNhap", "TenSP", "PhanLoai"
             }
         ));
         jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -350,6 +351,11 @@ public class GoodRecipe extends javax.swing.JFrame {
         jLabel8.setText("Hang");
 
         btnDEL.setText("Xóa");
+        btnDEL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDELActionPerformed(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(51, 51, 51));
@@ -576,31 +582,39 @@ public class GoodRecipe extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRefCTActionPerformed
 
     private void btnAddCTPNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCTPNActionPerformed
-        try {
+         try {
         // Kiểm tra ô nhập có bị trống không
-        if (txtGiaNhap.getText().isEmpty() || 
-            txtIDgiay.getText().isEmpty() ||
-            txtSL.getText().isEmpty() ||
-            txtSize.getText().isEmpty() ||
-            txtName.getText().isEmpty()) {
+        if (txtGiaNhap.getText().trim().isEmpty() || 
+            txtIDgiay.getText().trim().isEmpty() ||
+            txtSL.getText().trim().isEmpty() ||
+            txtSize.getText().trim().isEmpty() ||
+            txtName.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập đủ thông tin!");
-            return; // Dừng nếu nhập thiếu
+            return;
         }
 
-        // Kiểm tra xem giá nhập, số lượng, size có phải số không
+        // Kiểm tra giá trị số hợp lệ
         float giaNhap;
         int soLuong, size;
         try {
-            giaNhap = Float.parseFloat(txtGiaNhap.getText()); // Chuyển thành float
-            soLuong = Integer.parseInt(txtSL.getText()); // Chuyển thành int
-            size = Integer.parseInt(txtSize.getText()); // Chuyển thành int
+            giaNhap = Float.parseFloat(txtGiaNhap.getText().trim());
+            soLuong = Integer.parseInt(txtSL.getText().trim());
+            size = Integer.parseInt(txtSize.getText().trim());
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Giá nhập, số lượng và size phải là số!");
+            JOptionPane.showMessageDialog(this, "Giá nhập, số lượng và size phải là số hợp lệ!");
             return;
         }
 
         String maGiay = txtIDgiay.getText().trim();
-        
+        String hang = (String) cbHang.getSelectedItem();
+        String loai = (String) cbLoai.getSelectedItem();
+        String maPN = (String) cbPN.getSelectedItem();
+
+        if (hang == null || loai == null || maPN == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn đủ thông tin từ combobox!");
+            return;
+        }
+
         // Kiểm tra giày đã tồn tại chưa
         boolean giayDaTonTai = ctpnBUS.checkExistGiay(maGiay);
 
@@ -615,35 +629,44 @@ public class GoodRecipe extends javax.swing.JFrame {
 
             DetailGoodRecipe_DTO giay = new DetailGoodRecipe_DTO();
             giay.setMaSP(maGiay);
-            giay.setTenSP(txtName.getText());
-            giay.setHang((String) cbHang.getSelectedItem());
+            giay.setTenSP(txtName.getText().trim());
+            giay.setHang(hang);
             giay.setGiaNhap(giaNhap);
             giay.setSize(size);
-            giay.setLoai((String) cbLoai.getSelectedItem());
+            giay.setLoai(loai);
 
-          
+            String resultGiay = khoBUS.addGiay(giay);
+            JOptionPane.showMessageDialog(this, resultGiay);
+
+            if (!resultGiay.equals("Thêm thành công!")) {
+                return;
+            }
         }
 
-        // Thêm vào bảng Chi Tiết Phiếu Nhập (CTPN)
+        // Thêm vào CTPN
         DetailGoodRecipe_DTO ctpn = new DetailGoodRecipe_DTO();
         ctpn.setGiaNhap(giaNhap);
-        ctpn.setHang((String) cbHang.getSelectedItem());
+        ctpn.setHang(hang);
         ctpn.setMaSP(maGiay);
         ctpn.setSl(soLuong);
         ctpn.setSize(size);
-        ctpn.setTenSP(txtName.getText());
-        ctpn.setLoai((String) cbLoai.getSelectedItem());
-        ctpn.setMaPN((String) cbPN.getSelectedItem());
+        ctpn.setTenSP(txtName.getText().trim());
+        ctpn.setLoai(loai);
+        ctpn.setMaPN(maPN);
 
         String result = ctpnBUS.addCTPN(ctpn);
         JOptionPane.showMessageDialog(this, result);
 
-        // Cập nhật lại danh sách
-        loadListCTPN();
+        // Nếu thêm thành công, cập nhật kho
+        if (result.equals("Thêm thành công!")) {
+            khoBUS.updateKho(ctpn);
+        }
 
+        // Cập nhật danh sách
+        loadListCTPN();
     } catch (Exception e) {
         e.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Lỗi khi thêm sản phẩm!");
+        JOptionPane.showMessageDialog(this, "Lỗi khi thêm sản phẩm: " + e.getMessage());
     }
     }//GEN-LAST:event_btnAddCTPNActionPerformed
 
@@ -678,6 +701,33 @@ public class GoodRecipe extends javax.swing.JFrame {
     private void cbFindIDpnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbFindIDpnActionPerformed
         String selectedMaPN = (String)cbFindIDpn.getSelectedItem(); 
         loadListByMaPN(selectedMaPN);    }//GEN-LAST:event_cbFindIDpnActionPerformed
+
+    private void btnDELActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDELActionPerformed
+       int selectedRow = jTable2.getSelectedRow();
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Vui lòng chọn một dòng để xóa!");
+        return;
+    }
+
+    String maPN = jTable2.getValueAt(selectedRow, 0).toString();
+    String maSP = jTable2.getValueAt(selectedRow, 1).toString();
+    int soLuong = Integer.parseInt(jTable2.getValueAt(selectedRow, 2).toString());
+    String hang = jTable2.getValueAt(selectedRow, 3).toString();
+    int size = Integer.parseInt(jTable2.getValueAt(selectedRow, 4).toString());
+    float giaNhap = Float.parseFloat(jTable2.getValueAt(selectedRow, 5).toString());
+    String tenSP = jTable2.getValueAt(selectedRow, 6).toString();
+    String loai = jTable2.getValueAt(selectedRow, 7).toString();
+
+    int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+    if (confirm == JOptionPane.YES_OPTION) {
+        if (ctpnBUS.delCTPN(maPN, maSP, hang, size, soLuong, giaNhap, tenSP, loai)) {
+            JOptionPane.showMessageDialog(this, "Xóa thành công!");
+            loadListCTPN();// Hàm reload lại bảng
+        } else {
+            JOptionPane.showMessageDialog(this, "Xóa thất bại!");
+        }
+    }
+    }//GEN-LAST:event_btnDELActionPerformed
 
      private int generateMaPN() {
     return pnBUS.generateMaPN();

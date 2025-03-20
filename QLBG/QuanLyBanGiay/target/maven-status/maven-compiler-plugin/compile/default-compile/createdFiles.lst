@@ -100,11 +100,8 @@ GUI\Staff$4.class
 GUI\Employee$4.class
 GUI\GoodRecipe$3.class
 GUI\Supplier$5.class
-<<<<<<< HEAD
 GUI\Employee$10.class
-=======
 DAO\Storage_DAO.class
->>>>>>> c06f6e2ff1ffc1ff3fba2dd4f196c0be0f20e5bc
 GUI\InfoNV$2.class
 GUI\main$1.class
 GUI\Staff$5.class
@@ -115,6 +112,7 @@ GUI\Account$2.class
 GUI\SignUp$1.class
 GUI\Statistical.class
 BUS\Order_BUS.class
+GUI\GoodRecipe$11.class
 GUI\Payroll_NV$2.class
 GUI\Employee$5.class
 GUI\Schedule$1.class

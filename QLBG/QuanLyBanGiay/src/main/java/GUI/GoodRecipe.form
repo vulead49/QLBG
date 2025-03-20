@@ -511,9 +511,9 @@
                   <Table columnCount="8" rowCount="4">
                     <Column editable="true" title="MaPN" type="java.lang.Object"/>
                     <Column editable="true" title="MaSP" type="java.lang.Object"/>
+                    <Column editable="true" title="SoLuong" type="java.lang.Object"/>
                     <Column editable="true" title="Hang" type="java.lang.Object"/>
                     <Column editable="true" title="Size" type="java.lang.Object"/>
-                    <Column editable="true" title="SoLuong" type="java.lang.Object"/>
                     <Column editable="true" title="GiaNhap" type="java.lang.Object"/>
                     <Column editable="true" title="TenSP" type="java.lang.Object"/>
                     <Column editable="true" title="PhanLoai" type="java.lang.Object"/>
@@ -696,6 +696,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="X&#xf3;a"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDELActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel9">
           <Properties>

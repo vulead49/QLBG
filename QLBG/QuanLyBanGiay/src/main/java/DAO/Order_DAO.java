@@ -17,9 +17,9 @@ import java.util.Vector;
 public class Order_DAO {
     Connection con = JDBC.getConnection();
     
-    public Vector<Order_DAO> getALLod()
+    public Vector<Order_DTO> getALLod()
     {
-        Vector<Order_DAO> dhList = new Vector<>();
+        Vector<Order_DTO> dhList = new Vector<>();
         try {
             String sql = "Select * from DonHang";
             PreparedStatement ps = con.prepareStatement(sql);
@@ -31,7 +31,7 @@ public class Order_DAO {
                 nv.setTenKH(rs.getString("TenKH"));
                 nv.setNgayLap(rs.getString("NgayLap"));
                 nv.setThanhTien(rs.getFloat("ThanhTien"));
-                nv.setTrangThai(rs.getString("TrangThai"));
+                nv.setTrangThai(rs.getBoolean("TrangThai"));
 
                 
             }
@@ -49,11 +49,11 @@ public class Order_DAO {
         try {
             String sql = "Insert into DonHang (MaDH, TenKH, NgayLap, ThanhTien, TrangThai) values (?,?,?,?,?)";
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, dh.getMaHD());
+            ps.setString(1, dh.getMaDH());
             ps.setString(2, dh.getTenKH());
             ps.setString(3, dh.getNgayLap());
             ps.setFloat(4, dh.getThanhTien());           
-            ps.setString(5, dh.getTrangThai());
+            ps.setBoolean(5, dh.getTrangThai());
 
             ps.executeUpdate();
             return true;
@@ -82,11 +82,11 @@ public class Order_DAO {
         try {
             String sql = "Update DonHang set MaDH = ?, TenKH = ?, NgayLap = ?, ThanhTien = ?, TrangThai = ? where MaDH = ?";
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, dh.getMaHD());
+            ps.setString(1, dh.getMaDH());
             ps.setString(2, dh.getTenKH());
             ps.setString(3, dh.getNgayLap());
             ps.setFloat(4, dh.getThanhTien());           
-            ps.setString(5, dh.getTrangThai());
+            ps.setBoolean(5, dh.getTrangThai());
           
             int rowUpdate = ps.executeUpdate();
             
@@ -129,7 +129,7 @@ public class Order_DAO {
                 sp.setTenKH(rs.getString("TenKH"));
                 sp.setNgayLap(rs.getString("NgayLap"));
                 sp.setThanhTien(rs.getFloat("ThanhTien"));
-                sp.setTrangThai(rs.getString("TrangThai"));
+                sp.setTrangThai(rs.getBoolean("TrangThai"));
          
             }
         } catch (Exception e) {

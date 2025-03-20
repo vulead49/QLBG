@@ -7,12 +7,12 @@ public class Order_DTO{
     String TenKH;
     String NgayLap;
     float ThanhTien;
-    String TrangThai;
+    Boolean TrangThai;
     
     public Order_DTO()
     {}
 
-    public Order_DTO(String MaDH, String TenKH, String NgayLap, float ThanhTien, String TrangThai) {
+    public Order_DTO(String MaDH, String TenKH, String NgayLap, float ThanhTien, Boolean TrangThai) {
         this.MaDH = MaDH;
         this.TenKH = TenKH;
         this.NgayLap = NgayLap;
@@ -20,7 +20,7 @@ public class Order_DTO{
         this.TrangThai = TrangThai;
     }
 
-    public String getMaHD() {
+    public String getMaDH() {
         return MaDH;
     }
 
@@ -30,9 +30,9 @@ public class Order_DTO{
 
     public String getTenKH() {
         return TenKH;
-    } 
+    }
 
-    public void setTenKH (String TenKH) {
+    public void setTenKH(String TenKH) {
         this.TenKH = TenKH;
     }
 
@@ -40,7 +40,7 @@ public class Order_DTO{
         return NgayLap;
     }
 
-    public void setNgayLap (String NgayLap) {
+    public void setNgayLap(String NgayLap) {
         this.NgayLap = NgayLap;
     }
 
@@ -48,15 +48,15 @@ public class Order_DTO{
         return ThanhTien;
     }
 
-    public void setThanhTien (float ThanhTien) {
+    public void setThanhTien(float ThanhTien) {
         this.ThanhTien = ThanhTien;
     }
 
-    public String getTrangThai () {
+    public Boolean getTrangThai() {
         return TrangThai;
     }
 
-    public void setTrangThai (String TrangThai) {
+    public void setTrangThai(Boolean TrangThai) {
         this.TrangThai = TrangThai;
     }
 

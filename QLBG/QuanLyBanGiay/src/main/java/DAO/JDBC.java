@@ -18,7 +18,7 @@ public class JDBC {
           try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-            String url = "jdbc:sqlserver://localhost:1433;DatabaseName=QLBANGIAY;encrypt=false;trustServerCertificate=true;";
+            String url = "jdbc:sqlserver://localhost:1433;DatabaseName=QUANLYBANGIAY;encrypt=false;trustServerCertificate=true;";
             String user = "sa";
             String password = "123456";
             con = DriverManager.getConnection(url, user, password);

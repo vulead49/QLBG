@@ -7,6 +7,7 @@ package BUS;
 import DAO.Storage_DAO;
 import DTO.DetailGoodRecipe_DTO;
 import DTO.Storage_DTO;
+import java.util.ArrayList;
 import java.util.Vector;
 
 /**
@@ -42,5 +43,20 @@ public class Storage_BUS {
     System.out.println("Gọi updateKho() cho sản phẩm: " + ctpn.getMaSP() + " - Số lượng: " + ctpn.getSl());
     khodao.updateKho(ctpn);
 }
+     
+     public Storage_DTO findSP (String tukhoa)
+     {
+         return khodao.findSP(tukhoa);
+     }
+     
+     public Vector<Storage_DTO> getFilteredProducts(double minPrice, double maxPrice) {
+    return khodao.filterByPrice(minPrice, maxPrice);
+}
+     
+     public Vector<Storage_DTO> getSortedProducts(boolean ascending) {
+    return khodao.sortByPrice(ascending);
+}
+
+
 
 }

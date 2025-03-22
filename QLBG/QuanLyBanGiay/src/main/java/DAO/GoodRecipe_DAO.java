@@ -74,7 +74,7 @@ public class GoodRecipe_DAO {
         GoodRecipe_DTO pn = null;
         try {
             String sql = "Select *from PhieuNhap where MaPN = ?";
-            PreparedStatement ps = con.prepareCall(sql);
+            PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next())

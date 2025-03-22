@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Vector;
 public class Storage_DAO {
         Connection con = JDBC.getConnection();
@@ -114,10 +115,100 @@ public class Storage_DAO {
     }
     return false;
 }
+        
+        public Storage_DTO findSP (String id)
+        {
+            Storage_DTO kho = null;
+            try {
+                String sql = "Select *from Kho where MaSP = ? ";
+                PreparedStatement ps = con.prepareStatement(sql);
+                ps.setString(1, id);
+                ResultSet rs = ps.executeQuery();
+                
+                if (rs.next())
+                {
+                    kho = new Storage_DTO();
+                    kho.setMaSP(rs.getString("MaSP"));
+                    kho.setSl(rs.getString("SoLuong"));
+                    kho.setHang(rs.getString("Hang"));
+                    kho.setSize(rs.getString("Size"));
+                    kho.setGia(rs.getFloat("GiaBan"));
+                    kho.setTenSP(rs.getString("TenSP"));
+                    kho.setLoai(rs.getString("PhanLoai"));
+
+
+                }
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return kho;
+        }
+        
+        
+        
+        public Vector<Storage_DTO> filterByPrice(double minPrice, double maxPrice) {
+    Vector<Storage_DTO> list = new Vector<>();
+    try {
+        String sql = "SELECT * FROM Kho WHERE GiaBan BETWEEN ? AND ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setDouble(1, minPrice);
+        ps.setDouble(2, maxPrice);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            Storage_DTO sp = new Storage_DTO();
+            sp.setMaSP(rs.getString("MaSP"));
+            sp.setSl(String.valueOf(rs.getInt("SoLuong"))); // ✅ Chuyển int thành String
+            sp.setHang(rs.getString("Hang"));
+            sp.setSize(rs.getString("Size"));
+            sp.setGia((float) rs.getDouble("GiaBan"));
+            sp.setTenSP(rs.getString("TenSP"));
+            sp.setLoai(rs.getString("PhanLoai"));
+            list.add(sp);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return list;
+}
+        
+        
+        
+        public Vector<Storage_DTO> sortByPrice(boolean ascending) {
+    Vector<Storage_DTO> list = new Vector<>();
+    try {
+        // Lựa chọn câu SQL dựa trên giá trị ascending
+        String sql = "SELECT * FROM Kho ORDER BY GiaBan " + (ascending ? "ASC" : "DESC");
+        System.out.println("SQL Query: " + sql); // Kiểm tra câu SQL có đúng không
+
+        PreparedStatement ps = con.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            Storage_DTO sp = new Storage_DTO();
+            sp.setMaSP(rs.getString("MaSP"));
+            sp.setSl((String.valueOf(rs.getInt("SoLuong"))));
+            sp.setHang(rs.getString("Hang"));
+            sp.setSize(rs.getString("Size"));
+            sp.setGia(rs.getFloat("GiaBan"));
+            sp.setTenSP(rs.getString("TenSP"));
+            sp.setLoai(rs.getString("PhanLoai"));
+            list.add(sp);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return list;
+}
+
+}
+
+
 
     
    
     
-}
+
 
 

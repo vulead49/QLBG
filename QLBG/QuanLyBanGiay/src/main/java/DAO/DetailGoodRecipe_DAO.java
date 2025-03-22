@@ -85,28 +85,28 @@ public class DetailGoodRecipe_DAO {
     
    
     
-    public int editCTPN (DetailGoodRecipe_DTO ctpn)
-    {
-        try {
-            String sql = "Update CTPhieuNhap set SoLuong = ?, Hang = ?, Size = ?, GiaNhap = ?, TenSP =?, PhanLoai =? where MaPN= ? and MaSP = ?";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, ctpn.getMaPN());
-            ps.setString(2, ctpn.getMaSP() );
-            ps.setInt(3, ctpn.getSl());
-            ps.setString(4, ctpn.getHang());
-            ps.setInt(5, ctpn.getSize());
-            ps.setFloat(6, ctpn.getGiaNhap());
-            ps.setString(7, ctpn.getTenSP());
-            ps.setString(8, ctpn.getLoai());
-            int rowUpdate = ps.executeUpdate();
-            
-            if (rowUpdate > 0) {
-                return 1;
-            } 
-        } catch (Exception e) {
-        }
-        return 0;
-    }
+//    public int editCTPN (DetailGoodRecipe_DTO ctpn)
+//    {
+//        try {
+//            String sql = "Update CTPhieuNhap set SoLuong = ?, Hang = ?, Size = ?, GiaNhap = ?, TenSP =?, PhanLoai =? where MaPN= ? and MaSP = ?";
+//            PreparedStatement ps = con.prepareStatement(sql);
+//            ps.setString(1, ctpn.getMaPN());
+//            ps.setString(2, ctpn.getMaSP() );
+//            ps.setInt(3, ctpn.getSl());
+//            ps.setString(4, ctpn.getHang());
+//            ps.setInt(5, ctpn.getSize());
+//            ps.setFloat(6, ctpn.getGiaNhap());
+//            ps.setString(7, ctpn.getTenSP());
+//            ps.setString(8, ctpn.getLoai());
+//            int rowUpdate = ps.executeUpdate();
+//            
+//            if (rowUpdate > 0) {
+//                return 1;
+//            } 
+//        } catch (Exception e) {
+//        }
+//        return 0;
+//    }
     
     public int getSoLuongCTPN(String maPN, String maSP, int size) {
     String sql = "SELECT SoLuong FROM CTPhieuNhap WHERE MaPN = ? AND MaSP = ? AND Size = ?";

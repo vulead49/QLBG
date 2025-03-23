@@ -5,12 +5,17 @@
 package GUI;
 
 import BUS.Employee_BUS;
+import BUS.Payroll_BUS;
 import BUS.Schedule_BUS;
+import DAO.Hierarchy_DAO;
 import DTO.Employee_DTO;
+import DTO.Hierarchy_DTO;
+import DTO.Schedule_DTO;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -23,6 +28,8 @@ import java.util.logging.Logger;
 public class Schedule extends javax.swing.JFrame {
     Schedule_BUS scheduleBUS = new Schedule_BUS();
     Employee_BUS emp = new Employee_BUS();
+    Payroll_BUS pay =new Payroll_BUS();
+    Hierarchy_DAO hie = new Hierarchy_DAO();
     /**
      * Creates new form Schedule
      */
@@ -84,7 +91,7 @@ public class Schedule extends javax.swing.JFrame {
                 java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                true, false, false, true, true, true, true
+                true, false, false, true, true, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -463,7 +470,47 @@ public class Schedule extends javax.swing.JFrame {
         String ma =jTableSchedule.getValueAt(row,0).toString();
         int stt= Integer.parseInt(ma);
         scheduleBUS.check(stt);
+        generatePayroll();
         loadData();
+     }
+     private void generatePayroll() throws SQLException {
+        try {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(jDateChooser1.getDate());
+            int month = calendar.get(Calendar.MONTH) + 1; // Tháng trong Java bắt đầu từ 0
+            int year = calendar.get(Calendar.YEAR);
+            int employeeId =Integer.parseInt(ID.getSelectedItem().toString()) ;
+            if (pay.checkPayrollExists(employeeId, month, year)) {
+                updatePayrollBySchedule(employeeId, month, year);
+                return ;
+            }
+            // Giả sử bạn có danh sách schedule và hierarchy
+            List<Schedule_DTO> scheduleList = scheduleBUS.fetchScheduleForEmployee(employeeId, month, year);
+            if (scheduleList==null) return;
+            List<Hierarchy_DTO> hierarchyList = hie.fetchHierarchyData();
+            if (hierarchyList==null) return;
+            // Tính toán bảng lương
+            pay.calculateSalaryBasedOnRank(scheduleList, hierarchyList, employeeId, month, year);
+        } catch (NumberFormatException ex) {
+            new MyDialog("Vui lòng nhập tháng và năm hợp lệ!", MyDialog.ERROR_DIALOG);
+        } 
+//        catch (SQLException ex) {
+//            new MyDialog("Lỗi cơ sở dữ liệu!", MyDialog.ERROR_DIALOG);
+//        }
+    }
+     
+     private void updatePayrollBySchedule(int employeeId,int month,int year) throws SQLException{
+         try {
+            // Giả sử bạn có danh sách schedule và hierarchy
+            List<Schedule_DTO> scheduleList = scheduleBUS.fetchScheduleForEmployee(employeeId, month, year);
+            if (scheduleList==null) return;
+            List<Hierarchy_DTO> hierarchyList = hie.fetchHierarchyData();
+            if (hierarchyList==null) return;
+            // Tính toán bảng lương
+            pay.updatePayrollBySchedule(scheduleList, hierarchyList, employeeId, month, year);
+        } catch (NumberFormatException ex) {
+            new MyDialog("Vui lòng nhập tháng và năm hợp lệ!", MyDialog.ERROR_DIALOG);
+        } 
      }
     /**
      * @param args the command line arguments

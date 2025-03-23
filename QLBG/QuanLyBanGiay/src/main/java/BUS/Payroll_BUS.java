@@ -102,9 +102,34 @@ public class Payroll_BUS {
     
     public boolean checkPayrollExists(int id, int thang, int nam) throws SQLException{
         if (payrollDAO.checkPayrollExists(id, thang, nam)){
-            new MyDialog("Bảng lương đã tồn tại!", MyDialog.ERROR_DIALOG);
+//            new MyDialog("Bảng lương đã tồn tại!", MyDialog.ERROR_DIALOG);
             return true;
         } else {
+            return false;
+        }
+    }
+    
+    public boolean updatePayrollBySchedule(List<Schedule_DTO> scheduleList, List<Hierarchy_DTO> hierarchyList, int employeeId, int thang, int nam) throws SQLException{
+        BigDecimal salary;
+        long durationInMillis=0;
+        int rankId = payrollDAO.getEmployeeRank(employeeId); // Gọi DAO để lấy rank ID
+        Hierarchy_DTO hierarchy = payrollDAO.getRankById(rankId, hierarchyList); // Gọi DAO để lấy thông tin cấp bậc                                
+        if (hierarchy.getBaseSalary().compareTo(BigDecimal.ZERO) > 0) {
+            // Lương cố định
+            salary = hierarchy.getBaseSalary();
+        } else {
+        for (Schedule_DTO schedule : scheduleList) {  
+                // Lương theo giờ
+                durationInMillis = durationInMillis + schedule.getGioKetThuc().getTime() - schedule.getGioBatDau().getTime();           
+        }
+            long durationInHours = durationInMillis / (1000 * 60 * 60); // Chuyển đổi sang giờ  
+            salary = hierarchy.getHourlySalary().multiply(BigDecimal.valueOf(durationInHours));
+        }            
+        if (payrollDAO.updatePayroll(employeeId, thang, nam , salary)) {
+            new MyDialog("Sửa lương thành công!", MyDialog.SUCCESS_DIALOG);
+            return true;
+        } else {
+            new MyDialog("Sửa lương thất bại!", MyDialog.ERROR_DIALOG);
             return false;
         }
     }

@@ -6,6 +6,7 @@ package DAO;
 
 import DTO.Hierarchy_DTO;
 import DTO.Payroll_DTO;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -137,6 +138,21 @@ public class Payroll_DAO {
             }
         }
         return false; // Trả về false nếu không có bản ghi
+    }
+    
+    public boolean updatePayroll(int id,int thang, int nam , BigDecimal luong){
+        String sql = "UPDATE BangLuong SET Luong = ? WHERE MaNV = ? AND Thang = ? AND Nam = ?";
+        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setBigDecimal(1, luong);
+            pstmt.setInt(2, id);
+            pstmt.setInt(3, thang);
+            pstmt.setInt(4, nam);
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0;
+        }catch (SQLException e) {
+        e.printStackTrace();  // In ra lỗi để kiểm tra chi tiết
+        return false;
+        }
     }
     // Các phương thức khác như UpdatePayroll, DeletePayroll...
 }

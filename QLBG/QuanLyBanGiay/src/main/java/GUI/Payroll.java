@@ -13,9 +13,13 @@ import DTO.Hierarchy_DTO;
 import DTO.Schedule_DTO;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -52,7 +56,7 @@ public class Payroll extends javax.swing.JFrame {
         Search = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
         jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        Detail = new javax.swing.JButton();
         Year = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
@@ -92,6 +96,11 @@ public class Payroll extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        JTablePayroll.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                JTablePayrollMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(JTablePayroll);
 
         Search.setText("Tìm");
@@ -110,10 +119,10 @@ public class Payroll extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setText("In bảng lương tháng");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        Detail.setText("Xem chi tiết");
+        Detail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                DetailActionPerformed(evt);
             }
         });
 
@@ -149,7 +158,7 @@ public class Payroll extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 511, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton4)
+                    .addComponent(Detail)
                     .addComponent(jButton5)
                     .addComponent(Search)
                     .addComponent(Create)
@@ -168,7 +177,7 @@ public class Payroll extends javax.swing.JFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(Month, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jButton3))
-                .addGap(0, 37, Short.MAX_VALUE))
+                .addGap(0, 44, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(91, 91, 91)
@@ -206,7 +215,7 @@ public class Payroll extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Search)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4)
+                        .addComponent(Detail)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -239,9 +248,14 @@ public class Payroll extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    private void DetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DetailActionPerformed
+        try {
+            // TODO add your handling code here:
+            showPayrollDetails();
+        } catch (SQLException ex) {
+            Logger.getLogger(Payroll.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_DetailActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
@@ -264,6 +278,11 @@ public class Payroll extends javax.swing.JFrame {
                 TenNhanVien.setText(tenNv);
         } 
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void JTablePayrollMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JTablePayrollMouseClicked
+        // TODO add your handling code here:
+        xuLyClickTblPayroll();
+    }//GEN-LAST:event_JTablePayrollMouseClicked
 
     /**
      * @param args the command line arguments
@@ -346,16 +365,51 @@ public class Payroll extends javax.swing.JFrame {
         pay.loadPayrollDataToTable(JTablePayroll);
         TenNhanVien.setEditable(false);
     }
+    
+    private void xuLyClickTblPayroll(){
+            int row = JTablePayroll.getSelectedRow();
+            if(row > -1){
+                String ma =JTablePayroll.getValueAt(row,0)+"";
+                String maNV =JTablePayroll.getValueAt(row,1).toString();
+                String tenNV =JTablePayroll.getValueAt(row,2)+"";
+                String thang =JTablePayroll.getValueAt(row,4).toString()+"";
+                String nam =JTablePayroll.getValueAt(row,5).toString()+"";
+                TenNhanVien.setText(tenNV);
+                jComboBox1.setSelectedItem(maNV);
+                Month.setText(thang);
+                Year.setText(nam);
+            }
+    }
+    
+    private void showPayrollDetails() throws SQLException {
+    try {
+        int month = Integer.parseInt(Month.getText());
+        int year = Integer.parseInt(Year.getText());
+        int employeeId = Integer.parseInt(jComboBox1.getSelectedItem().toString());
+        
+
+        // Lấy thông tin ca làm đã duyệt từ cơ sở dữ liệu
+        List<Schedule_DTO> approvedSchedules = sch.fetchScheduleForEmployee(employeeId, month, year);
+        
+        // Mở cửa sổ DetailPayroll và cập nhật bảng
+        DetailPayroll detailPayroll = new DetailPayroll();
+        detailPayroll.updateTable(approvedSchedules);
+        detailPayroll.setVisible(true);
+        this.dispose();
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(this, "Vui lòng nhập tháng và năm hợp lệ.");
+    }
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Create;
+    private javax.swing.JButton Detail;
     private javax.swing.JTable JTablePayroll;
     private javax.swing.JTextField Month;
     private javax.swing.JButton Search;
     private javax.swing.JTextField TenNhanVien;
     private javax.swing.JTextField Year;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;

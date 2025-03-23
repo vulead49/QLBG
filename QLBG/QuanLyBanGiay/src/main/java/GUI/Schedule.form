@@ -198,7 +198,7 @@
                     <Column editable="true" title="Ngay" type="java.lang.Object"/>
                     <Column editable="true" title="GioBatDau" type="java.lang.Object"/>
                     <Column editable="true" title="GioKetThuc" type="java.lang.Object"/>
-                    <Column editable="true" title="DuyetCong" type="java.lang.Boolean"/>
+                    <Column editable="false" title="DuyetCong" type="java.lang.Boolean"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

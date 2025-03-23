@@ -180,6 +180,30 @@ public class Schedule_DAO {
         }
         return scheduleList;
     }
+    
+    public boolean isTimesheetOverlapping(Schedule_DTO newSchedule) {
+        try {
+            String sql = "SELECT COUNT(*) FROM LichLam WHERE MaNV = ? AND Ngay = ? " +
+            "  AND ((GioBatDau BETWEEN ? AND ?) OR (GioKetThuc BETWEEN ? AND ?) OR (? < GioBatDau AND ? > GioKetThuc))";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, newSchedule.getMaNV());
+            stmt.setDate(2, newSchedule.getNgayLamViec());
+            stmt.setTime(3, newSchedule.getGioBatDau());
+            stmt.setTime(4, newSchedule.getGioKetThuc());
+            stmt.setTime(5, newSchedule.getGioBatDau());
+            stmt.setTime(6, newSchedule.getGioKetThuc());
+            stmt.setTime(7, newSchedule.getGioBatDau());
+            stmt.setTime(8, newSchedule.getGioKetThuc());
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                System.out.println(rs.getInt(1));
+                return rs.getInt(1) > 0; // Nếu có bản ghi tồn tại
+            }
+        } catch (SQLException e) {
+            // Xử lý lỗi kết nối hoặc truy vấn
+        }
+        return false;
+    }
 
 }
 

@@ -6,6 +6,7 @@ package GUI;
 
 import BUS.DetailGoodRecipe_BUS;
 import BUS.GoodRecipe_BUS;
+import BUS.Storage_BUS;
 import BUS.Supplier_BUS;
 import DTO.DetailGoodRecipe_DTO;
 import DTO.GoodRecipe_DTO;
@@ -24,6 +25,7 @@ public class GoodRecipe extends javax.swing.JFrame {
         Supplier_BUS nccBUS = new Supplier_BUS();
         GoodRecipe_BUS pnBUS = new GoodRecipe_BUS();
         DetailGoodRecipe_BUS ctpnBUS = new DetailGoodRecipe_BUS();
+        Storage_BUS khoBUS = new Storage_BUS();
 
     public GoodRecipe() {
         initComponents();
@@ -48,9 +50,9 @@ public class GoodRecipe extends javax.swing.JFrame {
         Vector<GoodRecipe_DTO> pnList = pnBUS.getALLpn();
         for (GoodRecipe_DTO pn : pnList)
         {
-           cbFindPN.addItem(pn.getMaPN());
-           cbPN.addItem(pn.getMaPN());
-           cbFindIDpn.addItem(pn.getMaPN());
+           cbFindPN.addItem(String.valueOf(pn.getMaPN()));
+           cbPN.addItem(String.valueOf(pn.getMaPN()));
+           cbFindIDpn.addItem(String.valueOf(pn.getMaPN()));
 
         }
     }
@@ -100,15 +102,12 @@ public class GoodRecipe extends javax.swing.JFrame {
         txtGiaNhap = new javax.swing.JTextField();
         txtIDgiay = new javax.swing.JTextField();
         btnAddCTPN = new javax.swing.JButton();
-        btnEDIT = new javax.swing.JButton();
         cbFindIDpn = new javax.swing.JComboBox<>();
         jLabel11 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        btnFindIDgiay = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         cbPN = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
-        txtHang = new javax.swing.JTextField();
         btnDEL = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         txtSize = new javax.swing.JTextField();
@@ -117,6 +116,8 @@ public class GoodRecipe extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
         cbLoai = new javax.swing.JComboBox<>();
+        jLabel16 = new javax.swing.JLabel();
+        cbHang = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1020, 754));
@@ -290,7 +291,7 @@ public class GoodRecipe extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "MaPN", "MaSP", "Hang", "Size", "SoLuong", "GiaNhap", "TenSP", "PhanLoai"
+                "MaPN", "MaSP", "SoLuong", "Hang", "Size", "GiaNhap", "TenSP", "PhanLoai"
             }
         ));
         jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -312,14 +313,19 @@ public class GoodRecipe extends javax.swing.JFrame {
         jLabel7.setForeground(new java.awt.Color(51, 51, 51));
         jLabel7.setText("Gía nhập");
 
+        txtIDgiay.setEditable(false);
+        txtIDgiay.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtIDgiayFocusLost(evt);
+            }
+        });
+
         btnAddCTPN.setText("Thêm");
         btnAddCTPN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddCTPNActionPerformed(evt);
             }
         });
-
-        btnEDIT.setText("Sửa");
 
         cbFindIDpn.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "id ", " " }));
         cbFindIDpn.addActionListener(new java.awt.event.ActionListener() {
@@ -332,8 +338,6 @@ public class GoodRecipe extends javax.swing.JFrame {
         jLabel11.setForeground(new java.awt.Color(51, 51, 51));
         jLabel11.setText("ID phiếu nhập");
 
-        btnFindIDgiay.setText("Tìm");
-
         jButton7.setText("In phiếu");
 
         cbPN.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MaPN" }));
@@ -343,6 +347,11 @@ public class GoodRecipe extends javax.swing.JFrame {
         jLabel8.setText("Hang");
 
         btnDEL.setText("Xóa");
+        btnDEL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDELActionPerformed(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(51, 51, 51));
@@ -364,6 +373,12 @@ public class GoodRecipe extends javax.swing.JFrame {
         jLabel15.setText("Phân loại");
 
         cbLoai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nam", "Nữ", " " }));
+
+        jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel16.setText("Chọn mã PN");
+
+        cbHang.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Adidas", "Nike", "Puma", "Reebok", " " }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -405,32 +420,33 @@ public class GoodRecipe extends javax.swing.JFrame {
                                             .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(48, 48, 48)
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txtHang, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(txtGiaNhap, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(txtSize, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(cbLoai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addComponent(jLabel8)))
+                                    .addComponent(jLabel8)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                        .addComponent(cbHang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(1, 1, 1))))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnAddCTPN)
-                                    .addComponent(btnRefCT))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(btnEDIT)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(btnDEL)
-                                        .addGap(68, 68, 68)
-                                        .addComponent(btnFindIDgiay, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(cbFindIDpn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jButton7)))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 491, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(btnAddCTPN)
+                                .addGap(196, 196, 196)
+                                .addComponent(jLabel16)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cbFindIDpn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 491, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton7)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(19, 19, 19)
-                        .addComponent(jLabel13)
-                        .addGap(33, 33, 33)
-                        .addComponent(jLabel2)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(106, 106, 106)
+                                .addComponent(btnDEL)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnRefCT))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel13)
+                                .addGap(33, 33, 33)
+                                .addComponent(jLabel2)))))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -445,7 +461,7 @@ public class GoodRecipe extends javax.swing.JFrame {
                     .addComponent(jLabel11)
                     .addComponent(cbPN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8)
-                    .addComponent(txtHang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbHang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -474,14 +490,12 @@ public class GoodRecipe extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAddCTPN)
-                    .addComponent(btnEDIT)
-                    .addComponent(btnDEL)
-                    .addComponent(btnFindIDgiay)
-                    .addComponent(cbFindIDpn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbFindIDpn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnRefCT)
-                    .addComponent(jButton7))
+                    .addComponent(btnDEL)
+                    .addComponent(jLabel16))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(93, Short.MAX_VALUE))
@@ -519,14 +533,14 @@ public class GoodRecipe extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn nhà cung cấp!");
             return;
         }
-        String idNCC = selectedNCC.toString().trim();
+        int idNCC = Integer.parseInt(selectedNCC.toString());
 
         // Tạo đối tượng GoodRecipe_DTO
         GoodRecipe_DTO pn = new GoodRecipe_DTO();
 
         // Tạo mã PN mới
         int newMaPN = generateMaPN();
-        pn.setMaPN(String.valueOf(newMaPN));
+        pn.setMaPN(newMaPN);
 
         // Gán MaNCC vào DTO
         pn.setMaNCC(idNCC);
@@ -542,6 +556,7 @@ public class GoodRecipe extends javax.swing.JFrame {
 
         // Load lại danh sách sau khi thêm
         loadListPN();
+        cboxIDPN();
         
     } catch (Exception e) {
         e.printStackTrace(); // Log lỗi ra console để dễ debug
@@ -550,7 +565,7 @@ public class GoodRecipe extends javax.swing.JFrame {
     }//GEN-LAST:event_btnADDActionPerformed
 
     private void btnFindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindActionPerformed
-        String selectedMaPN = (String) cbFindPN.getSelectedItem();
+        String selectedMaPN = cbFindPN.getSelectedItem().toString();
         if(selectedMaPN != null){
             searchPN(selectedMaPN);
         }
@@ -567,44 +582,89 @@ public class GoodRecipe extends javax.swing.JFrame {
     private void btnAddCTPNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCTPNActionPerformed
         try {
         // Kiểm tra ô nhập có bị trống không
-        if (txtGiaNhap.getText().isEmpty() || 
-            txtHang.getText().isEmpty() ||
-            txtIDgiay.getText().isEmpty() ||
-            txtSL.getText().isEmpty() ||
-            txtSize.getText().isEmpty() ||
-            txtName.getText().isEmpty()) {
+        if (txtGiaNhap.getText().trim().isEmpty() || 
+            txtIDgiay.getText().trim().isEmpty() ||
+            txtSL.getText().trim().isEmpty() ||
+            txtSize.getText().trim().isEmpty() ||
+            txtName.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập đủ thông tin!");
-            return; // Dừng chương trình nếu nhập thiếu
-        }
-
-        // Kiểm tra xem giá nhập, số lượng, size có phải số không
-        float giaNhap;
-        int soLuong, size;
-        try {
-            giaNhap = Float.parseFloat(txtGiaNhap.getText()); // Chuyển thành float
-            soLuong = Integer.parseInt(txtSL.getText()); // Chuyển thành int
-            size = Integer.parseInt(txtSize.getText()); // Chuyển thành int
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Giá nhập, số lượng và size phải là số!");
             return;
         }
 
+        // Kiểm tra giá trị số hợp lệ
+        float giaNhap;
+        int soLuong, size;
+        try {
+            giaNhap = Float.parseFloat(txtGiaNhap.getText().trim());
+            soLuong = Integer.parseInt(txtSL.getText().trim());
+            size = Integer.parseInt(txtSize.getText().trim());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Giá nhập, số lượng và size phải là số hợp lệ!");
+            return;
+        }
+
+        int maGiay = Integer.parseInt(txtIDgiay.getText());
+        String hang = (String) cbHang.getSelectedItem();
+        String loai = (String) cbLoai.getSelectedItem();
+        int maPN = Integer.parseInt(cbPN.getSelectedItem().toString());
+
+        if (hang == null || loai == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn đủ thông tin từ combobox!");
+            return;
+        }
+
+        // Kiểm tra giày đã tồn tại chưa
+        boolean giayDaTonTai = ctpnBUS.checkExistGiay(maGiay);
+
+        // Nếu giày chưa có, thêm mới vào bảng GIAY
+        if (!giayDaTonTai) {
+            int confirm = JOptionPane.showConfirmDialog(this, 
+                "Mã giày chưa có trong hệ thống. Bạn có muốn thêm mới không?", 
+                "Xác nhận", JOptionPane.YES_NO_OPTION);
+            if (confirm != JOptionPane.YES_OPTION) {
+                return;
+            }
+
+            DetailGoodRecipe_DTO giay = new DetailGoodRecipe_DTO();
+            giay.setMaSP(maGiay);
+            giay.setTenSP(txtName.getText().trim());
+            giay.setHang(hang);
+            giay.setGiaNhap(giaNhap);
+            giay.setSize(size);
+            giay.setLoai(loai);
+
+            String resultGiay = khoBUS.addGiay(giay);
+            JOptionPane.showMessageDialog(this, resultGiay);
+
+            if (!resultGiay.equals("Thêm thành công!")) {
+                return;
+            }
+        }
+
+        // Thêm vào CTPN
         DetailGoodRecipe_DTO ctpn = new DetailGoodRecipe_DTO();
         ctpn.setGiaNhap(giaNhap);
-        ctpn.setHang(txtHang.getText()); // Hãng có thể là chữ (VD: "Nike")
-        ctpn.setMaSP(txtIDgiay.getText()); // Mã sản phẩm (String)
+        ctpn.setHang(hang);
+        ctpn.setMaSP(maGiay);
         ctpn.setSl(soLuong);
         ctpn.setSize(size);
-        ctpn.setTenSP(txtName.getText()); // Tên sản phẩm
-        ctpn.setLoai((String) cbLoai.getSelectedItem()); // Phân loại sản phẩm
-        ctpn.setMaPN((String) cbPN.getSelectedItem()); // Mã phiếu nhập
+        ctpn.setTenSP(txtName.getText().trim());
+        ctpn.setLoai(loai);
+        ctpn.setMaPN(maPN);
 
-        JOptionPane.showMessageDialog(this, ctpnBUS.addCTPN(ctpn));
+        String result = ctpnBUS.addCTPN(ctpn);
+        JOptionPane.showMessageDialog(this, result);
+
+        // Nếu thêm thành công, cập nhật kho
+        if (result.equals("Thêm thành công!")) {
+            khoBUS.updateKho(ctpn);
+        }
+
+        // Cập nhật danh sách
         loadListCTPN();
-
     } catch (Exception e) {
         e.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Lỗi khi thêm sản phẩm!");
+        JOptionPane.showMessageDialog(this, "Lỗi khi thêm sản phẩm: " + e.getMessage());
     }
     }//GEN-LAST:event_btnAddCTPNActionPerformed
 
@@ -612,20 +672,23 @@ public class GoodRecipe extends javax.swing.JFrame {
         int selectedRow = jTable2.getSelectedRow();
          if (selectedRow != -1) {
         // Lấy dữ liệu từ các cột trong hàng được chọn
-        String idpn = jTable2.getValueAt(selectedRow, 0).toString(); // Lấy MSSV từ cột thứ 1
-        String idsp = jTable2.getValueAt(selectedRow, 1).toString(); // Lấy tên từ cột thứ 2
-        String hang = jTable2.getValueAt(selectedRow, 2).toString(); // Lấy điểm từ cột thứ 3
-        String size = jTable2.getValueAt(selectedRow, 3).toString(); // Lấy điểm từ cột thứ 3
-        String sl = jTable2.getValueAt(selectedRow, 4).toString(); // Lấy điểm từ cột thứ 3
+        int idpn = Integer.parseInt(jTable2.getValueAt(selectedRow, 0).toString()); // Lấy MSSV từ cột thứ 1
+        int idsp = Integer.parseInt(jTable2.getValueAt(selectedRow, 1).toString()); // Lấy tên từ cột thứ 2
+        String sl = jTable2.getValueAt(selectedRow, 2).toString(); // Lấy điểm từ cột thứ 3
+        String hang = jTable2.getValueAt(selectedRow, 3).toString(); // Lấy điểm từ cột thứ 3
+        String size = jTable2.getValueAt(selectedRow, 4).toString(); // Lấy điểm từ cột thứ 3
         String gia = jTable2.getValueAt(selectedRow, 5).toString(); // Lấy điểm từ cột thứ 3
         String ten = jTable2.getValueAt(selectedRow, 6).toString(); // Lấy điểm từ cột thứ 3
         String loai = jTable2.getValueAt(selectedRow, 7).toString(); // Lấy điểm từ cột thứ 3
+        cbPN.setSelectedItem(idpn);
+        cbHang.setSelectedItem(hang);
+        cbLoai.setSelectedItem(loai);
+        
 
         // Hiển thị thông tin vào các JTextField
        
-        txtHang.setText(hang);
         txtGiaNhap.setText(gia);
-        txtIDgiay.setText(idsp);
+        txtIDgiay.setText(String.valueOf(idsp));
         txtSize.setText(size);
         txtSL.setText(sl);
         txtName.setText(ten);
@@ -634,15 +697,71 @@ public class GoodRecipe extends javax.swing.JFrame {
     }//GEN-LAST:event_jTable2MouseClicked
 
     private void cbFindIDpnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbFindIDpnActionPerformed
-        String selectedMaPN = (String)cbFindIDpn.getSelectedItem(); 
+        int selectedMaPN = Integer.parseInt(cbFindIDpn.getSelectedItem().toString()); 
         loadListByMaPN(selectedMaPN);    }//GEN-LAST:event_cbFindIDpnActionPerformed
 
-     private int generateMaPN() {
-    return pnBUS.generateMaPN();
+    private void btnDELActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDELActionPerformed
+        // TODO add your handling code here:
+        int selectedRow = jTable2.getSelectedRow();
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Vui lòng chọn một dòng để xóa!");
+        return;
+    }
+
+    int maPN = Integer.parseInt(jTable2.getValueAt(selectedRow, 0).toString());
+    int maSP = Integer.parseInt(jTable2.getValueAt(selectedRow, 1).toString());
+    int soLuong = Integer.parseInt(jTable2.getValueAt(selectedRow, 2).toString());
+    String hang = jTable2.getValueAt(selectedRow, 3).toString();
+    int size = Integer.parseInt(jTable2.getValueAt(selectedRow, 4).toString());
+    float giaNhap = Float.parseFloat(jTable2.getValueAt(selectedRow, 5).toString());
+    String tenSP = jTable2.getValueAt(selectedRow, 6).toString();
+    String loai = jTable2.getValueAt(selectedRow, 7).toString();
+
+    int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa không?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+    if (confirm == JOptionPane.YES_OPTION) {
+        if (ctpnBUS.delCTPN(maPN, maSP, hang, size, soLuong, giaNhap, tenSP, loai)) {
+            JOptionPane.showMessageDialog(this, "Xóa thành công!");
+            loadListCTPN();// Hàm reload lại bảng
+        } else {
+            JOptionPane.showMessageDialog(this, "Xóa thất bại!");
+        }
+    }
+    }//GEN-LAST:event_btnDELActionPerformed
+
+    private void txtIDgiayFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtIDgiayFocusLost
+        // TODO add your handling code here:
+        String idSP = txtIDgiay.getText().trim();
+    
+    if (!idSP.isEmpty()) {
+        if (ctpnBUS.checkExistGiay(Integer.parseInt(idSP))) {
+            // Nếu sản phẩm đã có trong kho -> Chỉ cho phép nhập số lượng
+            cbHang.setEnabled(false);
+            txtGiaNhap.setEnabled(false);
+            txtSize.setEnabled(false);
+            txtName.setEnabled(false);
+            cbLoai.setEnabled(false);
+
+            txtSL.setEnabled(true); // Chỉ cho nhập số lượng
+        } else {
+            // Nếu sản phẩm chưa có trong kho -> Cho nhập tất cả thông tin
+            cbHang.setEnabled(true);
+            txtGiaNhap.setEnabled(true);
+            txtSize.setEnabled(true);
+            txtName.setEnabled(true);
+            cbLoai.setEnabled(true);
+
+            txtSL.setEnabled(true); // Nhập số lượng bình thường
+        }
+    }
+    }//GEN-LAST:event_txtIDgiayFocusLost
+
+    private int generateMaPN() {
+        return pnBUS.generateMaPN();
     }
      
-     private void searchPN(String mapn){
-        GoodRecipe_DTO pn = pnBUS.findPN(mapn);
+    private void searchPN(String mapn){
+        int Mapn = Integer.parseInt(mapn);
+        GoodRecipe_DTO pn = pnBUS.findPN(Mapn);
         if (pn !=null){
             DefaultTableModel model = new DefaultTableModel();
             model.addColumn("MaNCC");
@@ -651,9 +770,9 @@ public class GoodRecipe extends javax.swing.JFrame {
             model.addRow(new Object[]{pn.getMaPN(), pn.getMaNCC(), pn.getNgLap()});
             jTable1.setModel(model);
             
-            txtID.setText(pn.getMaPN());
+            txtID.setText(String.valueOf(pn.getMaPN()));
             txtDate.setDate(pn.getNgLap());
-      } else{
+        }else{
             JOptionPane.showMessageDialog(this, "khong tim thay nha cung cap");
         }
     }
@@ -697,13 +816,12 @@ public class GoodRecipe extends javax.swing.JFrame {
     private javax.swing.JButton btnADD;
     private javax.swing.JButton btnAddCTPN;
     private javax.swing.JButton btnDEL;
-    private javax.swing.JButton btnEDIT;
     private javax.swing.JButton btnFind;
-    private javax.swing.JButton btnFindIDgiay;
     private javax.swing.JButton btnRefCT;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JComboBox<String> cbFindIDpn;
     private javax.swing.JComboBox<String> cbFindPN;
+    private javax.swing.JComboBox<String> cbHang;
     private javax.swing.JComboBox<String> cbLoai;
     private javax.swing.JComboBox<String> cbNCC;
     private javax.swing.JComboBox<String> cbPN;
@@ -717,6 +835,7 @@ public class GoodRecipe extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -733,7 +852,6 @@ public class GoodRecipe extends javax.swing.JFrame {
     private javax.swing.JTable jTable2;
     private com.toedter.calendar.JDateChooser txtDate;
     private javax.swing.JTextField txtGiaNhap;
-    private javax.swing.JTextField txtHang;
     private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtIDgiay;
     private javax.swing.JTextField txtName;
@@ -753,8 +871,8 @@ public class GoodRecipe extends javax.swing.JFrame {
         {
             GoodRecipe_DTO pn = new GoodRecipe_DTO();
             pn = pnList.get(i);
-            String idPN = pn.getMaPN();
-            String idNCC = pn.getMaNCC();
+            int idPN = pn.getMaPN();
+            int idNCC = pn.getMaNCC();
             Date ngNhap = pn.getNgLap();
             Object[] row = {idPN, idNCC, ngNhap};
             model.addRow(row);
@@ -780,8 +898,8 @@ public class GoodRecipe extends javax.swing.JFrame {
         {
             //DetailGoodRecipe_DTO ctpn = new DetailGoodRecipe_DTO();
             DetailGoodRecipe_DTO ctpn = CtpnList.get(i);
-            String idPN = ctpn.getMaPN();
-            String idSP = ctpn.getMaSP();
+            int idPN = ctpn.getMaPN();
+            int idSP = ctpn.getMaSP();
             int sl = ctpn.getSl();
             String hang = ctpn.getHang();
             int size = ctpn.getSize();
@@ -794,37 +912,37 @@ public class GoodRecipe extends javax.swing.JFrame {
         jTable2.setModel(model);
     }
     
-    private void loadListByMaPN(String selectedMaPN) {
-    DefaultTableModel model = new DefaultTableModel();
-    model.addColumn("MaPN");
-    model.addColumn("MaSP");
-    model.addColumn("SoLuong");
-    model.addColumn("Hang");
-    model.addColumn("Size");
-    model.addColumn("GiaNhap");
-    model.addColumn("TenSP");
-    model.addColumn("PhanLoai");
+    private void loadListByMaPN(int selectedMaPN) {
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("MaPN");
+        model.addColumn("MaSP");
+        model.addColumn("SoLuong");
+        model.addColumn("Hang");
+        model.addColumn("Size");
+        model.addColumn("GiaNhap");
+        model.addColumn("TenSP");
+        model.addColumn("PhanLoai");
 
-    // Lấy danh sách chi tiết phiếu nhập từ database
-    Vector<DetailGoodRecipe_DTO> CtpnList = ctpnBUS.getALLctpn(); 
+        // Lấy danh sách chi tiết phiếu nhập từ database
+        Vector<DetailGoodRecipe_DTO> CtpnList = ctpnBUS.getALLctpn(); 
 
-    for (DetailGoodRecipe_DTO ctpn : CtpnList) {
-        if (ctpn.getMaPN().equals(selectedMaPN)) { // Lọc theo MaPN
-            Object[] row = {
-                ctpn.getMaPN(), 
-                ctpn.getMaSP(), 
-                ctpn.getSl(), 
-                ctpn.getHang(), 
-                ctpn.getSize(), 
-                ctpn.getGiaNhap(), 
-                ctpn.getTenSP(), 
-                ctpn.getLoai()
-            };
-            model.addRow(row);
+        for (DetailGoodRecipe_DTO ctpn : CtpnList) {
+            if (ctpn.getMaPN()==selectedMaPN) { // Lọc theo MaPN
+                Object[] row = {
+                    ctpn.getMaPN(), 
+                    ctpn.getMaSP(), 
+                    ctpn.getSl(), 
+                    ctpn.getHang(), 
+                    ctpn.getSize(), 
+                    ctpn.getGiaNhap(), 
+                    ctpn.getTenSP(), 
+                    ctpn.getLoai()
+                };
+                model.addRow(row);
+            }
         }
-    }
 
-    jTable2.setModel(model); // Cập nhật bảng với dữ liệu mới
-}
+        jTable2.setModel(model); // Cập nhật bảng với dữ liệu mới
+    }
     
 }

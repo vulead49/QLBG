@@ -1,76 +1,60 @@
-<<<<<<< HEAD
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\GUI\DayOff_NV.java
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\DAO\Order_DAO.java
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\GUI\Account.java
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\GUI\NVform.java
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\GUI\Storage.java
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\GUI\Schedule_NV.java
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\GUI\SignUp.java
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\DAO\GoodRecipe_DAO.java
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\BUS\GoodRecipe_BUS.java
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\GUI\Payroll.java
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\GUI\Supplier.java
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\DTO\Supplier_DTO.java
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\DAO\Employee_DAO.java
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\DAO\JDBC.java
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\DTO\Employee_DTO.java
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\BUS\Order_BUS.java
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\DAO\Supplier_DAO.java
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\DTO\Order_DTO.java
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\GUI\DayOFF.java
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\GUI\main.java
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\GUI\Employee.java
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\GUI\Payroll_NV.java
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\DTO\DetailGoodRecipe_DTO.java
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\BUS\Supplier_BUS.java
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\DAO\DetailGoodRecipe_DAO.java
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\GUI\GoodRecipe.java
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\GUI\Staff.java
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\GUI\Statistical.java
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\BUS\Employee_BUS.java
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\DTO\GoodRecipe_DTO.java
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\GUI\Order.java
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\GUI\Login.java
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\BUS\DayOff_BUS.java
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\GUI\InfoNV.java
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\GUI\Schedule.java
-D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\BUS\DetailGoodRecipe_BUS.java
-=======
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\BUS\Order_BUS.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\Schedule_NV.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\Schedule.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\DTO\Supplier_DTO.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\InfoNV.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\BUS\Employee_BUS.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\DAO\Supplier_DAO.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\Payroll.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\main.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\DAO\JDBC.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\Payroll_NV.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\Storage.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\Employee.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\BUS\Supplier_BUS.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\DAO\Employee_DAO.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\DTO\Employee_DTO.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\DTO\GoodRecipe_DTO.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\DAO\Storage_DAO.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\SignUp.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\Statistical.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\BUS\DayOff_BUS.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\Staff.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\BUS\Storage_BUS.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\DTO\DetailGoodRecipe_DTO.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\NVform.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\Supplier.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\Order.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\DayOFF.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\DayOff_NV.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\DAO\DetailGoodRecipe_DAO.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\DTO\Storage_DTO.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\BUS\DetailGoodRecipe_BUS.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\Login.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\Account.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\BUS\GoodRecipe_BUS.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\GoodRecipe.java
-D:\QLBG\QLBG\QLBG\QuanLyBanGiay\src\main\java\DAO\GoodRecipe_DAO.java
->>>>>>> c06f6e2ff1ffc1ff3fba2dd4f196c0be0f20e5bc
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\BUS\Account_BUS.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\BUS\DayOff_BUS.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\BUS\DetailGoodRecipe_BUS.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\BUS\Employee_BUS.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\BUS\GoodRecipe_BUS.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\BUS\Hierarchy_BUS.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\BUS\Order_BUS.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\BUS\OrderDetails_BUS.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\BUS\Payroll_BUS.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\BUS\Schedule_BUS.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\BUS\Storage_BUS.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\BUS\Supplier_BUS.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DAO\Account_DAO.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DAO\Authority_DAO.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DAO\DayOff_DAO.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DAO\DetailGoodRecipe_DAO.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DAO\Employee_DAO.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DAO\GoodRecipe_DAO.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DAO\Hierarchy_DAO.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DAO\JDBC.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DAO\Order_DAO.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DAO\OrderDetails_DAO.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DAO\Payroll_DAO.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DAO\Schedule_DAO.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DAO\Storage_DAO.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DAO\Supplier_DAO.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DTO\Account_DTO.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DTO\Authority_DTO.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DTO\DayOff_DTO.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DTO\DetailGoodRecipe_DTO.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DTO\Employee_DTO.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DTO\GoodRecipe_DTO.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DTO\Hierarchy_DTO.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DTO\Order_DTO.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DTO\OrderDetails_DTO.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DTO\Payroll_DTO.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DTO\Schedule_DTO.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DTO\Storage_DTO.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DTO\Supplier_DTO.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\Account.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\DayOFF.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\DayOff_NV.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\DetailPayroll.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\Employee.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\GoodRecipe.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\InfoNV.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\Login.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\main.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\MyDialog.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\NVform.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\Order.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\Payroll.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\Payroll_NV.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\Schedule.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\Schedule_NV.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\Staff.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\Statistical.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\Storage.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\Supplier.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\GUI\UserSession.java

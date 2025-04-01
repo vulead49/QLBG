@@ -58,6 +58,85 @@ public class Payroll_DAO {
         return payrolls;
     }
     
+    public List<Payroll_DTO> getAllPayrollsNV(int idnv) throws SQLException {
+        List<Payroll_DTO> payrolls = new ArrayList<>();
+        String query = "SELECT * FROM BangLuong WHERE MaNV = ?";
+        try (PreparedStatement stmt = con.prepareStatement(query)){
+            stmt.setInt(1, idnv);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Payroll_DTO payroll = new Payroll_DTO(
+                    rs.getInt("STT"),
+                    rs.getInt("MaNV"),
+                    rs.getInt("Thang"),
+                    rs.getInt("Nam"),
+                    rs.getInt("SoNgayNghi"),
+                    rs.getBigDecimal("Luong")
+                );
+                payrolls.add(payroll);
+            }
+        }
+        return payrolls;
+    }
+    
+    public Payroll_DTO getPayrollsNV(int idnv, int thang, int nam) throws SQLException {
+        String query = "SELECT * FROM BangLuong WHERE MaNV = ? AND Thang = ? AND Nam = ?";
+        try (PreparedStatement stmt = con.prepareStatement(query)){
+            stmt.setInt(1, idnv);
+            stmt.setInt(2, thang);
+            stmt.setInt(3, nam);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                Payroll_DTO payroll = new Payroll_DTO(
+                    rs.getInt("STT"),
+                    rs.getInt("MaNV"),
+                    rs.getInt("Thang"),
+                    rs.getInt("Nam"),
+                    rs.getInt("SoNgayNghi"),
+                    rs.getBigDecimal("Luong")
+                );
+                return payroll;
+            }
+        }
+        return null;
+    }
+    
+    public List<Payroll_DTO> getPayrollsNVbyYear(int idnv, int nam) throws SQLException {
+        List<Payroll_DTO> payrolls = new ArrayList<>();
+        String query = "SELECT * FROM BangLuong WHERE MaNV = ? AND Nam = ?";
+        try (PreparedStatement stmt = con.prepareStatement(query)){
+            stmt.setInt(1, idnv);
+            stmt.setInt(2, nam);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Payroll_DTO payroll = new Payroll_DTO(
+                    rs.getInt("STT"),
+                    rs.getInt("MaNV"),
+                    rs.getInt("Thang"),
+                    rs.getInt("Nam"),
+                    rs.getInt("SoNgayNghi"),
+                    rs.getBigDecimal("Luong")
+                );
+                payrolls.add(payroll);
+            }
+        }
+        return payrolls;
+    }
+    
+    public List<Integer> getAllYearsWithPayroll(int idnv) throws SQLException {
+        List<Integer> years = new ArrayList<>();
+        String query = "SELECT DISTINCT Nam FROM BangLuong WHERE MaNV = ?";
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setInt(1, idnv);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int year = rs.getInt("Nam");
+                years.add(year);
+            }
+        }
+        return years;
+    }
+    
     // Phương thức để lấy rank ID của nhân viên
     public int getEmployeeRank(int employeeId) throws SQLException {
         String query = "SELECT MaCapBac FROM NHANVIEN WHERE MaNV = ?";
@@ -145,6 +224,21 @@ public class Payroll_DAO {
         try (PreparedStatement pstmt = con.prepareStatement(sql)) {
             pstmt.setBigDecimal(1, luong);
             pstmt.setInt(2, id);
+            pstmt.setInt(3, thang);
+            pstmt.setInt(4, nam);
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0;
+        }catch (SQLException e) {
+        e.printStackTrace();  // In ra lỗi để kiểm tra chi tiết
+        return false;
+        }
+    }
+    
+     public boolean updateDayoffPayroll(int idnv, int thang, int nam,  int snn){
+         String sql = "UPDATE BangLuong SET SoNgayNghi = ? WHERE MaNV = ? AND Thang = ? AND Nam = ?";
+         try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setInt(1, snn);
+            pstmt.setInt(2, idnv);
             pstmt.setInt(3, thang);
             pstmt.setInt(4, nam);
             int rowsAffected = pstmt.executeUpdate();

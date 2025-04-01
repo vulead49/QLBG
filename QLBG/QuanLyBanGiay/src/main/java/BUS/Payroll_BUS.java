@@ -4,6 +4,7 @@
  */
 package BUS;
 
+import DAO.DayOff_DAO;
 import DAO.Hierarchy_DAO;
 import DAO.Payroll_DAO;
 import DTO.Hierarchy_DTO;
@@ -11,6 +12,7 @@ import DTO.Payroll_DTO;
 import DTO.Schedule_DTO;
 import GUI.MyDialog;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.SQLException;
 import java.util.List;
 import javax.swing.JTable;
@@ -19,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 public class Payroll_BUS {
     Payroll_DAO payrollDAO = new Payroll_DAO();
     Hierarchy_DAO hierarchyDAO = new Hierarchy_DAO();
+    DayOff_DAO day = new DayOff_DAO();
 
 
     public void createPayroll(Payroll_DTO payroll) throws SQLException {
@@ -30,14 +33,34 @@ public class Payroll_BUS {
         return payrollDAO.getAllPayrolls();
     }
     
+    public List<Payroll_DTO> getAllPayrollsNV(int idnv) throws SQLException {
+        return payrollDAO.getAllPayrollsNV(idnv);
+    }
+    
+    public List<Integer> getAllYearsWithPayroll(int idnv) throws SQLException {
+        return payrollDAO.getAllYearsWithPayroll(idnv);
+    }
+    
+    public List<Payroll_DTO> getPayrollsNVbyYear(int id, int nam) throws SQLException {
+        return payrollDAO.getPayrollsNVbyYear(id, nam);
+    }
+    
+    public Payroll_DTO getPayrollsNV(int idnv, int thang, int nam) throws SQLException {
+        return payrollDAO.getPayrollsNV(idnv, thang, nam);
+    }
+    
     public void calculateSalaryBasedOnRank(List<Schedule_DTO> scheduleList, List<Hierarchy_DTO> hierarchyList, int employeeId, int thang, int nam) throws SQLException {
         BigDecimal salary;
         long durationInMillis=0;
         int rankId = payrollDAO.getEmployeeRank(employeeId); // Gọi DAO để lấy rank ID
-        Hierarchy_DTO hierarchy = payrollDAO.getRankById(rankId, hierarchyList); // Gọi DAO để lấy thông tin cấp bậc                                
+        Hierarchy_DTO hierarchy = payrollDAO.getRankById(rankId, hierarchyList); // Gọi DAO để lấy thông tin cấp bậc   
+        int songaynghi= day.tinhngaynghi(thang, nam, employeeId);
         if (hierarchy.getBaseSalary().compareTo(BigDecimal.ZERO) > 0) {
             // Lương cố định
-            salary = hierarchy.getBaseSalary();
+            int count = scheduleList.size();            
+            BigDecimal daysWorked = BigDecimal.valueOf(count + songaynghi);
+            BigDecimal dailySalary = hierarchy.getBaseSalary().divide(BigDecimal.valueOf(30), 2, RoundingMode.HALF_UP);
+            salary = dailySalary.multiply(daysWorked);
         } else {
         for (Schedule_DTO schedule : scheduleList) {  
                 // Lương theo giờ
@@ -53,7 +76,7 @@ public class Payroll_BUS {
         payroll.setMaNV(employeeId);
         payroll.setThang(thang);
         payroll.setNam(nam);
-        payroll.setSoNgayNghi(0); // Giả định không có ngày nghỉ
+        payroll.setSoNgayNghi(songaynghi);
         payroll.setLuong(salary);
 
         // Gọi DAO để thêm vào cơ sở dữ liệu
@@ -116,20 +139,37 @@ public class Payroll_BUS {
         Hierarchy_DTO hierarchy = payrollDAO.getRankById(rankId, hierarchyList); // Gọi DAO để lấy thông tin cấp bậc                                
         if (hierarchy.getBaseSalary().compareTo(BigDecimal.ZERO) > 0) {
             // Lương cố định
-            salary = hierarchy.getBaseSalary();
+            int count = scheduleList.size();
+            int songaynghi= day.tinhngaynghi(thang, nam, employeeId);
+            BigDecimal daysWorked = BigDecimal.valueOf(count + songaynghi);
+            BigDecimal dailySalary = hierarchy.getBaseSalary().divide(BigDecimal.valueOf(30), 2, RoundingMode.HALF_UP);
+            salary = dailySalary.multiply(daysWorked);
         } else {
         for (Schedule_DTO schedule : scheduleList) {  
                 // Lương theo giờ
                 durationInMillis = durationInMillis + schedule.getGioKetThuc().getTime() - schedule.getGioBatDau().getTime();           
         }
             long durationInHours = durationInMillis / (1000 * 60 * 60); // Chuyển đổi sang giờ  
-            salary = hierarchy.getHourlySalary().multiply(BigDecimal.valueOf(durationInHours));
+            long durationInWholeHours = (long) Math.floor(durationInHours); // Lấy phần nguyên của số giờ
+            BigDecimal salaryForWholeHours = hierarchy.getHourlySalary().multiply(BigDecimal.valueOf(durationInWholeHours));
+            BigDecimal salaryForFractionalHours = hierarchy.getHourlySalary().multiply(BigDecimal.valueOf(durationInHours - durationInWholeHours));
+            salary = salaryForWholeHours.add(salaryForFractionalHours);
         }            
         if (payrollDAO.updatePayroll(employeeId, thang, nam , salary)) {
             new MyDialog("Sửa lương thành công!", MyDialog.SUCCESS_DIALOG);
             return true;
         } else {
             new MyDialog("Sửa lương thất bại!", MyDialog.ERROR_DIALOG);
+            return false;
+        }
+    }
+    
+    public boolean updateDayoffPayroll(int id, int thang, int nam, int snn){
+        if (payrollDAO.updateDayoffPayroll(id, thang, nam, snn)) {
+            new MyDialog("Cập nhật số ngày nghỉ thành công!", MyDialog.SUCCESS_DIALOG);
+            return true;
+        } else {
+            new MyDialog("Cập nhật số ngày nghỉ thất bại!", MyDialog.ERROR_DIALOG);
             return false;
         }
     }

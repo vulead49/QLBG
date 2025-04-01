@@ -54,9 +54,26 @@ public class Hierarchy_DAO {
                 tencapbac = rs.getString("TenCapBac");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
         }
         return tencapbac;
-    }
-}
+    }   
+    
+    public Hierarchy_DTO fetchHierarchyDatabyID(int id) throws SQLException {
+        String query = "SELECT * FROM CapBac WHERE MaCapBac = ?"; // Thay đổi tên bảng nếu cần
 
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                int maCapBac = rs.getInt("MaCapBac");
+                String tenCapBac = rs.getString("TenCapBac");
+                BigDecimal luongCoBan = rs.getBigDecimal("LuongCoBan");
+                BigDecimal luongTheoGio = rs.getBigDecimal("MucLuongGio");
+                Hierarchy_DTO hierarchy = new Hierarchy_DTO(maCapBac, tenCapBac, luongCoBan, luongTheoGio);
+                return hierarchy;
+            }
+        }
+        return null;
+    }
+    
+}

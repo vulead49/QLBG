@@ -233,9 +233,7 @@ public class Payroll extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -348,7 +346,7 @@ public class Payroll extends javax.swing.JFrame {
         jComboBox1.removeAllItems();
         List<Employee_DTO> nhanVienList = emp.getALLnv();
         for (Employee_DTO nv : nhanVienList) {
-            jComboBox1.addItem(nv.getMaNV());
+            jComboBox1.addItem(String.valueOf(nv.getMaNV()));
         }
         for (ActionListener listener : listeners) {
             jComboBox1.addActionListener(listener);
@@ -382,11 +380,19 @@ public class Payroll extends javax.swing.JFrame {
     }
     
     private void showPayrollDetails() throws SQLException {
-    try {
+        int row = JTablePayroll.getSelectedRow();
+        if(row > -1){} else {
+             new MyDialog("Vui lòng chọn vào bảng!", MyDialog.WARNING_DIALOG);
+             return;
+        }
+        
+        String luong =JTablePayroll.getValueAt(row,7).toString()+"";
+     
         int month = Integer.parseInt(Month.getText());
         int year = Integer.parseInt(Year.getText());
         int employeeId = Integer.parseInt(jComboBox1.getSelectedItem().toString());
-        
+        int dayoff = Integer.parseInt(JTablePayroll.getValueAt(row, 6).toString());
+        String tennv= sch.getTenNV(employeeId);
 
         // Lấy thông tin ca làm đã duyệt từ cơ sở dữ liệu
         List<Schedule_DTO> approvedSchedules = sch.fetchScheduleForEmployee(employeeId, month, year);
@@ -394,11 +400,10 @@ public class Payroll extends javax.swing.JFrame {
         // Mở cửa sổ DetailPayroll và cập nhật bảng
         DetailPayroll detailPayroll = new DetailPayroll();
         detailPayroll.updateTable(approvedSchedules);
+        detailPayroll.loadData(tennv,Month.getText(),Year.getText(),luong,dayoff);
         detailPayroll.setVisible(true);
         this.dispose();
-    } catch (NumberFormatException ex) {
-        JOptionPane.showMessageDialog(this, "Vui lòng nhập tháng và năm hợp lệ.");
-    }
+    
 }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

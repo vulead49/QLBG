@@ -5,17 +5,17 @@ import java.sql.Date;
 
 
 public class Employee_DTO{
-    String MaNV;
+    int MaNV;
     String HoTen;
     Date NgaySinh;
     String GioiTinh;
     String SDT;
-    String MaCapBac;
+    int MaCapBac;
     
     public Employee_DTO()
     {}
 
-    public Employee_DTO(String MaNV, String MaCapBac, String HoTen, Date  NgaySinh, String GioiTinh, String SDT) {
+    public Employee_DTO(int MaNV, int MaCapBac, String HoTen, Date  NgaySinh, String GioiTinh, String SDT) {
         this.MaNV = MaNV;
         this.MaCapBac = MaCapBac;
         this.HoTen = HoTen;
@@ -25,11 +25,11 @@ public class Employee_DTO{
         
     }
 
-    public String getMaNV() {
+    public int getMaNV() {
         return MaNV;
     }
 
-    public void setMaNV(String MaNV) {
+    public void setMaNV(int MaNV) {
         this.MaNV = MaNV;
     }
 
@@ -65,11 +65,11 @@ public class Employee_DTO{
         this.SDT = SDT;
     }
 
-    public String getMaCapBac() {
+    public int getMaCapBac() {
         return MaCapBac;
     }
 
-    public void setMaCapBac(String MaCapBac) {
+    public void setMaCapBac(int MaCapBac) {
         this.MaCapBac = MaCapBac;
     }
 

@@ -4,17 +4,30 @@
  */
 package GUI;
 
+import BUS.Employee_BUS;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Mai
  */
 public class main extends javax.swing.JFrame {
-
+    Employee_BUS emp = new Employee_BUS();
+    
     /**
      * Creates new form main
      */
     public main() {
         initComponents();
+        if (UserSession.getInstance().isLoggedIn()) {
+            try {
+                txtHello.setText("Hello "+emp.getTenNVByMaNV(UserSession.getInstance().getLoggedInAccount().getIDNV()));
+            } catch (SQLException ex) {
+                Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     /**
@@ -27,7 +40,7 @@ public class main extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        txtHello = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -37,6 +50,7 @@ public class main extends javax.swing.JFrame {
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jButton6 = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -55,10 +69,10 @@ public class main extends javax.swing.JFrame {
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setBackground(new java.awt.Color(102, 102, 102));
-        jLabel2.setFont(new java.awt.Font("Snap ITC", 2, 24)); // NOI18N
-        jLabel2.setText("Hello ADMIN!");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 300, -1, -1));
+        txtHello.setBackground(new java.awt.Color(102, 102, 102));
+        txtHello.setFont(new java.awt.Font("Snap ITC", 2, 24)); // NOI18N
+        txtHello.setText("Hello ADMIN!");
+        getContentPane().add(txtHello, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 300, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("Viner Hand ITC", 1, 36)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
@@ -74,7 +88,7 @@ public class main extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 120, -1, -1));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 120, -1, -1));
 
         jButton2.setBackground(new java.awt.Color(203, 161, 106));
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -129,10 +143,24 @@ public class main extends javax.swing.JFrame {
         jButton8.setBackground(new java.awt.Color(203, 161, 106));
         jButton8.setForeground(new java.awt.Color(255, 255, 255));
         jButton8.setText("Log out");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 60, -1, -1));
-
-        jLabel1.setIcon(new javax.swing.ImageIcon("D:\\QLBG\\QLBG\\QLBG\\QuanLyBanGiay\\src\\main\\java\\picture\\11zon_resized (2).png")); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 720));
+
+        jButton6.setBackground(new java.awt.Color(203, 161, 106));
+        jButton6.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jButton6.setForeground(new java.awt.Color(255, 255, 255));
+        jButton6.setText("Tài khoản");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 120, -1, -1));
 
         pack();
         setLocationRelativeTo(null);
@@ -168,6 +196,19 @@ public class main extends javax.swing.JFrame {
        this.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
 
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+        UserSession.getInstance().logout();
+    // Đóng trang main hiện tại
+        this.dispose();
+    // Hiển thị lại trang LoginForm
+        new Login().setVisible(true);
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton6ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -198,22 +239,31 @@ public class main extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new main().setVisible(true);
+                main Main = new main();
+                Main.setVisible(true);
+                if (UserSession.getInstance().isLoggedIn()){                   
+                } else {
+                    new MyDialog("Bạn chưa đăng nhập!", MyDialog.ERROR_DIALOG);
+                    new Login().setVisible(true);
+                    Main.dispose();
+                } 
+                
             }
         });
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel txtHello;
     // End of variables declaration//GEN-END:variables
 }

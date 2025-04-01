@@ -38,7 +38,28 @@ public class Schedule_DAO {
         List<Schedule_DTO> schedules = new ArrayList<>();
         String sql = "SELECT * FROM LICHLAM";
         try (Statement stmt = con.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+            ResultSet rs = stmt.executeQuery(sql)) {
+                while (rs.next()) {
+                    Schedule_DTO schedule = new Schedule_DTO(
+                            rs.getInt("STT"),
+                            rs.getInt("MaNV"),
+                            rs.getDate("Ngay"),
+                            rs.getTime("GioBatDau"),
+                            rs.getTime("GioKetThuc"),
+                            rs.getBoolean("DuyetCong")
+                    );
+                    schedules.add(schedule);
+                }
+            }
+        return schedules;
+    }
+    
+    public List<Schedule_DTO> getAllSchedulesNV() throws SQLException {
+        List<Schedule_DTO> schedules = new ArrayList<>();
+        String sql = "SELECT * FROM LICHLAM WHERE DuyetCong=?";
+        try (PreparedStatement pstmt = con.prepareStatement(sql)){
+            pstmt.setBoolean(1, false);
+            ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 Schedule_DTO schedule = new Schedule_DTO(
                         rs.getInt("STT"),
@@ -93,6 +114,30 @@ public class Schedule_DAO {
         }
         return schedules;
     }   
+    
+    public List<Schedule_DTO> selectScheduleByMaNV(int id) throws SQLException {
+        List<Schedule_DTO> schedules = new ArrayList<>();
+        String sql = "SELECT * FROM LICHLAM WHERE MaNV = ? AND DuyetCong = ?";
+        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            pstmt.setBoolean(2, true);
+            ResultSet rs = pstmt.executeQuery(); // Chỉ gọi executeQuery() mà không có tham số
+            while (rs.next()) {
+                Schedule_DTO schedule = new Schedule_DTO(
+                        rs.getInt("STT"),
+                        rs.getInt("MaNV"),
+                        rs.getDate("Ngay"),
+                        rs.getTime("GioBatDau"),
+                        rs.getTime("GioKetThuc"),
+                        rs.getBoolean("DuyetCong")
+                );
+                schedules.add(schedule);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return schedules;
+    }   
 
     public String getTenNV(int maNV) {
         String tenNV = "";
@@ -120,6 +165,19 @@ public class Schedule_DAO {
         e.printStackTrace();  // In ra lỗi để kiểm tra chi tiết
         return false;
         }
+    }
+    
+    public boolean checkDuyet(int stt) throws SQLException{
+        String sql = "SELECT COUNT(*) FROM LICHLAM WHERE DuyetCong = ? AND STT = ?";
+        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setBoolean(1, true);
+            pstmt.setInt(2, stt);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0; // Nếu có bản ghi tồn tại
+            };
+        }
+        return false;      
     }
 
     public boolean deleteSchedule(int maCaLam) throws SQLException {
@@ -180,9 +238,11 @@ public class Schedule_DAO {
         }
         return scheduleList;
     }
+      
     
     public boolean isTimesheetOverlapping(Schedule_DTO newSchedule) {
         try {
+            System.out.println(newSchedule.getGioBatDau()+" and "+newSchedule.getGioKetThuc());
             String sql = "SELECT COUNT(*) FROM LichLam WHERE MaNV = ? AND Ngay = ? " +
             "  AND ((GioBatDau BETWEEN ? AND ?) OR (GioKetThuc BETWEEN ? AND ?) OR (? < GioBatDau AND ? > GioKetThuc))";
             PreparedStatement stmt = con.prepareStatement(sql);

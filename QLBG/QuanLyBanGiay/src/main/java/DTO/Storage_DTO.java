@@ -9,17 +9,17 @@ package DTO;
  * @author Mai
  */
 public class Storage_DTO {
-    private String maSP;
+    private int maSP;
     private String tenSP;
     private String hang;
     private String loai;
-    private String size ;
-    private String sl;
+    private int size ;
+    private int sl;
     private float gia;
     
     public Storage_DTO(){}
     
-    public Storage_DTO(String maSP, String tenSP, String hang, String loai, String size, String sl, float gia) {
+    public Storage_DTO(int maSP, String tenSP, String hang, String loai, int size, int sl, float gia) {
         this.maSP = maSP;
         this.tenSP = tenSP;
         this.hang = hang;
@@ -29,11 +29,11 @@ public class Storage_DTO {
         this.gia = gia;
     }
 
-    public String getMaSP() {
+    public int getMaSP() {
         return maSP;
     }
 
-    public void setMaSP(String maSP) {
+    public void setMaSP(int maSP) {
         this.maSP = maSP;
     }
 
@@ -61,19 +61,19 @@ public class Storage_DTO {
         this.loai = loai;
     }
 
-    public String getSize() {
+    public int getSize() {
         return size;
     }
 
-    public void setSize(String size) {
+    public void setSize(int size) {
         this.size = size;
     }
 
-    public String getSl() {
+    public int getSl() {
         return sl;
     }
 
-    public void setSl(String sl) {
+    public void setSl(int sl) {
         this.sl = sl;
     }
 

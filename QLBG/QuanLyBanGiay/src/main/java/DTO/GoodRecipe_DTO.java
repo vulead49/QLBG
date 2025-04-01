@@ -11,33 +11,33 @@ import java.sql.Date;
  * @author Mai
  */
 public class GoodRecipe_DTO {
-    private String MaPN;
-    private String MaNCC;
+    private int MaPN;
+    private int MaNCC;
     private Date NgLap;
     
     public GoodRecipe_DTO()
     {
     }
 
-    public GoodRecipe_DTO(String MaPN, String MaNCC, Date NgLap) {
+    public GoodRecipe_DTO(int MaPN, int MaNCC, Date NgLap) {
         this.MaPN = MaPN;
         this.MaNCC = MaNCC;
         this.NgLap = NgLap;
     }
 
-    public String getMaPN() {
+    public int getMaPN() {
         return MaPN;
     }
 
-    public void setMaPN(String MaPN) {
+    public void setMaPN(int MaPN) {
         this.MaPN = MaPN;
     }
 
-    public String getMaNCC() {
+    public int getMaNCC() {
         return MaNCC;
     }
 
-    public void setMaNCC(String MaNCC) {
+    public void setMaNCC(int MaNCC) {
         this.MaNCC = MaNCC;
     }
 

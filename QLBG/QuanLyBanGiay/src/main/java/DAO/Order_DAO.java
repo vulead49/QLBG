@@ -17,9 +17,9 @@ import java.util.Vector;
 public class Order_DAO {
     Connection con = JDBC.getConnection();
     
-    public Vector<Order_DAO> getALLod()
+    public Vector<Order_DTO> getALLdh()
     {
-        Vector<Order_DAO> dhList = new Vector<>();
+        Vector<Order_DTO> dhList = new Vector<>();
         try {
             String sql = "Select * from DonHang";
             PreparedStatement ps = con.prepareStatement(sql);
@@ -29,9 +29,10 @@ public class Order_DAO {
                 Order_DTO nv = new Order_DTO();
                 nv.setMaDH(rs.getString("MaDH"));
                 nv.setTenKH(rs.getString("TenKH"));
-                nv.setNgayLap(rs.getString("NgayLap"));
+                nv.setNgayLap(rs.getDate("NgayLap"));
                 nv.setThanhTien(rs.getFloat("ThanhTien"));
-                nv.setTrangThai(rs.getString("TrangThai"));
+                nv.setPhuongThuc(rs.getString("PhuongThuc"));
+                dhList.add(nv);
 
                 
             }
@@ -47,13 +48,13 @@ public class Order_DAO {
     public boolean addDH (Order_DTO dh)
     {
         try {
-            String sql = "Insert into DonHang (MaDH, TenKH, NgayLap, ThanhTien, TrangThai) values (?,?,?,?,?)";
+            String sql = "Insert into DonHang (MaDH, TenKH, NgayLap, ThanhTien, PhuongThuc) values (?,?,?,?,?)";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, dh.getMaHD());
             ps.setString(2, dh.getTenKH());
-            ps.setString(3, dh.getNgayLap());
+            ps.setDate(3, dh.getNgayLap());
             ps.setFloat(4, dh.getThanhTien());           
-            ps.setString(5, dh.getTrangThai());
+            ps.setString(5, dh.getPhuongThuc());
 
             ps.executeUpdate();
             return true;
@@ -80,20 +81,38 @@ public class Order_DAO {
     public int editDH (Order_DTO dh)
     {
         try {
-            String sql = "Update DonHang set MaDH = ?, TenKH = ?, NgayLap = ?, ThanhTien = ?, TrangThai = ? where MaDH = ?";
+            String sql = "Update DonHang set TenKH = ?, NgayLap = ?, ThanhTien = ?, PhuongThuc = ? where MaDH = ?";
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, dh.getMaHD());
-            ps.setString(2, dh.getTenKH());
-            ps.setString(3, dh.getNgayLap());
-            ps.setFloat(4, dh.getThanhTien());           
-            ps.setString(5, dh.getTrangThai());
-          
+            ps.setString(1, dh.getTenKH());      // TenKH
+            ps.setDate(2, dh.getNgayLap());       // NgayLap
+            ps.setFloat(3, dh.getThanhTien());    // ThanhTien
+            ps.setString(4, dh.getPhuongThuc());  // PhuongThuc
+            ps.setString(5, dh.getMaHD());   
+            
             int rowUpdate = ps.executeUpdate();
             
             if (rowUpdate > 0) {
                 return 1;
             } 
         } catch (Exception e) {
+              e.printStackTrace();  // In ra lỗi chi tiết
+        }
+        return 0;
+    }
+    
+    public int editTotalDH(int madh, float thanhtien){
+        try {
+            String sql = "Update DonHang set ThanhTien = ? where MaDH = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setFloat(1, thanhtien);  
+            ps.setInt(2, madh); 
+            int rowUpdate = ps.executeUpdate();
+            
+            if (rowUpdate > 0) {
+                return 1;
+            } 
+        } catch (Exception e) {
+              e.printStackTrace();  // In ra lỗi chi tiết
         }
         return 0;
     }
@@ -118,7 +137,7 @@ public class Order_DAO {
     {
         Order_DTO sp = null;
         try {
-            String sql = "Select *from DonHang where MaDH = ?";
+            String sql = "Select * from DonHang where MaDH = ?";
             PreparedStatement ps = con.prepareCall(sql);
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
@@ -127,16 +146,15 @@ public class Order_DAO {
                 sp = new Order_DTO();
                 sp.setMaDH(rs.getString("MaDH"));
                 sp.setTenKH(rs.getString("TenKH"));
-                sp.setNgayLap(rs.getString("NgayLap"));
+                sp.setNgayLap(rs.getDate("NgayLap"));
                 sp.setThanhTien(rs.getFloat("ThanhTien"));
-                sp.setTrangThai(rs.getString("TrangThai"));
+                sp.setPhuongThuc(rs.getString("PhuongThuc"));
          
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return sp;
-    }
-    
-    
+    }  
 }
+

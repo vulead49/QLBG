@@ -9,8 +9,8 @@ package DTO;
  * @author Mai
  */
 public class DetailGoodRecipe_DTO {
-    private String MaPN ;
-    private String MaSP ;
+    private int MaPN ;
+    private int MaSP ;
     private String tenSP ;
     private int sl ;
     private String Hang ;
@@ -23,7 +23,7 @@ public class DetailGoodRecipe_DTO {
     {
     }
 
-    public DetailGoodRecipe_DTO(String MaPN, String MaSP, String tenSP, int sl, String Hang, String Loai, int Size, float GiaNhap) {
+    public DetailGoodRecipe_DTO(int MaPN, int MaSP, String tenSP, int sl, String Hang, String Loai, int Size, float GiaNhap) {
         this.MaPN = MaPN;
         this.MaSP = MaSP;
         this.tenSP = tenSP;
@@ -35,19 +35,19 @@ public class DetailGoodRecipe_DTO {
         
     }
 
-    public String getMaPN() {
+    public int getMaPN() {
         return MaPN;
     }
 
-    public void setMaPN(String MaPN) {
+    public void setMaPN(int MaPN) {
         this.MaPN = MaPN;
     }
 
-    public String getMaSP() {
+    public int getMaSP() {
         return MaSP;
     }
 
-    public void setMaSP(String MaSP) {
+    public void setMaSP(int MaSP) {
         this.MaSP = MaSP;
     }
 

@@ -5,12 +5,17 @@
 package BUS;
 
 import DAO.Employee_DAO;
+import DAO.Hierarchy_DAO;
 import DTO.Employee_DTO;
+import GUI.MyDialog;
+import java.sql.Date;
+import java.sql.SQLException;
 import java.util.Vector;
 
 
 public class Employee_BUS {
     Employee_DAO nvDAO = new Employee_DAO();
+    Hierarchy_DAO hie = new Hierarchy_DAO();
     
     public Vector<Employee_DTO> getALLnv()
     {
@@ -50,7 +55,7 @@ public class Employee_BUS {
     
     
     
-    public String deleteNV (String id)
+    public String deleteNV (int id)
     {
         if (nvDAO.delNV(id) == 1)
         {
@@ -59,8 +64,36 @@ public class Employee_BUS {
         return "Xóa thất bại";
     }
 
-    public Employee_DTO findbyID(String id){
+    public Employee_DTO findbyID(int id){
         return nvDAO.findNV(id);
     }
     
+    public String getTenNVByMaNV(int maNV) throws SQLException {
+        Employee_DTO emp = nvDAO.getEmployeeByMaNV(maNV);
+        return (emp != null) ? emp.getHoTen() : null;
+    }
+    
+    public int getMaCapBacbyID(int manv) throws SQLException {
+        int id = nvDAO.getMaCapBacByID(manv);
+        if (id>0) {
+            return id;
+        } else {
+            new MyDialog("Không tìm thấy!", MyDialog.ERROR_DIALOG);
+            return 0;
+        }
+    }
+    
+    public String getTenCapBac(int id) {
+        return hie.getTenCapBac(id);
+    }
+    
+    public boolean editNVV (int id, String ten, Date ngay,String gioitinh,String sdt){
+        if (nvDAO.editNVV(id, ten, ngay, gioitinh, sdt)) {
+             new MyDialog("Sửa thông tin nhân viên thành công!", MyDialog.SUCCESS_DIALOG);
+             return true;
+        } else {
+            new MyDialog("Sửa thất bại!", MyDialog.ERROR_DIALOG);
+            return false;
+        }
+    }
 }

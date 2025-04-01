@@ -206,6 +206,10 @@ public class Schedule_BUS {
     }
 
     public boolean deleteSchedule(int maCaLam) throws SQLException {
+        if (scheduleDAO.checkDuyet(maCaLam)) {
+            new MyDialog("Lịch làm đã duyệt không thể xóa!", MyDialog.ERROR_DIALOG);
+                return false;
+        }
         if (scheduleDAO.deleteSchedule(maCaLam)) {
                 new MyDialog("Xóa thành công!", MyDialog.SUCCESS_DIALOG);
                 return true;
@@ -234,6 +238,54 @@ public class Schedule_BUS {
                     schedule.getGioBatDau(),
                     schedule.getGioKetThuc(),
                     schedule.isDuyet()
+                };
+                model.addRow(rowData);
+            }
+        } catch (SQLException e) {
+        }
+    }
+    
+    public void loadScheduleDataToTableNV(JTable table) {
+        try {
+        // Xóa dữ liệu cũ
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+
+        // Lấy dữ liệu từ DAO và thêm vào bảng
+
+            List<Schedule_DTO> schedules = scheduleDAO.getAllSchedulesNV(); // Lấy danh sách lịch làm việc
+            for (Schedule_DTO schedule : schedules) {
+                String tenNV = scheduleDAO.getTenNV(schedule.getMaNV()); // Lấy tên NV
+                Object[] rowData = {
+                    schedule.getMaCaLam(),
+                    schedule.getMaNV(),
+                    tenNV,
+                    schedule.getNgayLamViec(),
+                    schedule.getGioBatDau(),
+                    schedule.getGioKetThuc(),
+                };
+                model.addRow(rowData);
+            }
+        } catch (SQLException e) {
+        }
+    }
+    
+    public void loadScheduleDataToTableNV1(JTable table, int id) {
+        try {
+        // Xóa dữ liệu cũ
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+
+        // Lấy dữ liệu từ DAO và thêm vào bảng
+
+            List<Schedule_DTO> schedules = scheduleDAO.selectScheduleByMaNV(id); // Lấy danh sách lịch làm việc
+            for (Schedule_DTO schedule : schedules) { // Lấy tên NV
+            // Lấy tên NV
+                Object[] rowData = {
+                    schedule.getMaCaLam(),
+                    schedule.getNgayLamViec(),
+                    schedule.getGioBatDau(),
+                    schedule.getGioKetThuc(),
                 };
                 model.addRow(rowData);
             }
@@ -321,5 +373,6 @@ public class Schedule_BUS {
             }
         return scheduleDAO.fetchScheduleForEmployee(employeeId, month, year);
     }
+    
 
 }

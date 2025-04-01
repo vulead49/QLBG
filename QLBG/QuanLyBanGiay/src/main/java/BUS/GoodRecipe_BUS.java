@@ -34,7 +34,7 @@ public class GoodRecipe_BUS {
     return lastMaPN + 1; // Mã mới là số lớn nhất + 1
     }
     
-    public GoodRecipe_DTO findPN (String id)
+    public GoodRecipe_DTO findPN (int id)
     {
         return PndAO.findPN(id);
     }

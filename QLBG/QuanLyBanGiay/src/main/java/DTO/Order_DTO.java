@@ -1,23 +1,25 @@
 
 package DTO;
 
+import java.sql.Date;
+
 
 public class Order_DTO{
     String MaDH;
     String TenKH;
-    String NgayLap;
+    Date NgayLap;
     float ThanhTien;
-    String TrangThai;
+    String PhuongThuc;
     
     public Order_DTO()
     {}
 
-    public Order_DTO(String MaDH, String TenKH, String NgayLap, float ThanhTien, String TrangThai) {
+    public Order_DTO(String MaDH, String TenKH, Date NgayLap, float ThanhTien, String PhuongThuc) {
         this.MaDH = MaDH;
         this.TenKH = TenKH;
         this.NgayLap = NgayLap;
         this.ThanhTien = ThanhTien;
-        this.TrangThai = TrangThai;
+        this.PhuongThuc = PhuongThuc;
     }
 
     public String getMaHD() {
@@ -36,11 +38,11 @@ public class Order_DTO{
         this.TenKH = TenKH;
     }
 
-    public String getNgayLap() {
+    public Date getNgayLap() {
         return NgayLap;
     }
 
-    public void setNgayLap (String NgayLap) {
+    public void setNgayLap (Date NgayLap) {
         this.NgayLap = NgayLap;
     }
 
@@ -52,15 +54,16 @@ public class Order_DTO{
         this.ThanhTien = ThanhTien;
     }
 
-    public String getTrangThai () {
-        return TrangThai;
+    public String getPhuongThuc () {
+        return PhuongThuc;
     }
 
-    public void setTrangThai (String TrangThai) {
-        this.TrangThai = TrangThai;
+    public void setPhuongThuc (String PhuongThuc) {
+        this.PhuongThuc = PhuongThuc;
     }
 
     
     
     
 }
+

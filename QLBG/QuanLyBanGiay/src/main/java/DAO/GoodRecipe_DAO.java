@@ -26,8 +26,8 @@ public class GoodRecipe_DAO {
             while (rs.next())
             {
                 GoodRecipe_DTO pn = new GoodRecipe_DTO();
-                pn.setMaPN(rs.getString("MaPN"));
-                pn.setMaNCC(rs.getString("MaNCC"));
+                pn.setMaPN(rs.getInt("MaPN"));
+                pn.setMaNCC(rs.getInt("MaNCC"));
                 pn.setNgLap(rs.getDate("NgayNhap"));
                 pnList.add(pn);
             }
@@ -45,8 +45,8 @@ public class GoodRecipe_DAO {
         try {
             String sql = "Insert into PhieuNhap (MaPN, MaNCC, NgayNhap) values (?,?,?)";
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, pn.getMaPN());
-            ps.setString(2, pn.getMaNCC());
+            ps.setInt(1, pn.getMaPN());
+            ps.setInt(2, pn.getMaNCC());
             ps.setDate(3, pn.getNgLap());
             ps.executeUpdate();
             return true;
@@ -69,19 +69,19 @@ public class GoodRecipe_DAO {
         return 0; // Nếu bảng rỗng, trả về 0
     }
     
-   public GoodRecipe_DTO findPN(String id)
+   public GoodRecipe_DTO findPN(int id)
     {
         GoodRecipe_DTO pn = null;
         try {
-            String sql = "Select *from PhieuNhap where MaPN = ?";
-            PreparedStatement ps = con.prepareCall(sql);
-            ps.setString(1, id);
+            String sql = "Select * from PhieuNhap where MaPN = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next())
             {
                 pn = new GoodRecipe_DTO();
-                pn.setMaNCC(rs.getString("MaNCC"));
-                pn.setMaPN(rs.getString("MaPN"));
+                pn.setMaNCC(rs.getInt("MaNCC"));
+                pn.setMaPN(rs.getInt("MaPN"));
                 pn.setNgLap(rs.getDate("NgayNhap"));
             }
         } catch (Exception e) {

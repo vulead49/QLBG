@@ -4,17 +4,22 @@
  */
 package GUI;
 
+import BUS.Employee_BUS;
+import BUS.Schedule_BUS;
+
 /**
  *
  * @author Mai
  */
 public class Schedule_NV extends javax.swing.JFrame {
-
+    Schedule_BUS sch = new Schedule_BUS();
+    
     /**
      * Creates new form Schedule_NV
      */
     public Schedule_NV() {
         initComponents();
+        loadData();
     }
 
     /**
@@ -28,10 +33,10 @@ public class Schedule_NV extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        Schedule1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        Schedule2 = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jButton1 = new javax.swing.JButton();
@@ -39,9 +44,9 @@ public class Schedule_NV extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBackground(new java.awt.Color(204, 204, 255));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        Schedule1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -51,14 +56,22 @@ public class Schedule_NV extends javax.swing.JFrame {
             new String [] {
                 "STT", "MaNV", "TenNV", "Ngay", "GioBatDau", "GioKetThuc"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(Schedule1);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 51, 51));
         jLabel1.setText("Lịch làm");
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        Schedule2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -68,8 +81,16 @@ public class Schedule_NV extends javax.swing.JFrame {
             new String [] {
                 "STT", "Ngay", "GioBatDau", "GioKetThuc"
             }
-        ));
-        jScrollPane2.setViewportView(jTable2);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(Schedule2);
 
         jLabel2.setForeground(new java.awt.Color(51, 51, 51));
         jLabel2.setText("Lịch đã hoàn thành");
@@ -201,12 +222,27 @@ public class Schedule_NV extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Schedule_NV().setVisible(true);
+                Schedule_NV form = new Schedule_NV();
+                form.setVisible(true);
+                if (UserSession.getInstance().isLoggedIn()){                   
+                } else {
+                    new MyDialog("Bạn chưa đăng nhập!", MyDialog.ERROR_DIALOG);
+                    new Login().setVisible(true);
+                    form.dispose();
+                }    
             }
         });
     }
+    
+    private void loadData(){        
+        int id = UserSession.getInstance().getLoggedInAccount().getIDNV();
+        sch.loadScheduleDataToTableNV(Schedule1);
+        sch.loadScheduleDataToTableNV1(Schedule2, id);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable Schedule1;
+    private javax.swing.JTable Schedule2;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private com.toedter.calendar.JDateChooser jDateChooser1;
@@ -215,7 +251,5 @@ public class Schedule_NV extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     // End of variables declaration//GEN-END:variables
 }

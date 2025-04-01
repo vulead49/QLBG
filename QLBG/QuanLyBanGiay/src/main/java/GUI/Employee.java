@@ -120,8 +120,6 @@ public class Employee extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setIcon(new javax.swing.ImageIcon("D:\\workspace\\Hoc_Ki_2_Nam_3\\HE_THONG_THONG_TIN_DOANH_NGHIEP\\QuanlyGiay\\QLBG\\QuanLyBanGiay\\src\\main\\java\\picture\\R.png")); // NOI18N
-
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(51, 51, 51));
         jLabel3.setText("Họ Tên");
@@ -279,9 +277,9 @@ public class Employee extends javax.swing.JFrame {
                             .addComponent(txtFind, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnFind))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnADD)
-                            .addComponent(jButtonload))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonload)
+                            .addComponent(btnADD))
                         .addGap(20, 20, 20)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnEDIT)
@@ -327,11 +325,11 @@ public class Employee extends javax.swing.JFrame {
 
         // **Chuyển đổi MaNV từ int sang String**
         int newMaNV = generateMaNV(); // Hàm tạo mã số mới
-        nv.setMaNV(String.valueOf(newMaNV)); // Chuyển thành String để truyền vào DTO
+        nv.setMaNV(newMaNV); // Chuyển thành String để truyền vào DTO
 
         // **Chuyển đổi MaCapBac từ String sang int**
         int newMaCapBac = Integer.parseInt(jComboBox1.getSelectedItem().toString());
-        nv.setMaCapBac(String.valueOf(newMaCapBac)); // Lưu lại dưới dạng String để tránh lỗi
+        nv.setMaCapBac(newMaCapBac); // Lưu lại dưới dạng String để tránh lỗi
 
         nv.setHoTen(txtName.getText());
         nv.setNgaySinh(ngaySinh);
@@ -436,8 +434,8 @@ if (selected != -1) {
         int selected = jTableNhanVien.getSelectedRow();
     if (selected != -1) {
         try {
-            String id = txtID.getText();
-            String newCapBac = (String) jComboBox1.getSelectedItem();            
+            int id = Integer.parseInt(txtID.getText());
+            int newCapBac = Integer.parseInt(jComboBox1.getSelectedItem().toString());            
             String newName = txtName.getText();
 
             if (txtDate.getDate() == null) {
@@ -481,7 +479,7 @@ if (selected != -1) {
         int select = jTableNhanVien.getSelectedRow();
         if (select != -1)
         {
-            String id = jTableNhanVien.getValueAt(select , 0).toString();
+            int id = Integer.parseInt(jTableNhanVien.getValueAt(select , 0).toString());
             int kq = JOptionPane.showConfirmDialog(this, "Bạn có muốn xóa ?");
             if (kq == JOptionPane.YES_OPTION)
             {
@@ -494,7 +492,7 @@ if (selected != -1) {
         }
     }//GEN-LAST:event_btnDELActionPerformed
     private void searchNV(String manv){
-         Employee_DTO sp = nvBUS.findbyID(manv);
+         Employee_DTO sp = nvBUS.findbyID(Integer.parseInt(manv));
     if (sp != null) {
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("MaNV");
@@ -519,7 +517,7 @@ if (selected != -1) {
         jTableNhanVien.setModel(model);
 
         // Đổ dữ liệu vào các ô nhập
-        txtID.setText(sp.getMaNV());
+        txtID.setText(String.valueOf(sp.getMaNV()));
         jComboBox1.setSelectedItem(sp.getMaCapBac());
         txtName.setText(sp.getHoTen());
         txtDate.setDate(ngaySinh); // Đã kiểm tra null
@@ -551,8 +549,8 @@ if (selected != -1) {
         {
             Employee_DTO ncc = new Employee_DTO();
             ncc = nccList.get(i);
-            String idNV = ncc.getMaNV();
-            String MaCapBac = ncc.getMaCapBac();
+            int idNV = ncc.getMaNV();
+            int MaCapBac = ncc.getMaCapBac();
             String HoTen = ncc.getHoTen();
             Date NgaySinh = ncc.getNgaySinh();
             String GioiTinh = ncc.getGioiTinh();

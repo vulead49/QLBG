@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import BUS.DayOff_BUS;
 import BUS.Employee_BUS;
 import BUS.Payroll_BUS;
 import BUS.Schedule_BUS;
@@ -30,6 +31,7 @@ public class Schedule extends javax.swing.JFrame {
     Employee_BUS emp = new Employee_BUS();
     Payroll_BUS pay =new Payroll_BUS();
     Hierarchy_DAO hie = new Hierarchy_DAO();
+    DayOff_BUS day = new DayOff_BUS();
     /**
      * Creates new form Schedule
      */
@@ -66,9 +68,10 @@ public class Schedule extends javax.swing.JFrame {
         DateStart = new javax.swing.JTextField();
         DateEnd = new javax.swing.JTextField();
         jDateChooser2 = new com.toedter.calendar.JDateChooser();
-        jButton6 = new javax.swing.JButton();
+        Exit = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         Tennv = new javax.swing.JTextField();
+        Reset = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -170,16 +173,23 @@ public class Schedule extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(51, 51, 51));
         jLabel6.setText("Đến:");
 
-        jButton6.setText("Thoát");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        Exit.setText("Thoát");
+        Exit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                ExitActionPerformed(evt);
             }
         });
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(51, 51, 51));
         jLabel7.setText("Tên nhân viên: ");
+
+        Reset.setText("Làm mới");
+        Reset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ResetActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -233,16 +243,17 @@ public class Schedule extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(Search)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27))
+                        .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton6)
+                            .addComponent(Exit)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(add)
                                 .addComponent(Delete)
                                 .addComponent(Edit)))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(Reset)))
+                .addGap(27, 27, 27))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -279,13 +290,15 @@ public class Schedule extends javax.swing.JFrame {
                             .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(Search))
                         .addGap(18, 18, 18)
-                        .addComponent(add)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(add)
+                            .addComponent(Reset))
                         .addGap(18, 18, 18)
                         .addComponent(Edit)
                         .addGap(18, 18, 18)
                         .addComponent(Delete)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton6)
+                        .addComponent(Exit)
                         .addGap(0, 79, Short.MAX_VALUE))))
         );
 
@@ -295,11 +308,11 @@ public class Schedule extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitActionPerformed
         Staff st = new Staff();
         st.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_ExitActionPerformed
 
     private void jTableScheduleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableScheduleMouseClicked
         // TODO add your handling code here:
@@ -330,6 +343,10 @@ public class Schedule extends javax.swing.JFrame {
     private void DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteActionPerformed
         // TODO add your handling code here:
         int row = jTableSchedule.getSelectedRow();
+        if (row == -1) {
+            new MyDialog("Vui lòng chọn một lịch làm!", MyDialog.ERROR_DIALOG);
+            return;
+        }
         String ma =jTableSchedule.getValueAt(row,0).toString();
         int id = Integer.parseInt(ma);
         try {
@@ -368,6 +385,11 @@ public class Schedule extends javax.swing.JFrame {
             Logger.getLogger(Schedule.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_SearchActionPerformed
+
+    private void ResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResetActionPerformed
+        // TODO add your handling code here:
+        loadData();
+    }//GEN-LAST:event_ResetActionPerformed
 
     private void loadData(){
         loadComboBoxData();
@@ -419,7 +441,7 @@ public class Schedule extends javax.swing.JFrame {
         ID.removeAllItems();
         List<Employee_DTO> nhanVienList = emp.getALLnv();
         for (Employee_DTO nv : nhanVienList) {
-            ID.addItem(nv.getMaNV());
+            ID.addItem(String.valueOf(nv.getMaNV()));
         }
         for (ActionListener listener : listeners) {
             ID.addActionListener(listener);
@@ -427,6 +449,11 @@ public class Schedule extends javax.swing.JFrame {
     }
     
     private void xuLyThemLichLam() throws SQLException{
+        int id=  Integer.parseInt(ID.getSelectedItem().toString());
+        java.sql.Date sqlDate = new java.sql.Date(jDateChooser1.getDate().getTime());
+        if (day.isKeyExists(id, sqlDate)) {
+            return;
+        }        
         scheduleBUS.addSchedule(
                 ID.getSelectedItem().toString(),
                 jDateChooser1.getDate(),
@@ -553,11 +580,12 @@ public class Schedule extends javax.swing.JFrame {
     private javax.swing.JTextField DateStart;
     private javax.swing.JButton Delete;
     private javax.swing.JButton Edit;
+    private javax.swing.JButton Exit;
     private javax.swing.JComboBox<String> ID;
+    private javax.swing.JButton Reset;
     private javax.swing.JButton Search;
     private javax.swing.JTextField Tennv;
     private javax.swing.JButton add;
-    private javax.swing.JButton jButton6;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;

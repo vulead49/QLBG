@@ -1,4 +1,5 @@
 GUI\Supplier$3.class
+GUI\GoodRecipe$13.class
 GUI\UserSession.class
 GUI\Storage.class
 GUI\main$3.class
@@ -23,6 +24,7 @@ GUI\Login$1.class
 GUI\Login.class
 GUI\Order$9.class
 GUI\DetailPayroll$2.class
+GUI\main$9.class
 DTO\OrderDetails_DTO.class
 GUI\Order$12.class
 DAO\Order_DAO.class
@@ -31,6 +33,7 @@ GUI\NVform$4.class
 GUI\Schedule_NV.class
 GUI\DayOff_NV$8.class
 GUI\NVform.class
+DAO\Payment_DAO.class
 GUI\DetailPayroll$3.class
 GUI\Schedule_NV$1.class
 GUI\InfoNV.class
@@ -90,6 +93,7 @@ GUI\Staff$4.class
 GUI\Storage$4.class
 GUI\GoodRecipe$3.class
 GUI\main$8.class
+GUI\Order$16.class
 GUI\Employee$10.class
 DAO\Storage_DAO.class
 GUI\InfoNV$2.class
@@ -111,6 +115,7 @@ GUI\Account$8.class
 GUI\Schedule_NV$3.class
 GUI\Staff$2.class
 GUI\main.class
+GUI\Statistical$3.class
 GUI\Payroll_NV$1.class
 GUI\main$6.class
 GUI\Employee.class
@@ -122,6 +127,7 @@ BUS\OrderDetails_BUS.class
 BUS\Schedule_BUS.class
 GUI\Schedule$6.class
 DTO\Hierarchy_DTO.class
+GUI\NVform$7.class
 DTO\Employee_DTO.class
 GUI\Order.class
 DTO\DetailGoodRecipe_DTO.class
@@ -133,14 +139,15 @@ GUI\Employee$1.class
 GUI\main$5.class
 GUI\Schedule$5.class
 DAO\JDBC.class
+GUI\Payroll_NV$6.class
 GUI\DayOFF$3.class
 GUI\Supplier$1.class
 DTO\Authority_DTO.class
 GUI\DayOff_NV$6.class
 GUI\Employee$2.class
-GUI\Payroll$8.class
 GUI\Schedule$7.class
 GUI\Account$4.class
+GUI\DetailPayroll$4.class
 GUI\Payroll_NV$5.class
 BUS\Account_BUS.class
 GUI\Account$1.class
@@ -155,8 +162,10 @@ GUI\GoodRecipe$12.class
 GUI\Supplier$2.class
 DAO\Employee_DAO.class
 GUI\Payroll$5.class
+GUI\Statistical$2.class
 GUI\DayOFF$2.class
 GUI\Supplier.class
+BUS\Payment_BUS.class
 DTO\Payroll_DTO.class
 BUS\Storage_BUS.class
 GUI\Schedule_NV$2.class
@@ -174,10 +183,10 @@ GUI\Payroll_NV$3.class
 GUI\Account$3.class
 GUI\Employee$4.class
 DAO\Authority_DAO.class
-GUI\Payroll$7.class
 DTO\Schedule_DTO.class
 GUI\Supplier$5.class
 GUI\Order$7.class
+GUI\Statistical$4.class
 GUI\main$1.class
 GUI\DayOff_NV$5.class
 GUI\Schedule$8.class
@@ -186,6 +195,7 @@ GUI\NVform$2.class
 GUI\Account$2.class
 GUI\Order$10.class
 GUI\Payroll$6.class
+DTO\Payment_DTO.class
 GUI\Statistical.class
 BUS\Order_BUS.class
 GUI\GoodRecipe$11.class

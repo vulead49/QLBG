@@ -10,6 +10,7 @@ import DAO.Storage_DAO;
 import DTO.DetailGoodRecipe_DTO;
 import DTO.GoodRecipe_DTO;
 import DTO.Supplier_DTO;
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -47,4 +48,8 @@ public class DetailGoodRecipe_BUS {
     public GoodRecipe_DTO findPN (int id){
         return ctpnDao.findPN(id);
     } 
+    
+    public List<DetailGoodRecipe_DTO> findDetailPN(int id) {
+        return ctpnDao.findDetailPN(id);
+    }
 }

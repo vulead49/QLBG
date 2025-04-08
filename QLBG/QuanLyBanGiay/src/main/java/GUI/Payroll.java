@@ -12,6 +12,8 @@ import DTO.Employee_DTO;
 import DTO.Hierarchy_DTO;
 import DTO.Schedule_DTO;
 import java.awt.event.ActionListener;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,6 +22,12 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
@@ -53,14 +61,11 @@ public class Payroll extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         JTablePayroll = new javax.swing.JTable();
-        Search = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
         jButton3 = new javax.swing.JButton();
         Detail = new javax.swing.JButton();
         Year = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jButton5 = new javax.swing.JButton();
-        Create = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         Month = new javax.swing.JTextField();
         TenNhanVien = new javax.swing.JTextField();
@@ -103,8 +108,6 @@ public class Payroll extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(JTablePayroll);
 
-        Search.setText("Tìm");
-
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MaNV", " " }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -129,20 +132,6 @@ public class Payroll extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel4.setText("Năm");
 
-        jButton5.setText("In bảng lương năm");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-
-        Create.setText("Tạo");
-        Create.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CreateActionPerformed(evt);
-            }
-        });
-
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel5.setText("Tháng");
 
@@ -159,9 +148,6 @@ public class Payroll extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(Detail)
-                    .addComponent(jButton5)
-                    .addComponent(Search)
-                    .addComponent(Create)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -177,7 +163,7 @@ public class Payroll extends javax.swing.JFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(Month, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jButton3))
-                .addGap(0, 44, Short.MAX_VALUE))
+                .addGap(0, 49, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(91, 91, 91)
@@ -210,15 +196,9 @@ public class Payroll extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(Year, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(Create)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Search)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(82, 82, 82)
                         .addComponent(Detail)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(35, 35, 35)
                         .addComponent(jButton3)))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
@@ -254,19 +234,6 @@ public class Payroll extends javax.swing.JFrame {
             Logger.getLogger(Payroll.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_DetailActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
-
-    private void CreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateActionPerformed
-        try {
-            // TODO add your handling code here:
-            generatePayroll();
-        } catch (SQLException ex) {
-            Logger.getLogger(Payroll.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_CreateActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
@@ -401,21 +368,48 @@ public class Payroll extends javax.swing.JFrame {
         DetailPayroll detailPayroll = new DetailPayroll();
         detailPayroll.updateTable(approvedSchedules);
         detailPayroll.loadData(tennv,Month.getText(),Year.getText(),luong,dayoff);
-        detailPayroll.setVisible(true);
-        this.dispose();
-    
+        detailPayroll.setVisible(true);    
 }
+    public void exportTableToExcel(JTable table, String filePath) {
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("BangLuong");
+
+        // Ghi tiêu đề cột
+        Row headerRow = sheet.createRow(0);
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            Cell cell = headerRow.createCell(i);
+            cell.setCellValue(table.getColumnName(i));
+        }
+
+        // Ghi dữ liệu từng hàng
+        for (int rowIndex = 0; rowIndex < table.getRowCount(); rowIndex++) {
+            Row row = sheet.createRow(rowIndex + 1);
+            for (int colIndex = 0; colIndex < table.getColumnCount(); colIndex++) {
+                Object value = table.getValueAt(rowIndex, colIndex);
+                Cell cell = row.createCell(colIndex);
+                if (value != null) {
+                    cell.setCellValue(value.toString());
+                }
+            }
+        }
+
+        // Ghi ra file
+        try (FileOutputStream fileOut = new FileOutputStream(filePath)) {
+            workbook.write(fileOut);
+            JOptionPane.showMessageDialog(null, "Xuất file Excel thành công!");
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Lỗi khi ghi file Excel: " + e.getMessage());
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Create;
     private javax.swing.JButton Detail;
     private javax.swing.JTable JTablePayroll;
     private javax.swing.JTextField Month;
-    private javax.swing.JButton Search;
     private javax.swing.JTextField TenNhanVien;
     private javax.swing.JTextField Year;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton5;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

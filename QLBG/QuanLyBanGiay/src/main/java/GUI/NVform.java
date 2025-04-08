@@ -4,7 +4,9 @@
  */
 package GUI;
 
+import BUS.Account_BUS;
 import BUS.Employee_BUS;
+import DTO.Account_DTO;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,6 +17,7 @@ import java.util.logging.Logger;
  */
 public class NVform extends javax.swing.JFrame {
     Employee_BUS emp = new Employee_BUS();
+    Account_BUS acc = new Account_BUS();
 
     /**
      * Creates new form NVform
@@ -24,7 +27,14 @@ public class NVform extends javax.swing.JFrame {
         String ten;
         if (UserSession.getInstance().isLoggedIn()) {
             try {
+                String username = UserSession.getInstance().getLoggedInAccount().getTenDangNhap();
+                String password = UserSession.getInstance().getLoggedInAccount().getMatKhau();
+                Account_DTO loggedInAccount = acc.authenticate(username, password);
+                if (loggedInAccount.getMaQuyen() == 1) {
+                    BackToAdmin.setVisible(true);
+                } else BackToAdmin.setVisible(false);
                 Name.setText(emp.getTenNVByMaNV(UserSession.getInstance().getLoggedInAccount().getIDNV()));
+                
             } catch (SQLException ex) {
                 Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -50,6 +60,7 @@ public class NVform extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         Name = new javax.swing.JLabel();
+        BackToAdmin = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -105,6 +116,13 @@ public class NVform extends javax.swing.JFrame {
         Name.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         Name.setText("jLabel7");
 
+        BackToAdmin.setText("Trở về Admin");
+        BackToAdmin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BackToAdminActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -132,6 +150,8 @@ public class NVform extends javax.swing.JFrame {
                         .addComponent(Name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BackToAdmin)
+                        .addGap(18, 18, 18)
                         .addComponent(jButton1)))
                 .addGap(64, 64, 64))
         );
@@ -154,7 +174,9 @@ public class NVform extends javax.swing.JFrame {
                 .addGap(39, 39, 39)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(BackToAdmin))
                 .addGap(37, 37, 37))
         );
 
@@ -206,6 +228,12 @@ public class NVform extends javax.swing.JFrame {
         new Login().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void BackToAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackToAdminActionPerformed
+        // TODO add your handling code here:
+        new main().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_BackToAdminActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -249,6 +277,7 @@ public class NVform extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BackToAdmin;
     private javax.swing.JLabel Name;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;

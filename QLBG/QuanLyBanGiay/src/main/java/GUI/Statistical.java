@@ -4,17 +4,38 @@
  */
 package GUI;
 
+import BUS.DetailGoodRecipe_BUS;
+import BUS.GoodRecipe_BUS;
+import BUS.OrderDetails_BUS;
+import BUS.Order_BUS;
+import DTO.DetailGoodRecipe_DTO;
+import DTO.GoodRecipe_DTO;
+import DTO.OrderDetails_DTO;
+import DTO.Order_DTO;
+import java.sql.Date;
+import java.text.DecimalFormat;
+import java.util.List;
+import java.util.Vector;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Mai
  */
 public class Statistical extends javax.swing.JFrame {
+    Order_BUS orderBUS = new Order_BUS();
+    OrderDetails_BUS orderDetailsBUS = new OrderDetails_BUS();
+    GoodRecipe_BUS goodRecipeBUS = new GoodRecipe_BUS();
+    DetailGoodRecipe_BUS detailGoodRecipeBUS = new DetailGoodRecipe_BUS();
 
     /**
      * Creates new form Statistical
      */
     public Statistical() {
         initComponents();
+        loadSalesData();
+        loadExpenseData();
     }
 
     /**
@@ -29,30 +50,31 @@ public class Statistical extends javax.swing.JFrame {
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblSales = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblExpense = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        lblTotalRevenue = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        lblTotalExpense = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        jDateFrom1 = new com.toedter.calendar.JDateChooser();
         jLabel5 = new javax.swing.JLabel();
-        jDateChooser3 = new com.toedter.calendar.JDateChooser();
-        jButton1 = new javax.swing.JButton();
+        jDateTo1 = new com.toedter.calendar.JDateChooser();
+        btnViewOrder = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jDateChooser4 = new com.toedter.calendar.JDateChooser();
-        jDateChooser5 = new com.toedter.calendar.JDateChooser();
+        jDateFrom2 = new com.toedter.calendar.JDateChooser();
+        jDateTo2 = new com.toedter.calendar.JDateChooser();
         jButton2 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 204));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblSales.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -60,12 +82,12 @@ public class Statistical extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Ngay", "MaSP", "GiaNhap", "GiaBan"
+                "MaDH", "MaSP", "Ngay", "GiaBan"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblSales);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblExpense.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -73,10 +95,10 @@ public class Statistical extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Ngay", "MaPN", "MaSP", "GiaNhap"
+                "MaPN", "MaSP", "Ngay", "GiaNhap"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(tblExpense);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 51, 51));
@@ -97,7 +119,12 @@ public class Statistical extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(51, 51, 51));
         jLabel5.setText("Đến");
 
-        jButton1.setText("Xem");
+        btnViewOrder.setText("Xem");
+        btnViewOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewOrderActionPerformed(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(51, 51, 51));
@@ -108,21 +135,23 @@ public class Statistical extends javax.swing.JFrame {
         jLabel7.setText("Đến");
 
         jButton2.setText("Xem");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Thoát");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(169, 169, 169)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 168, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addGap(33, 33, 33)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(69, 69, 69))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -132,21 +161,21 @@ public class Statistical extends javax.swing.JFrame {
                             .addComponent(jLabel6))
                         .addGap(32, 32, 32)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jDateChooser3, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jDateTo1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jDateFrom1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(298, 298, 298)
-                        .addComponent(jButton1)))
+                        .addComponent(btnViewOrder)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jDateChooser4, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                            .addComponent(jDateChooser5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jDateFrom2, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                            .addComponent(jDateTo2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(88, 88, 88))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton2)
@@ -154,14 +183,30 @@ public class Statistical extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(46, 46, 46)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(279, 279, 279)
-                        .addComponent(jLabel3)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel3))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(169, 169, 169)
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblTotalRevenue, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addGap(46, 46, 46)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(6, 6, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(33, 33, 33)
+                                .addComponent(lblTotalExpense, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(59, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(68, 68, 68))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -175,7 +220,7 @@ public class Statistical extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel6)
                                 .addComponent(jLabel4))
-                            .addComponent(jDateChooser4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jDateFrom2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -183,12 +228,12 @@ public class Statistical extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jDateChooser3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jDateTo1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jDateChooser5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jDateTo2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(11, 11, 11)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jButton1)
+                                    .addComponent(btnViewOrder)
                                     .addComponent(jButton2))
                                 .addGap(20, 20, 20)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -197,11 +242,13 @@ public class Statistical extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel1)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblTotalRevenue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel2)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(57, 57, 57))
+                                    .addComponent(lblTotalExpense, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addComponent(jDateFrom1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addGap(16, 16, 16))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -217,6 +264,26 @@ public class Statistical extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnViewOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewOrderActionPerformed
+        // TODO add your handling code here:
+        Date from = new java.sql.Date(jDateFrom1.getDate().getTime());
+        Date to = new java.sql.Date(jDateTo1.getDate().getTime());
+        loadOrderByDate(from, to);
+    }//GEN-LAST:event_btnViewOrderActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        Date from = new java.sql.Date(jDateFrom2.getDate().getTime());
+        Date to = new java.sql.Date(jDateTo2.getDate().getTime());
+        loadImportByDate(from, to);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        new main().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -252,15 +319,135 @@ public class Statistical extends javax.swing.JFrame {
             }
         });
     }
+    
+    private void loadSalesData() {
+    List<Order_DTO> orders = orderBUS.findOrdersWithNonCashPayment();
+    DefaultTableModel model = (DefaultTableModel) tblSales.getModel();
+    model.setRowCount(0);
+
+    double totalRevenue = 0;
+
+    for (Order_DTO order : orders) {
+        List<OrderDetails_DTO> orderDetails = orderDetailsBUS.findbyID(Integer.parseInt(order.getMaHD()));
+        double orderTotal = 0;
+
+        for (OrderDetails_DTO detail : orderDetails) {
+            double sum = (detail.getSoLuong() * detail.getGiaBan());
+            orderTotal += sum;
+
+            // ⚙ Định dạng sum: bỏ phần thập phân và ghi dạng 1000k
+            String formattedPrice;
+            if (sum >= 1000) {
+                formattedPrice = String.format("%,.0fK", sum / 1000); // VD: 4000000 -> 4000K
+            } else {
+                formattedPrice = String.format("%,.0f", sum); // Số nhỏ thì giữ nguyên
+            }
+
+            model.addRow(new Object[]{detail.getMaDH(), detail.getMaSP(), order.getNgayLap(), formattedPrice});
+        }
+
+        totalRevenue += orderTotal;
+    }
+
+    lblTotalRevenue.setText(new DecimalFormat("#,##0").format(totalRevenue / 1000) + "K VND");
+}
+    
+    private void loadExpenseData() {
+// Load dữ liệu chi phí từ GoodRecipe.java
+        Vector<GoodRecipe_DTO> goodRecipes = goodRecipeBUS.getALLpn();
+        DefaultTableModel model = (DefaultTableModel) tblExpense.getModel();
+        model.setRowCount(0);
+
+        double totalExpense = 0;
+        for (GoodRecipe_DTO goodRecipe : goodRecipes) {
+            List<DetailGoodRecipe_DTO> details = detailGoodRecipeBUS.findDetailPN(goodRecipe.getMaPN());
+            double recipeTotal = 0;
+            for (DetailGoodRecipe_DTO detail : details) {
+                double sum= detail.getSl() * detail.getGiaNhap();
+                recipeTotal += sum;
+                String formattedPrice;
+                if (sum >= 1000) {
+                    formattedPrice = String.format("%,.0fK", sum / 1000); // VD: 4000000 -> 4000K
+                } else {
+                    formattedPrice = String.format("%,.0f", sum); // Số nhỏ thì giữ nguyên
+                }
+                model.addRow(new Object[]{goodRecipe.getMaPN(), detail.getMaSP(), goodRecipe.getNgLap(),formattedPrice});
+            }
+            totalExpense += recipeTotal;            
+        }
+
+        lblTotalExpense.setText(new DecimalFormat("#,##0").format(totalExpense / 1000) + "K VND");
+    }
+    
+    private void loadOrderByDate(Date sqlFromDate,Date sqlToDate) {
+
+        if (sqlFromDate == null || sqlToDate == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn đầy đủ ngày!");
+            return;
+        }
+
+        List<Order_DTO> orders = orderBUS.findOrdersWithNonCashPayment();
+        DefaultTableModel model = (DefaultTableModel) tblSales.getModel();
+        model.setRowCount(0);
+
+        double total = 0;
+
+        for (Order_DTO order : orders) {
+            if (order.getNgayLap().compareTo(sqlFromDate) >= 0 && order.getNgayLap().compareTo(sqlToDate) <= 0){
+                List<OrderDetails_DTO> details = orderDetailsBUS.findbyID(Integer.parseInt(order.getMaHD()));
+                for (OrderDetails_DTO d : details) {
+                    double sum = d.getSoLuong() * d.getGiaBan();
+                    total += sum;
+
+                    String giaBanStr = sum >= 1000 ? String.format("%,.0fK", sum / 1000) : String.format("%,.0f", sum);
+                    model.addRow(new Object[]{d.getMaDH(), d.getMaSP(), order.getNgayLap(), giaBanStr});
+                }
+            }            
+        }
+        lblTotalRevenue.setText(new DecimalFormat("#,##0").format(total / 1000) + "K VND");
+    }
+    
+    public void loadImportByDate(Date from, Date to) {
+        
+        if (from == null || to == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn đầy đủ ngày!");
+            return;
+        }
+        DefaultTableModel model = (DefaultTableModel) tblExpense.getModel();
+        model.setRowCount(0);
+        float totalImport = 0;
+
+        Vector<GoodRecipe_DTO> pnList = goodRecipeBUS.getALLpn();
+        for (GoodRecipe_DTO pn : pnList) {
+            if (pn.getNgLap().compareTo(from) >= 0 && pn.getNgLap().compareTo(to) <= 0) {
+                List<DetailGoodRecipe_DTO> details = detailGoodRecipeBUS.findDetailPN(pn.getMaPN());
+                for (DetailGoodRecipe_DTO detail : details) {
+                    float sum = detail.getGiaNhap() * detail.getSl();
+                    totalImport += sum;
+                    String giaNhapStr = sum >= 1000 ? String.format("%,.0fK", sum / 1000) : String.format("%,.0f", sum);
+
+                    model.addRow(new Object[]{
+                        pn.getMaPN(),
+                        detail.getMaSP(),
+                        pn.getNgLap(),                        
+                        giaNhapStr
+                    });
+                }
+            }
+        }
+            lblTotalExpense.setText(new DecimalFormat("#,##0").format(totalImport / 1000) + "K VND");
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnViewOrder;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
-    private com.toedter.calendar.JDateChooser jDateChooser3;
-    private com.toedter.calendar.JDateChooser jDateChooser4;
-    private com.toedter.calendar.JDateChooser jDateChooser5;
+    private com.toedter.calendar.JDateChooser jDateFrom1;
+    private com.toedter.calendar.JDateChooser jDateFrom2;
+    private com.toedter.calendar.JDateChooser jDateTo1;
+    private com.toedter.calendar.JDateChooser jDateTo2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -271,9 +458,9 @@ public class Statistical extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField lblTotalExpense;
+    private javax.swing.JTextField lblTotalRevenue;
+    private javax.swing.JTable tblExpense;
+    private javax.swing.JTable tblSales;
     // End of variables declaration//GEN-END:variables
 }

@@ -138,17 +138,17 @@ public class Schedule_BUS {
             Schedule_DTO sch = new Schedule_DTO();
              sch.setMaCaLam(ma);
              sch.setMaNV(maNV);
-             // Chuyển đổi giờ từ định dạng HH:mm:ss sang định dạng số nguyên
-            int hourBD = Integer.parseInt(giobd.split(":")[0]); // Lấy phần giờ
-            int minuteBD = Integer.parseInt(giobd.split(":")[1]); // Lấy phần phút
-            int hourKT = Integer.parseInt(giokt.split(":")[0]); // Lấy phần giờ
-            int minuteKT = Integer.parseInt(giokt.split(":")[1]); // Lấy phần phút
-
-            // Tạo số nguyên từ giờ và phút
-            int gioBD = hourBD * 100 + minuteBD; // Ví dụ: 12:45 -> 1245
-            int gioKT = hourKT * 100 + minuteKT;// Ví dụ: 8:30 -> 830
-            giobd = Integer.toString(gioBD);
-            giokt = Integer.toString(gioKT);
+//             // Chuyển đổi giờ từ định dạng HH:mm:ss sang định dạng số nguyên
+//            int hourBD = Integer.parseInt(giobd.split(":")[0]); // Lấy phần giờ
+//            int minuteBD = Integer.parseInt(giobd.split(":")[1]); // Lấy phần phút
+//            int hourKT = Integer.parseInt(giokt.split(":")[0]); // Lấy phần giờ
+//            int minuteKT = Integer.parseInt(giokt.split(":")[1]); // Lấy phần phút
+//
+//            // Tạo số nguyên từ giờ và phút
+//            int gioBD = hourBD * 100 + minuteBD; // Ví dụ: 12:45 -> 1245
+//            int gioKT = hourKT * 100 + minuteKT;// Ví dụ: 8:30 -> 830
+//            giobd = Integer.toString(gioBD);
+//            giokt = Integer.toString(gioKT);
             String formattedGioBD = formatTime(giobd);
             String formattedGioKT = formatTime(giokt);
         
@@ -346,7 +346,8 @@ public class Schedule_BUS {
                 minute = Integer.parseInt(input.substring(2, 4));
             }
             default -> {
-                return null; // Không hợp lệ
+                hour = Integer.parseInt(input.split(":")[0]); // Lấy phần giờ
+                minute = Integer.parseInt(input.split(":")[1]); // Lấy phần phút
             }
         }
 
@@ -357,8 +358,8 @@ public class Schedule_BUS {
 
         // Trả về định dạng HH:mm:ss
         return String.format("%02d:%02d:00", hour, minute);
-    } catch (NumberFormatException e) {
-        return null; // Không hợp lệ
+    } catch (NumberFormatException | StringIndexOutOfBoundsException ex) {
+         return null;
     }
     }
     

@@ -6,23 +6,19 @@ package GUI;
 
 import BUS.OrderDetails_BUS;
 import BUS.Order_BUS;
+import BUS.Payment_BUS;
 import BUS.Storage_BUS;
 import DTO.OrderDetails_DTO;
 import DTO.Order_DTO;
+import DTO.Payment_DTO;
 import DTO.Storage_DTO;
+import java.awt.HeadlessException;
 import java.awt.event.ActionListener;
 import java.sql.Date;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.AbstractDocument;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.DocumentFilter;
 
 /**
  *
@@ -32,6 +28,7 @@ public class Order extends javax.swing.JFrame {
     Order_BUS dhBUS = new Order_BUS();
     OrderDetails_BUS ctdhBUS = new OrderDetails_BUS();
     Storage_BUS strBUS = new Storage_BUS();
+    Payment_BUS pay = new Payment_BUS();
     /**
      * Creates new form Order
      */
@@ -83,8 +80,6 @@ public class Order extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jButtonADD_CTDH = new javax.swing.JButton();
         jButtonDEL = new javax.swing.JButton();
-        jButtonfindCTDH = new javax.swing.JButton();
-        jComboBoxFind = new javax.swing.JComboBox<>();
         jButton10 = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         jComboBoxSP = new javax.swing.JComboBox<>();
@@ -114,9 +109,29 @@ public class Order extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "MaDH", "TenKH", "NgayLap", "ThanhTien", "PhuongThuc"
+                "MaDH", "TenKH", "NgayLap", "ThanhTien", "TrangThai"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, true, true, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTableDonHang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableDonHangMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableDonHang);
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -203,9 +218,9 @@ public class Order extends javax.swing.JFrame {
                                     .addGap(18, 18, 18)
                                     .addComponent(jTextFieldNAME, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonFind)
-                    .addComponent(jButtonADD))
-                .addContainerGap(33, Short.MAX_VALUE))
+                    .addComponent(jButtonADD)
+                    .addComponent(jButtonFind))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -333,15 +348,6 @@ public class Order extends javax.swing.JFrame {
             }
         });
 
-        jButtonfindCTDH.setText("Tìm");
-        jButtonfindCTDH.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonfindCTDHActionPerformed(evt);
-            }
-        });
-
-        jComboBoxFind.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MaDH", " " }));
-
         jButton10.setText("In đơn hàng");
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -398,10 +404,7 @@ public class Order extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jButtonDEL))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButtonfindCTDH)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jComboBoxFind, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(42, 42, 42)
+                                .addGap(215, 215, 215)
                                 .addComponent(LookSP)
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton10)))
@@ -441,14 +444,14 @@ public class Order extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(15, 15, 15)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(32, 32, 32)
-                        .addComponent(jLabel4)))
-                .addContainerGap(34, Short.MAX_VALUE))
+                        .addComponent(jLabel4))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -495,13 +498,11 @@ public class Order extends javax.swing.JFrame {
                     .addComponent(jButtonDEL))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonfindCTDH)
-                    .addComponent(jComboBoxFind, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(LookSP)
                     .addComponent(jButton10))
-                .addGap(28, 28, 28)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(84, Short.MAX_VALUE))
+                .addContainerGap(100, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -542,27 +543,77 @@ public class Order extends javax.swing.JFrame {
                 
                 float thanhtien = (float) jTableDonHang.getModel().getValueAt(selected, 3);
                 
-                String newtenKH = jTextFieldNAME.getText();
-                String newPhuongThuc = (String) jComboBoxPhuongThuc.getSelectedItem();            
+                String newtenKH = jTextFieldNAME.getText();               
+                String newPhuongThuc = jComboBoxPhuongThuc.getSelectedItem().toString();
+                
                 if (jDateCREATED.getDate() == null) {
                     JOptionPane.showMessageDialog(this, "Vui lòng chọn ngày tạo!");
                     return;
                 }
                 java.sql.Date newDay = new java.sql.Date(jDateCREATED.getDate().getTime());
-                
-                // Tạo đối tượng Employee_DTO
-                Order_DTO dh = new Order_DTO(  maDH, newtenKH, newDay,thanhtien , newPhuongThuc);
+                                                                             
+                if (!"Chưa thanh toán".equals(newPhuongThuc)) {                    
+                    Payment_DTO payment = new Payment_DTO();
+                        payment.setMaDH(Integer.parseInt(maDH));
+                        payment.setHinhThucTT(newPhuongThuc);                        
+                    if (pay.findPaymentByMaDH(Integer.parseInt(maDH))==null){    
+                        payment.setMaTT(pay.generateID());
+                        if (pay.addPayment(payment)) {
+                                new MyDialog("Thêm thanh toán thành công!", MyDialog.SUCCESS_DIALOG);
+                            } else {
+                                new MyDialog("Thêm thanh toán không thành công!", MyDialog.ERROR_DIALOG);
+                            }
+                        
+                        // Tạo đối tượng Employee_DTO
+                        Order_DTO dh = new Order_DTO(maDH, newtenKH, newDay,thanhtien , true);
+                        dhBUS.updateDH(dh);
+                    } else {
+                        if (pay.findPaymentByMaDH(Integer.parseInt(maDH)).getHinhThucTT().equals(newPhuongThuc)){                           
+                        } else {
+                            int matt=pay.findPaymentByMaDH(Integer.parseInt(maDH)).getMaTT();
+                            payment.setMaTT(matt);
+                            if (pay.updatePayment(payment)) {
+                                new MyDialog("Sửa thanh toán thành công!", MyDialog.SUCCESS_DIALOG);
+                            } else {
+                                new MyDialog("Sửa thanh toán không thành công!", MyDialog.ERROR_DIALOG);
+                            }
+                            Order_DTO dh = new Order_DTO(maDH, newtenKH, newDay,thanhtien , true);
+                            dhBUS.updateDH(dh);
+                        }                        
+                    }
+                } else {
+                    if (pay.findPaymentByMaDH(Integer.parseInt(maDH)) != null) {
+                        int confirm = JOptionPane.showOptionDialog(
+                            this,
+                            "Bạn có chắc muốn xóa thanh toán của đơn hàng " + maDH + " không?",
+                            "Xác nhận xóa",
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.QUESTION_MESSAGE,
+                            null,
+                            new Object[]{"Có", "Không"},
+                            "Không"
+                        );
 
-                // Gọi phương thức cập nhật từ BUS
+                        if (confirm == JOptionPane.YES_OPTION) {
+                            pay.deletePayment(Integer.parseInt(maDH));
+                            new MyDialog("Đã xóa thanh toán!", MyDialog.SUCCESS_DIALOG);
+                        } else {
+                            new MyDialog("Vui lòng sửa lại!", MyDialog.ERROR_DIALOG);
+                            return;
+                        }
+                    }
+                // Gọi phương thức cập nhật từ BUS  
+                Order_DTO dh = new Order_DTO(  maDH, newtenKH, newDay,thanhtien , false);
                 String result = dhBUS.updateDH(dh);
                 JOptionPane.showMessageDialog(this, result);
-
+                }
+                // Tạo đối tượng Employee_DTO
+                
                 // Cập nhật lại danh sách nhân viên trên bảng
                 loadList();
                 jTextFieldNAME.setText("");
                 jDateCREATED.setDate(null); 
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } catch (HeadlessException | NumberFormatException e) {
                     JOptionPane.showMessageDialog(this, "Có lỗi xảy ra! Vui lòng kiểm tra lại.");
                 }
             } else {
@@ -589,7 +640,7 @@ public class Order extends javax.swing.JFrame {
 
             dh.setTenKH(jTextFieldNAME.getText());
             dh.setNgayLap(NgayLap);
-            dh.setPhuongThuc(jComboBoxPhuongThuc.getSelectedItem().toString());
+            dh.setTrangThai(false);
 
             // **Gửi xuống BUS để thêm vào DB**
             String result = dhBUS.addDH(dh);
@@ -604,8 +655,7 @@ public class Order extends javax.swing.JFrame {
 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Mã cấp bậc phải là số!");
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (HeadlessException e) {
         }
     }//GEN-LAST:event_jButtonADDActionPerformed
 
@@ -626,13 +676,18 @@ public class Order extends javax.swing.JFrame {
             String id = jTableDonHang.getValueAt(selected, 0).toString();
             Order_DTO dh =dhBUS.findbyID(id);
             jTextFieldNAME.setText(dh.getTenKH()); 
-            jComboBoxPhuongThuc.setSelectedItem(dh.getPhuongThuc());
+            Payment_DTO payy = pay.findPaymentByMaDH(Integer.parseInt(id));
+            if (payy==null) {
+                jComboBoxPhuongThuc.setSelectedItem("Chưa thanh toán");
+            } else {
+                jComboBoxPhuongThuc.setSelectedItem(payy.getHinhThucTT());
+            }
+            
             // Chuyển đổi ngày sinh
             java.sql.Date sqlDate = dh.getNgayLap();
             if (sqlDate != null) {
                 java.util.Date utilDate = new java.util.Date(sqlDate.getTime());
-                jDateCREATED.setDate(utilDate);  // Đưa vào JDateChooser
-                jDateCREATED.setDate(null);
+                jDateCREATED.setDate(utilDate);  // Đưa vào JDateChooser               
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -716,7 +771,6 @@ public class Order extends javax.swing.JFrame {
 
 
     } catch (Exception e) {
-        e.printStackTrace();
     }
     }//GEN-LAST:event_jButtonADD_CTDHActionPerformed
 
@@ -732,6 +786,10 @@ public class Order extends javax.swing.JFrame {
             if (kq == JOptionPane.YES_OPTION) {
                 // Gọi phương thức xóa
                 ctdhBUS.deleteCTDH(Integer.parseInt(maCTDH)); 
+                int maSP = Integer.parseInt(jTableCTDH.getValueAt(select, 2).toString()); 
+                int soLuong = Integer.parseInt(jTableCTDH.getValueAt(select, 3).toString());
+                int soLuongTonKho = ctdhBUS.getSoLuongTonKho(maSP);
+                ctdhBUS.updateSoLuongTonKho(maSP, soLuongTonKho + soLuong);
 
                 // Xóa dòng khỏi bảng
                 ((DefaultTableModel) jTableCTDH.getModel()).removeRow(select);
@@ -805,14 +863,6 @@ public class Order extends javax.swing.JFrame {
             }
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void jButtonfindCTDHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonfindCTDHActionPerformed
-        // TODO add your handling code here:
-        int selectedMaCTDH = Integer.parseInt(jComboBoxFind.getSelectedItem().toString());
-        if(selectedMaCTDH != 0){
-            searchCTDH(selectedMaCTDH);
-        }
-    }//GEN-LAST:event_jButtonfindCTDHActionPerformed
-
     private void jComboBoxCTDHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxCTDHActionPerformed
         // TODO add your handling code here:
         if (jComboBoxCTDH.getSelectedItem() != null) {
@@ -856,6 +906,10 @@ public class Order extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jComboBoxSoluongActionPerformed
+
+    private void jTableDonHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableDonHangMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTableDonHangMouseClicked
   
     /**
      * @param args the command line arguments
@@ -919,9 +973,9 @@ public class Order extends javax.swing.JFrame {
             model.addColumn("TenKH");
             model.addColumn("NgayLap");
             model.addColumn("ThanhTien");            
-            model.addColumn("PhuongThuc");
+            model.addColumn("TrangThai");
 
-            model.addRow(new Object[]{dh.getMaHD(), dh.getTenKH(), dh.getNgayLap(), dh.getThanhTien(), dh.getPhuongThuc()});
+            model.addRow(new Object[]{dh.getMaHD(), dh.getTenKH(), dh.getNgayLap(), dh.getThanhTien(), dh.getTrangThai()});
             jTableDonHang.setModel(model);
             
 //            txtID.setText(sp.getMaNCC());
@@ -929,7 +983,7 @@ public class Order extends javax.swing.JFrame {
 //            txtDC.setText(sp.getDiaChi());
 //            txtSDT.setText(sp.getSDT());
       } else{
-            JOptionPane.showMessageDialog(this, "khong tim thay nha cung cap");
+            JOptionPane.showMessageDialog(this, "khong tim thay don hang");
         }
     }
     
@@ -938,29 +992,7 @@ public class Order extends javax.swing.JFrame {
     }
 
     private void loadList(){
-        Vector<Order_DTO> dhList = new Vector<Order_DTO>();
-        DefaultTableModel model = new DefaultTableModel();
-        model.addColumn("MaDH");
-        model.addColumn("TenKH");
-        model.addColumn("NgayLap");        
-        model.addColumn("ThanhTien");
-        model.addColumn("PhuongThuc");
-        dhList = dhBUS.getALLdh();
-        for (int i = 0; i < dhList.size(); i++)
-        {
-            Order_DTO dh = new Order_DTO();
-            dh = dhList.get(i);
-            String maDonHang = dh.getMaHD();
-            String tenKhachHang = dh.getTenKH();
-            Date ngayLap = dh.getNgayLap();
-            Float thanhTien = dh.getThanhTien();
-            String PhuongThuc = dh.getPhuongThuc();
-
-            Object[] row = {maDonHang, tenKhachHang, ngayLap, thanhTien, PhuongThuc};
-            model.addRow(row);
-        }
-        jTableDonHang.setModel(model);
-        
+        dhBUS.loadOrderDataToTable(jTableDonHang);       
     }
     
     private void loadListDetails(){
@@ -1035,16 +1067,16 @@ public class Order extends javax.swing.JFrame {
             jComboBoxSP.addActionListener(splistener);
         }
 //Code cũ
-        jComboBoxMaDH.removeAllItems();  // Xóa dữ liệu cũ
-        jComboBoxFind.removeAllItems();
-        Vector<Order_DTO> dhList = dhBUS.getALLdh();
-        for (Order_DTO dh : dhList) {
-
-
-            jComboBoxMaDH.addItem(dh.getMaHD());
+//        jComboBoxMaDH.removeAllItems();  // Xóa dữ liệu cũ
+//        jComboBoxFind.removeAllItems();
+//        Vector<Order_DTO> dhList = dhBUS.getALLdh();
+//        for (Order_DTO dh : dhList) {
+//
+//
+//            jComboBoxMaDH.addItem(dh.getMaHD());
 //            jComboBoxCTDH.addItem(String.valueOf(dh.getMaHD()));
-            jComboBoxFind.addItem(String.valueOf(dh.getMaHD()));
-        }   
+//            jComboBoxFind.addItem(String.valueOf(dh.getMaHD()));
+//        }   
     }
     public void selectSoLuong(int sl){
         ActionListener[] listeners = jComboBoxSoluong.getActionListeners();
@@ -1071,9 +1103,7 @@ public class Order extends javax.swing.JFrame {
     private javax.swing.JButton jButtonDEL;
     private javax.swing.JButton jButtonEDIT;
     private javax.swing.JButton jButtonFind;
-    private javax.swing.JButton jButtonfindCTDH;
     private javax.swing.JComboBox<String> jComboBoxCTDH;
-    private javax.swing.JComboBox<String> jComboBoxFind;
     private javax.swing.JComboBox<String> jComboBoxMaDH;
     private javax.swing.JComboBox<String> jComboBoxPhuongThuc;
     private javax.swing.JComboBox<String> jComboBoxSP;

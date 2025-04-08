@@ -11,6 +11,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 public class DetailGoodRecipe_DAO {
@@ -169,6 +171,32 @@ public class DetailGoodRecipe_DAO {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        return pn;
+    }
+    
+    public List<DetailGoodRecipe_DTO> findDetailPN(int id)
+    {;
+        List<DetailGoodRecipe_DTO> pn = new ArrayList<>();
+        try {
+            String sql = "Select * from CTPhieuNhap where MaPN = ?";
+            PreparedStatement ps = con.prepareCall(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next())
+            {
+                DetailGoodRecipe_DTO ctpn = new DetailGoodRecipe_DTO();
+                ctpn.setMaPN(rs.getInt("MaPN"));
+                ctpn.setMaSP(rs.getInt("MaSP"));
+                ctpn.setSl(rs.getInt("SoLuong"));
+                ctpn.setHang(rs.getString("Hang"));
+                ctpn.setSize(rs.getInt("Size"));
+                ctpn.setGiaNhap(rs.getInt("GiaNhap"));
+                ctpn.setTenSP(rs.getString("TenSP"));
+                ctpn.setLoai(rs.getString("PhanLoai"));
+                pn.add(ctpn);
+            }
+        } catch (Exception e) {
         }
         return pn;
     }

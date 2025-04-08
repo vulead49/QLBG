@@ -289,11 +289,6 @@
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel6">
-          <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="D:\workspace\Hoc_Ki_2_Nam_3\HE_THONG_THONG_TIN_DOANH_NGHIEP\QuanlyGiay\QLBG\QuanLyBanGiay\src\main\java\picture\R.png"/>
-            </Property>
-          </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnFIND">
           <Properties>

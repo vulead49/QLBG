@@ -9,17 +9,17 @@ public class Order_DTO{
     String TenKH;
     Date NgayLap;
     float ThanhTien;
-    String PhuongThuc;
+    boolean TrangThai;
     
     public Order_DTO()
     {}
 
-    public Order_DTO(String MaDH, String TenKH, Date NgayLap, float ThanhTien, String PhuongThuc) {
+    public Order_DTO(String MaDH, String TenKH, Date NgayLap, float ThanhTien, boolean TrangThai) {
         this.MaDH = MaDH;
         this.TenKH = TenKH;
         this.NgayLap = NgayLap;
         this.ThanhTien = ThanhTien;
-        this.PhuongThuc = PhuongThuc;
+        this.TrangThai = TrangThai;
     }
 
     public String getMaHD() {
@@ -54,12 +54,12 @@ public class Order_DTO{
         this.ThanhTien = ThanhTien;
     }
 
-    public String getPhuongThuc () {
-        return PhuongThuc;
+    public boolean getTrangThai () {
+        return TrangThai;
     }
 
-    public void setPhuongThuc (String PhuongThuc) {
-        this.PhuongThuc = PhuongThuc;
+    public void setTrangThai (boolean TrangThai) {
+        this.TrangThai = TrangThai;
     }
 
     

@@ -11,10 +11,20 @@ import BUS.Schedule_BUS;
 import DTO.Payroll_DTO;
 import DTO.Schedule_DTO;
 import java.awt.event.ActionListener;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
@@ -103,6 +113,11 @@ public class Payroll_NV extends javax.swing.JFrame {
         jLabel8.setText("Tổng lương");
 
         jButton2.setText("In  theo tháng");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("In  theo năm");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -231,7 +246,28 @@ public class Payroll_NV extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            int idNV = UserSession.getInstance().getLoggedInAccount().getIDNV();
+            int nam = Integer.parseInt(Nam.getSelectedItem().toString());
+            
+            List<Payroll_DTO> payrollList = pay.getPayrollsNVbyYear(idNV, nam);
+            
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Chọn nơi lưu file Excel");
+            int userSelection = fileChooser.showSaveDialog(null);
+            
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
+                String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+                if (!filePath.endsWith(".xlsx")) {
+                    filePath += ".xlsx";
+                }
+                
+                exportPayrollListToExcel(payrollList, filePath);
+                JOptionPane.showMessageDialog(null, "Đã xuất file bảng lương!");
+            }   } catch (SQLException ex) {
+            Logger.getLogger(Payroll_NV.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -257,6 +293,31 @@ public class Payroll_NV extends javax.swing.JFrame {
         int thang=Integer.parseInt(Thang.getSelectedItem().toString());
         loadData(nam,thang,id);
     }//GEN-LAST:event_ThangActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        try {
+            // TODO add your handling code here:
+            int idNV = UserSession.getInstance().getLoggedInAccount().getIDNV();
+            int thang = Integer.parseInt(Thang.getSelectedItem().toString());
+            int nam = Integer.parseInt(Nam.getSelectedItem().toString());
+            
+            Payroll_DTO payroll = pay.getPayrollsNV(idNV, thang, nam);
+            
+            
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Chọn nơi lưu bảng lương");
+            int result = fileChooser.showSaveDialog(null);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+                if (!filePath.endsWith(".xlsx")) {
+                    filePath += ".xlsx";
+                }
+                exportPayroll(payroll, filePath);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Payroll_NV.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -354,6 +415,83 @@ public class Payroll_NV extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(Payroll_NV.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public void exportPayroll(Payroll_DTO payroll, String filePath) {
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("BangLuongNV");
+
+        // Header
+        Row header = sheet.createRow(0);
+        header.createCell(0).setCellValue("Mã NV");
+        header.createCell(1).setCellValue("Tháng");
+        header.createCell(2).setCellValue("Năm");
+        header.createCell(4).setCellValue("Số ngày nghỉ");
+        header.createCell(5).setCellValue("Lương");
+
+        // Dữ liệu
+        Row data = sheet.createRow(1);
+        data.createCell(0).setCellValue(payroll.getMaNV());
+        data.createCell(1).setCellValue(payroll.getThang());
+        data.createCell(2).setCellValue(payroll.getNam());
+        data.createCell(3).setCellValue(payroll.getSoNgayNghi());
+        data.createCell(4).setCellValue(formatCurrency(payroll.getLuong()));
+
+        // Ghi ra file
+        try (FileOutputStream fileOut = new FileOutputStream(filePath)) {
+            workbook.write(fileOut);
+            JOptionPane.showMessageDialog(null, "Xuất bảng lương thành công!");
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Lỗi khi xuất file: " + e.getMessage());
+        }
+    }
+    
+     public void exportPayrollListToExcel(List<Payroll_DTO> payrollList, String filePath) throws SQLException {
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("BangLuong");
+        // Ghi thông tin nhân viên
+        int rowNum = 0;
+        Row infoRow1 = sheet.createRow(rowNum++);
+        infoRow1.createCell(0).setCellValue("Mã nhân viên:");
+        infoRow1.createCell(1).setCellValue(UserSession.getInstance().getLoggedInAccount().getIDNV());
+
+        Row infoRow2 = sheet.createRow(rowNum++);
+        infoRow2.createCell(0).setCellValue("Họ tên:");
+        infoRow2.createCell(1).setCellValue(emp.getTenNVByMaNV(UserSession.getInstance().getLoggedInAccount().getIDNV()));
+        rowNum++;
+        // Header
+        String[] headers = {"Tháng", "Năm", "Số ngày nghỉ", "Tổng lương"};
+        Row headerRow = sheet.createRow(rowNum++);
+        for (int i = 0; i < headers.length; i++) {
+            Cell cell = headerRow.createCell(i);
+            cell.setCellValue(headers[i]);
+        }
+
+        // Ghi dữ liệu
+        for (Payroll_DTO payroll : payrollList) {
+            Row row = sheet.createRow(rowNum++);
+            row.createCell(0).setCellValue(payroll.getThang());
+            row.createCell(1).setCellValue(payroll.getNam());
+            row.createCell(2).setCellValue(payroll.getSoNgayNghi());
+            row.createCell(3).setCellValue(formatCurrency(payroll.getLuong()));
+        }
+
+        // Ghi ra file
+        try (FileOutputStream fos = new FileOutputStream(filePath)) {
+            workbook.write(fos);
+            workbook.close();
+            System.out.println("✅ Xuất file Excel thành công: " + filePath);
+        } catch (IOException e) {
+        }
+    }
+     
+     private static String formatCurrency(BigDecimal amount) {
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setGroupingSeparator(',');
+        symbols.setDecimalSeparator('.');
+
+        DecimalFormat formatter = new DecimalFormat("#,##0.00", symbols);
+        return formatter.format(amount);
     }
     
 

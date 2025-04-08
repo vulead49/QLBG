@@ -11,10 +11,19 @@ import BUS.Supplier_BUS;
 import DTO.DetailGoodRecipe_DTO;
 import DTO.GoodRecipe_DTO;
 import DTO.Supplier_DTO;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Date;
 import java.util.Vector;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
@@ -339,6 +348,11 @@ public class GoodRecipe extends javax.swing.JFrame {
         jLabel11.setText("ID phiếu nhập");
 
         jButton7.setText("In phiếu");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         cbPN.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MaPN" }));
 
@@ -755,6 +769,22 @@ public class GoodRecipe extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_txtIDgiayFocusLost
 
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Chọn nơi lưu file Excel");
+        int userSelection = fileChooser.showSaveDialog(null);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+            if (!filePath.endsWith(".xlsx")) {
+                filePath += ".xlsx";
+            }
+
+            exportTableToExcel(jTable2, filePath);
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
+
     private int generateMaPN() {
         return pnBUS.generateMaPN();
     }
@@ -810,6 +840,39 @@ public class GoodRecipe extends javax.swing.JFrame {
                 new GoodRecipe().setVisible(true);
             }
         });
+    }
+    
+    public void exportTableToExcel(JTable table, String filePath) {
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("PhieuNhap");
+
+        // Ghi tiêu đề cột
+        Row headerRow = sheet.createRow(0);
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            Cell cell = headerRow.createCell(i);
+            cell.setCellValue(table.getColumnName(i));
+        }
+
+        // Ghi dữ liệu từng hàng
+        for (int rowIndex = 0; rowIndex < table.getRowCount(); rowIndex++) {
+            Row row = sheet.createRow(rowIndex + 1);
+            for (int colIndex = 0; colIndex < table.getColumnCount(); colIndex++) {
+                Object value = table.getValueAt(rowIndex, colIndex);
+                Cell cell = row.createCell(colIndex);
+                if (value != null) {
+                    cell.setCellValue(value.toString());
+                }
+            }
+        }
+
+        // Ghi ra file
+        try (FileOutputStream fileOut = new FileOutputStream(filePath)) {
+            workbook.write(fileOut);
+            JOptionPane.showMessageDialog(null, "Xuất file Excel thành công!");
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Lỗi khi ghi file Excel: " + e.getMessage());
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

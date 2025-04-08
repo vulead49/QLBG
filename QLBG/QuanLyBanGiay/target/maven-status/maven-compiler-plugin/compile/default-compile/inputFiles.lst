@@ -6,6 +6,7 @@ C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\BUS\Goo
 C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\BUS\Hierarchy_BUS.java
 C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\BUS\Order_BUS.java
 C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\BUS\OrderDetails_BUS.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\BUS\Payment_BUS.java
 C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\BUS\Payroll_BUS.java
 C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\BUS\Schedule_BUS.java
 C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\BUS\Storage_BUS.java
@@ -20,6 +21,7 @@ C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DAO\Hie
 C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DAO\JDBC.java
 C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DAO\Order_DAO.java
 C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DAO\OrderDetails_DAO.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DAO\Payment_DAO.java
 C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DAO\Payroll_DAO.java
 C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DAO\Schedule_DAO.java
 C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DAO\Storage_DAO.java
@@ -33,6 +35,7 @@ C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DTO\Goo
 C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DTO\Hierarchy_DTO.java
 C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DTO\Order_DTO.java
 C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DTO\OrderDetails_DTO.java
+C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DTO\Payment_DTO.java
 C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DTO\Payroll_DTO.java
 C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DTO\Schedule_DTO.java
 C:\Users\Anh\Nam 3\HTTTDoanhNghiep\QLBG\QLBG\QuanLyBanGiay\src\main\java\DTO\Storage_DTO.java

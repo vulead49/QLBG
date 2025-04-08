@@ -7,7 +7,6 @@ package GUI;
 import BUS.Supplier_BUS;
 import DTO.Supplier_DTO;
 import java.util.Vector;
-import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 

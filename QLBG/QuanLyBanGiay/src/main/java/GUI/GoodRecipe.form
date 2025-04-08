@@ -647,6 +647,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="In phi&#x1ebf;u"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton7ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JComboBox" name="cbPN">
           <Properties>

@@ -82,14 +82,19 @@ public class Order_BUS {
         model.setRowCount(0);
         // Lấy dữ liệu từ DAO và thêm vào bảng
         
-        List<Order_DTO> orders = dhDAO.getALLdh(); // Lấy danh sách lịch làm việc
+        List<Order_DTO> orders = dhDAO.getALLdh();
         for (Order_DTO order : orders) {
-            // Lấy tên NV
+            String formattedPrice;
+                if ( order.getThanhTien() >= 1000000) {
+                    formattedPrice = String.format("%,.2fTr",  order.getThanhTien() / 1000000.0); // VD: 4000000 -> 4000K
+                } else {
+                    formattedPrice = String.format("%,.0f",  order.getThanhTien()); // Số nhỏ thì giữ nguyên
+                }
             Object[] rowData = {
                 order.getMaHD(),
                 order.getTenKH(),
                 order.getNgayLap(),
-                order.getThanhTien(),
+                formattedPrice,
                 order.getTrangThai()
             };
             model.addRow(rowData);

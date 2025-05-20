@@ -8,9 +8,14 @@ package BUS;
  *
  * @author Anh
  */
+import DAO.Employee_DAO;
+import DAO.Hierarchy_DAO;
 import DAO.Schedule_DAO;
+import DTO.Employee_DTO;
+import DTO.Hierarchy_DTO;
 import DTO.Schedule_DTO;
 import GUI.MyDialog;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.text.ParseException;
@@ -24,7 +29,8 @@ import javax.swing.table.DefaultTableModel;
 
 public class Schedule_BUS {
     Schedule_DAO scheduleDAO = new Schedule_DAO();
-
+    Hierarchy_DAO hie = new Hierarchy_DAO();
+    Employee_DAO emp = new Employee_DAO();
     public boolean addSchedule(String MaNV, Date ngay, String giobd, String giokt) throws SQLException {
         try {
             int maNV = Integer.parseInt(MaNV);
@@ -45,17 +51,6 @@ public class Schedule_BUS {
             int ma=generateID();
             sch.setMaCaLam(ma);
             sch.setMaNV(maNV);
-//            // Chuyển đổi giờ từ định dạng HH:mm:ss sang định dạng số nguyên
-//            int hourBD = Integer.parseInt(giobd.split(":")[0]); // Lấy phần giờ
-//            int minuteBD = Integer.parseInt(giobd.split(":")[1]); // Lấy phần phút
-//            int hourKT = Integer.parseInt(giokt.split(":")[0]); // Lấy phần giờ
-//            int minuteKT = Integer.parseInt(giokt.split(":")[1]); // Lấy phần phút
-//
-//            // Tạo số nguyên từ giờ và phút
-//            int gioBD = hourBD * 100 + minuteBD; // Ví dụ: 12:45 -> 1245
-//            int gioKT = hourKT * 100 + minuteKT;// Ví dụ: 8:30 -> 830
-//            giobd = Integer.toString(gioBD);
-//            giokt = Integer.toString(gioKT);
             String formattedGioBD = formatTime(giobd);
             String formattedGioKT = formatTime(giokt);
             if (formattedGioBD == null) {
@@ -68,7 +63,6 @@ public class Schedule_BUS {
                 return false;
             }
             
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             java.sql.Date sqlDate = new java.sql.Date(ngay.getTime());
              // Chuyển đổi sang java.sql.Date     
              
@@ -82,13 +76,26 @@ public class Schedule_BUS {
                 new MyDialog("Giờ bắt đầu phải sớm hơn giờ kết thúc!", MyDialog.ERROR_DIALOG);
                 return false;
             }
+            if (checkNv(maNV)) {
+                long milliseconds = timeEnd.getTime() - timeStart.getTime();
+                double hours = milliseconds / (1000.0 * 60 * 60);
+                if (hours<8) {
+                    new MyDialog("Nhân viên này ít nhất phải 8 tiếng!", MyDialog.ERROR_DIALOG);
+                    return false;
+                }
+            }
 
             sch.setNgayLamViec(sqlDate);
             sch.setGioBatDau(timeStart); // Lưu giờ bắt đầu
             sch.setGioKetThuc(timeEnd); // Lưu giờ kết thúc
             sch.setDuyet(false);
-            if (scheduleDAO.isTimesheetOverlapping(sch)) {
-                new MyDialog("Lịch làm mới bị trùng giờ!", MyDialog.ERROR_DIALOG);
+//            if (scheduleDAO.isTimesheetOverlapping(sch)) {
+//                new MyDialog("Lịch làm mới bị trùng giờ!", MyDialog.ERROR_DIALOG);
+//                return false;
+//            }
+
+            if (scheduleDAO.isDuplicateScheduleDate(maNV, sqlDate)) {
+                new MyDialog("Nhân viên đã có lịch làm trong ngày này!", MyDialog.ERROR_DIALOG);
                 return false;
             }
             if (scheduleDAO.addSchedule(sch)) {
@@ -112,12 +119,7 @@ public class Schedule_BUS {
 
     public List<Schedule_DTO> getAllSchedules() throws SQLException {
         return scheduleDAO.getAllSchedules();
-    }
-    
-//    public List<Schedule_DTO> selectScheduleByDate(Date ngay) throws SQLException {
-//        return scheduleDAO.selectScheduleByDate(ngay);
-//    }
-    
+    }       
 
     public boolean updateSchedule(int ma,String MaNV, Date ngay, String giobd, String giokt, boolean Duyet) throws SQLException {
         try {
@@ -136,19 +138,8 @@ public class Schedule_BUS {
                 return false;
             }
             Schedule_DTO sch = new Schedule_DTO();
-             sch.setMaCaLam(ma);
-             sch.setMaNV(maNV);
-//             // Chuyển đổi giờ từ định dạng HH:mm:ss sang định dạng số nguyên
-//            int hourBD = Integer.parseInt(giobd.split(":")[0]); // Lấy phần giờ
-//            int minuteBD = Integer.parseInt(giobd.split(":")[1]); // Lấy phần phút
-//            int hourKT = Integer.parseInt(giokt.split(":")[0]); // Lấy phần giờ
-//            int minuteKT = Integer.parseInt(giokt.split(":")[1]); // Lấy phần phút
-//
-//            // Tạo số nguyên từ giờ và phút
-//            int gioBD = hourBD * 100 + minuteBD; // Ví dụ: 12:45 -> 1245
-//            int gioKT = hourKT * 100 + minuteKT;// Ví dụ: 8:30 -> 830
-//            giobd = Integer.toString(gioBD);
-//            giokt = Integer.toString(gioKT);
+            sch.setMaCaLam(ma);
+            sch.setMaNV(maNV);
             String formattedGioBD = formatTime(giobd);
             String formattedGioKT = formatTime(giokt);
         
@@ -162,7 +153,6 @@ public class Schedule_BUS {
                 return false;
             }
             
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             java.sql.Date sqlDate = new java.sql.Date(ngay.getTime());
              // Chuyển đổi sang java.sql.Date     
              
@@ -175,6 +165,15 @@ public class Schedule_BUS {
             if (timeStart.after(timeEnd)) {
                 new MyDialog("Giờ bắt đầu phải sớm hơn giờ kết thúc!", MyDialog.ERROR_DIALOG);
                 return false;
+            }
+            
+            if (checkNv(maNV)) {
+                long milliseconds = timeEnd.getTime() - timeStart.getTime();
+                double hours = milliseconds / (1000.0 * 60 * 60);
+                if (hours<8) {
+                    new MyDialog("Nhân viên này ít nhất phải 8 tiếng!", MyDialog.ERROR_DIALOG);
+                    return false;
+                }
             }
 
             sch.setNgayLamViec(sqlDate);
@@ -290,7 +289,6 @@ public class Schedule_BUS {
                 model.addRow(rowData);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
     
@@ -299,7 +297,6 @@ public class Schedule_BUS {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
         // Lấy dữ liệu từ DAO và thêm vào bảng
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         java.sql.Date sqlDate = new java.sql.Date(ngay.getTime());
         List<Schedule_DTO> schedules = scheduleDAO.selectScheduleByDate(sqlDate); // Lấy danh sách lịch làm việc
         for (Schedule_DTO schedule : schedules) {
@@ -375,5 +372,10 @@ public class Schedule_BUS {
         return scheduleDAO.fetchScheduleForEmployee(employeeId, month, year);
     }
     
-
+    public boolean checkNv(int maNv) throws SQLException {
+        Employee_DTO nv = emp.findNV(maNv);
+        Hierarchy_DTO hi = hie.fetchHierarchyDatabyID(nv.getMaCapBac());
+        return hi.getBaseSalary().compareTo(BigDecimal.ZERO) > 0;
+    }
+     
 }

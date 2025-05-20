@@ -337,8 +337,8 @@ public class Statistical extends javax.swing.JFrame {
 
             // ⚙ Định dạng sum: bỏ phần thập phân và ghi dạng 1000k
             String formattedPrice;
-            if (sum >= 1000) {
-                formattedPrice = String.format("%,.0fK", sum / 1000); // VD: 4000000 -> 4000K
+            if (sum >= 1000000) {
+                formattedPrice = String.format("%,.2fTr", sum / 1000000.0); // VD: 4000000 -> 4000K
             } else {
                 formattedPrice = String.format("%,.0f", sum); // Số nhỏ thì giữ nguyên
             }
@@ -349,7 +349,7 @@ public class Statistical extends javax.swing.JFrame {
         totalRevenue += orderTotal;
     }
 
-    lblTotalRevenue.setText(new DecimalFormat("#,##0").format(totalRevenue / 1000) + "K VND");
+    lblTotalRevenue.setText(new DecimalFormat("#,##0").format(totalRevenue / 1000000.0) + "Tr VND");
 }
     
     private void loadExpenseData() {
@@ -366,8 +366,8 @@ public class Statistical extends javax.swing.JFrame {
                 double sum= detail.getSl() * detail.getGiaNhap();
                 recipeTotal += sum;
                 String formattedPrice;
-                if (sum >= 1000) {
-                    formattedPrice = String.format("%,.0fK", sum / 1000); // VD: 4000000 -> 4000K
+                if (sum >= 1000000) {
+                    formattedPrice = String.format("%,.2fTr", sum / 1000000.0); // VD: 4000000 -> 4000K
                 } else {
                     formattedPrice = String.format("%,.0f", sum); // Số nhỏ thì giữ nguyên
                 }
@@ -376,7 +376,7 @@ public class Statistical extends javax.swing.JFrame {
             totalExpense += recipeTotal;            
         }
 
-        lblTotalExpense.setText(new DecimalFormat("#,##0").format(totalExpense / 1000) + "K VND");
+        lblTotalExpense.setText(new DecimalFormat("#,##0").format(totalExpense / 1000000.0) + "Tr VND");
     }
     
     private void loadOrderByDate(Date sqlFromDate,Date sqlToDate) {
@@ -399,12 +399,12 @@ public class Statistical extends javax.swing.JFrame {
                     double sum = d.getSoLuong() * d.getGiaBan();
                     total += sum;
 
-                    String giaBanStr = sum >= 1000 ? String.format("%,.0fK", sum / 1000) : String.format("%,.0f", sum);
+                    String giaBanStr = sum >= 1000 ? String.format("%,.2fTr", sum / 1000000.0) : String.format("%,.0f", sum);
                     model.addRow(new Object[]{d.getMaDH(), d.getMaSP(), order.getNgayLap(), giaBanStr});
                 }
             }            
         }
-        lblTotalRevenue.setText(new DecimalFormat("#,##0").format(total / 1000) + "K VND");
+        lblTotalRevenue.setText(new DecimalFormat("#,##0").format(total / 1000000.0) + "Tr VND");
     }
     
     public void loadImportByDate(Date from, Date to) {
@@ -424,7 +424,7 @@ public class Statistical extends javax.swing.JFrame {
                 for (DetailGoodRecipe_DTO detail : details) {
                     float sum = detail.getGiaNhap() * detail.getSl();
                     totalImport += sum;
-                    String giaNhapStr = sum >= 1000 ? String.format("%,.0fK", sum / 1000) : String.format("%,.0f", sum);
+                    String giaNhapStr = sum >= 1000 ? String.format("%,.2fTr", sum / 1000000.0) : String.format("%,.0f", sum);
 
                     model.addRow(new Object[]{
                         pn.getMaPN(),
@@ -435,7 +435,7 @@ public class Statistical extends javax.swing.JFrame {
                 }
             }
         }
-            lblTotalExpense.setText(new DecimalFormat("#,##0").format(totalImport / 1000) + "K VND");
+            lblTotalExpense.setText(new DecimalFormat("#,##0").format(totalImport / 1000000.0) + "Tr VND");
     }
 
 

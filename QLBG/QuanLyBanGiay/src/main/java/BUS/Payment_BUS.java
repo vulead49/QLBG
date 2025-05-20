@@ -27,8 +27,8 @@ public class Payment_BUS {
         return paymentDAO.updatePayment(payment);
     }
 
-    public boolean deletePayment(int maTT) {
-        return paymentDAO.deletePayment(maTT);
+    public boolean deletePayment(int madh) {
+        return paymentDAO.deletePayment(madh);
     }
     
     public int generateID(){

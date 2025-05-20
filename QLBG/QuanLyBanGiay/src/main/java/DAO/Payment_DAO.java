@@ -74,11 +74,11 @@ public class Payment_DAO {
         return false;
     }
 
-    public boolean deletePayment(int maTT) {
+    public boolean deletePayment(int madh) {
         try {
-            String sql = "DELETE FROM ThanhToan WHERE MaTT = ?";
+            String sql = "DELETE FROM ThanhToan WHERE MaDH = ?";
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, maTT);
+            ps.setInt(1, madh);
 
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {

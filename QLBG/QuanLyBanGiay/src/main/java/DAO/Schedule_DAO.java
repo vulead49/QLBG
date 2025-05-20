@@ -264,6 +264,22 @@ public class Schedule_DAO {
         }
         return false;
     }
+    
+    public boolean isDuplicateScheduleDate(int maNV, Date ngay) {
+    try {String sql = "SELECT COUNT(*) FROM LichLam WHERE MaNV = ? AND Ngay = ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, maNV);
+        ps.setDate(2, new java.sql.Date(ngay.getTime()));
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            int count = rs.getInt(1);
+            return count > 0; // Nếu đã có ít nhất 1 lịch thì coi như trùng
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return false;
+}
 
 }
 

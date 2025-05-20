@@ -537,12 +537,10 @@ public class Order extends javax.swing.JFrame {
         // TODO add your handling code here:
         int selected = jTableDonHang.getSelectedRow();
         if (selected != -1) {
-            try {
                   //   Giả sử MaDH ở cột 0.  Thay đổi số 0 nếu nó ở cột khác.
                 String maDH = (String) jTableDonHang.getModel().getValueAt(selected, 0);
-                
-                float thanhtien = (float) jTableDonHang.getModel().getValueAt(selected, 3);
-                
+                Order_DTO dhh = dhBUS.findbyID(maDH);
+                Float thanhtien = dhh.getThanhTien();
                 String newtenKH = jTextFieldNAME.getText();               
                 String newPhuongThuc = jComboBoxPhuongThuc.getSelectedItem().toString();
                 
@@ -554,8 +552,8 @@ public class Order extends javax.swing.JFrame {
                                                                              
                 if (!"Chưa thanh toán".equals(newPhuongThuc)) {                    
                     Payment_DTO payment = new Payment_DTO();
-                        payment.setMaDH(Integer.parseInt(maDH));
-                        payment.setHinhThucTT(newPhuongThuc);                        
+                    payment.setMaDH(Integer.parseInt(maDH));
+                    payment.setHinhThucTT(newPhuongThuc);                        
                     if (pay.findPaymentByMaDH(Integer.parseInt(maDH))==null){    
                         payment.setMaTT(pay.generateID());
                         if (pay.addPayment(payment)) {
@@ -595,15 +593,20 @@ public class Order extends javax.swing.JFrame {
                         );
 
                         if (confirm == JOptionPane.YES_OPTION) {
-                            pay.deletePayment(Integer.parseInt(maDH));
-                            new MyDialog("Đã xóa thanh toán!", MyDialog.SUCCESS_DIALOG);
+                            if (pay.deletePayment(Integer.parseInt(maDH))) {
+                                new MyDialog("Đã xóa thanh toán!", MyDialog.SUCCESS_DIALOG);
+                            } else {
+                                new MyDialog("Xóa thanh toán thất bại!", MyDialog.ERROR_DIALOG);
+                            }
+                            
                         } else {
                             new MyDialog("Vui lòng sửa lại!", MyDialog.ERROR_DIALOG);
                             return;
                         }
                     }
                 // Gọi phương thức cập nhật từ BUS  
-                Order_DTO dh = new Order_DTO(  maDH, newtenKH, newDay,thanhtien , false);
+                boolean ch = jTableDonHang.getModel().getValueAt(selected, 4).equals("true");
+                Order_DTO dh = new Order_DTO(maDH, newtenKH, newDay,thanhtien , ch);
                 String result = dhBUS.updateDH(dh);
                 JOptionPane.showMessageDialog(this, result);
                 }
@@ -613,9 +616,7 @@ public class Order extends javax.swing.JFrame {
                 loadList();
                 jTextFieldNAME.setText("");
                 jDateCREATED.setDate(null); 
-                } catch (HeadlessException | NumberFormatException e) {
-                    JOptionPane.showMessageDialog(this, "Có lỗi xảy ra! Vui lòng kiểm tra lại.");
-                }
+                
             } else {
                 JOptionPane.showMessageDialog(this, "Vui lòng chọn đơn hàng cần cập nhật!");
             }
@@ -1013,8 +1014,14 @@ public class Order extends javax.swing.JFrame {
             int maSanPham = ctdh.getMaSP();
             int SoLuong = ctdh.getSoLuong();
             double GiaBan = ctdh.getGiaBan();
+            String formattedPrice;
+                if (GiaBan >= 1000000) {
+                    formattedPrice = String.format("%,.2fTr", GiaBan / 1000000.0); // VD: 4000000 -> 4000K
+                } else {
+                    formattedPrice = String.format("%,.0f", GiaBan); // Số nhỏ thì giữ nguyên
+                }
 
-            Object[] row = {maCTDH, maDonHang, maSanPham, SoLuong, GiaBan};
+            Object[] row = {maCTDH, maDonHang, maSanPham, SoLuong, formattedPrice};
             model.addRow(row);
         }
         jTableCTDH.setModel(model);

@@ -14,6 +14,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -136,7 +138,7 @@ public class Employee extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(51, 51, 51));
         jLabel6.setText("Cấp Bậc");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -318,8 +320,17 @@ public class Employee extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Số điện thoại phải là số và có 9 hoặc 10 chữ số!");
             return;
         }
-
+        
         java.sql.Date ngaySinh = new java.sql.Date(txtDate.getDate().getTime());
+        // Kiểm tra nhân viên đủ 18 tuổi chưa
+        LocalDate birthDate = ngaySinh.toLocalDate();
+        LocalDate today = LocalDate.now();
+        Period age = Period.between(birthDate, today);
+
+        if (age.getYears() < 18) {
+            JOptionPane.showMessageDialog(this, "Nhân viên phải đủ 18 tuổi trở lên!");
+            return;
+        }
 
         Employee_DTO nv = new Employee_DTO();
 

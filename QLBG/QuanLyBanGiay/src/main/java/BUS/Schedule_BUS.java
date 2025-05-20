@@ -70,9 +70,8 @@ public class Schedule_BUS {
             SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss"); // Định dạng giờ
             Time timeStart = new Time(timeFormat.parse(formattedGioBD).getTime());
             Time timeEnd = new Time(timeFormat.parse(formattedGioKT).getTime());
-            
             // Kiểm tra giờ bắt đầu phải sớm hơn giờ kết thúc
-            if (timeStart.after(timeEnd)) {
+            if (timeStart.after(timeEnd) || timeStart.equals(timeEnd)) {
                 new MyDialog("Giờ bắt đầu phải sớm hơn giờ kết thúc!", MyDialog.ERROR_DIALOG);
                 return false;
             }

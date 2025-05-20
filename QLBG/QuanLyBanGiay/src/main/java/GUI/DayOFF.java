@@ -8,6 +8,7 @@ import BUS.DayOff_BUS;
 import BUS.Employee_BUS;
 import BUS.Payroll_BUS;
 import DTO.Employee_DTO;
+import DTO.Payroll_DTO;
 import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -402,15 +403,14 @@ public class DayOFF extends javax.swing.JFrame {
             new MyDialog("Ngày nghỉ đã được duyệt!", MyDialog.ERROR_DIALOG);
             return;
         }
-        int id = Integer.parseInt(Table.getValueAt(row,1).toString());
-        int macapbac= emp.getMaCapBacbyID(id);
-        
+        int idnv = Integer.parseInt(Table.getValueAt(row,1).toString());
+        int macapbac= emp.getMaCapBacbyID(idnv);        
         java.sql.Date sqlDate = (java.sql.Date) Table.getValueAt(row,2);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(sqlDate);
         int month = calendar.get(Calendar.MONTH) + 1; // Lưu ý tháng được đánh số từ 0 đến 11
         int year = calendar.get(Calendar.YEAR);
-        int snn = bus.tinhngaynghi(month, year, id);
+        int snn = bus.tinhngaynghi(month, year, idnv);
         if (macapbac<=4) {            
             if (snn==4) {
                 new MyDialog("Ngày nghỉ trong tháng vượt mức!", MyDialog.ERROR_DIALOG);
@@ -420,7 +420,10 @@ public class DayOFF extends javax.swing.JFrame {
         String ma =Table.getValueAt(row,0).toString();
         int stt= Integer.parseInt(ma);
         bus.check(stt);
-        pay.updateDayoffPayroll(id, month, year, snn);
+        Payroll_DTO p = pay.getPayrollsNV(idnv, month, year);
+        if (p!=null) {
+            pay.updateDayoffPayroll(idnv, month, year, snn+1);
+        }       
         loadDayOffData();
      }
     
